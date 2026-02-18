@@ -1,0 +1,38 @@
+# --- Node.js (Backend) ---
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.env
+.env.test
+.env.production
+
+# --- Flutter (Mobile App) ---
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+
+# --- Android Specific ---
+.gradle/
+local.properties
+**.skp
+**.apk
+**.aab
+
+# --- iOS Specific ---
+DerivedData/
+build/
+Pods/
+.pyc
+__pycache__/
+
+# --- IDEs (VS Code & Android Studio) ---
+.vscode/
+.idea/
+*.iml
+*.iws
+.DS_Store
