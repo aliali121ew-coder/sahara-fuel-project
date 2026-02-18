@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell -Command \"Get-Content ''d:\\\\program flutter\\\\sahara-fuel-project\\\\sahara_fuel_app_fixed last updata\\\\lib\\\\pages\\\\data_management_page.dart''\")"
+    ]
+  }
+}

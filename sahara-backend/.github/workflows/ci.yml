@@ -1,0 +1,117 @@
+name: Sahara Fuel SaaS - CI/CD
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  NODE_VERSION: '18'
+
+jobs:
+  # ==================== اختبار وفحص ====================
+  test:
+    name: Test & Lint
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: sahara_fuel_test
+          POSTGRES_USER: test_user
+          POSTGRES_PASSWORD: test_password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: sahara-backend/package-lock.json
+
+      - name: Install Dependencies
+        working-directory: sahara-backend
+        run: npm ci
+
+      - name: Run Migrations
+        working-directory: sahara-backend
+        env:
+          DB_HOST: localhost
+          DB_PORT: 5432
+          DB_NAME: sahara_fuel_test
+          DB_USER: test_user
+          DB_PASSWORD: test_password
+        run: node src/database/migrations/migrate.js
+
+      - name: Run Tests
+        working-directory: sahara-backend
+        env:
+          NODE_ENV: test
+          DB_HOST: localhost
+          DB_PORT: 5432
+          DB_NAME: sahara_fuel_test
+          DB_USER: test_user
+          DB_PASSWORD: test_password
+          REDIS_HOST: localhost
+          REDIS_PORT: 6379
+          JWT_SECRET: test_jwt_secret_for_ci_pipeline_only
+          JWT_REFRESH_SECRET: test_refresh_secret_for_ci_pipeline_only
+        run: npm test
+
+  # ==================== بناء Docker ====================
+  build:
+    name: Build Docker Image
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Docker Image
+        working-directory: sahara-backend
+        run: |
+          docker build -t sahara-fuel-api:${{ github.sha }} .
+          docker build -t sahara-fuel-api:latest .
+
+      - name: Test Docker Image
+        run: |
+          docker run --rm sahara-fuel-api:latest node --version
+
+  # ==================== النشر ====================
+  deploy:
+    name: Deploy to Production
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    environment: production
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy
+        run: |
+          echo "🚀 Deploying Sahara Fuel SaaS..."
+          echo "   Add your deployment steps here"
+          echo "   (Docker registry push, SSH deploy, etc.)"
