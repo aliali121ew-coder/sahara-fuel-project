@@ -132,7 +132,7 @@ class _DataManagementPageState extends State<DataManagementPage>
                             horizontal: 14, vertical: 8),
                         decoration: BoxDecoration(
                             color: (ok
-                                    ? const Color(0xFF10B981)
+                                    ? context.sahara.chartGreen
                                     : const Color(0xFFEF4444))
                                 .withOpacity(0.12),
                             borderRadius: BorderRadius.circular(10)),
@@ -142,7 +142,7 @@ class _DataManagementPageState extends State<DataManagementPage>
                               height: 8,
                               decoration: BoxDecoration(
                                   color: ok
-                                      ? const Color(0xFF10B981)
+                                      ? context.sahara.chartGreen
                                       : const Color(0xFFEF4444),
                                   shape: BoxShape.circle)),
                           const SizedBox(width: 8),
@@ -155,7 +155,7 @@ class _DataManagementPageState extends State<DataManagementPage>
                                       : 'غير متصل',
                               style: GoogleFonts.cairo(
                                   color: ok
-                                      ? const Color(0xFF10B981)
+                                      ? context.sahara.chartGreen
                                       : const Color(0xFFEF4444),
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold)),
@@ -172,20 +172,20 @@ class _DataManagementPageState extends State<DataManagementPage>
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
                 color: (_resultSuccess
-                        ? const Color(0xFF10B981)
+                        ? context.sahara.chartGreen
                         : const Color(0xFFEF4444))
                     .withOpacity(0.12),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
                     color: (_resultSuccess
-                            ? const Color(0xFF10B981)
+                            ? context.sahara.chartGreen
                             : const Color(0xFFEF4444))
                         .withOpacity(0.3)),
               ),
               child: Row(children: [
                 Icon(_resultSuccess ? Icons.check_circle : Icons.error,
                     color: _resultSuccess
-                        ? const Color(0xFF10B981)
+                        ? context.sahara.chartGreen
                         : const Color(0xFFEF4444),
                     size: 20),
                 const SizedBox(width: 10),
@@ -196,7 +196,7 @@ class _DataManagementPageState extends State<DataManagementPage>
                 GestureDetector(
                     onTap: () => setState(() => _resultMessage = null),
                     child:
-                        const Icon(Icons.close, color: Colors.grey, size: 18)),
+                        Icon(Icons.close, color: Theme.of(context).colorScheme.onSurfaceVariant, size: 18)),
               ]),
             ),
           const SizedBox(height: 12),
@@ -209,7 +209,7 @@ class _DataManagementPageState extends State<DataManagementPage>
                 decoration: BoxDecoration(
                     color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                     borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: const Color(0xFF2D3748))),
+                    border: Border.all(color: context.sahara.statBorder)),
                 child: TabBar(
                     controller: _tabCtrl,
                     isScrollable: false,
@@ -452,7 +452,7 @@ class _DataManagementPageState extends State<DataManagementPage>
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                    color: const Color(0xFF0D1B2A),
+                    color: context.sahara.pageGradient[0],
                     borderRadius: BorderRadius.circular(12)),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -504,7 +504,7 @@ class _DataManagementPageState extends State<DataManagementPage>
                 decoration: BoxDecoration(
                     color: const Color(0xFF0F1923),
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: const Color(0xFF2D3748))),
+                    border: Border.all(color: context.sahara.statBorder)),
                 child: TextField(
                   controller: _jsonCtrl,
                   maxLines: 10,
@@ -528,7 +528,7 @@ class _DataManagementPageState extends State<DataManagementPage>
                 const SizedBox(width: 12),
                 Expanded(
                     child: _actionButton('استيراد كخزانات', Icons.propane_tank,
-                        const Color(0xFF8B5CF6), _importTanksJson)),
+                        context.sahara.chartPurple, _importTanksJson)),
               ]),
             ],
           ),
@@ -616,7 +616,7 @@ class _DataManagementPageState extends State<DataManagementPage>
               Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                    color: const Color(0xFF0D1B2A),
+                    color: context.sahara.pageGradient[0],
                     borderRadius: BorderRadius.circular(14)),
                 child: Column(children: [
                   _seedInfoRow(Icons.propane_tank, '5 خزانات',
@@ -636,27 +636,27 @@ class _DataManagementPageState extends State<DataManagementPage>
               Container(
                 padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFFFA726).withOpacity(0.08),
+                  color: context.sahara.chartOrange.withOpacity(0.08),
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
-                      color: const Color(0xFFFFA726).withOpacity(0.2)),
+                      color: context.sahara.chartOrange.withOpacity(0.2)),
                 ),
                 child: Row(children: [
-                  const Icon(Icons.warning_amber,
-                      color: Color(0xFFFFA726), size: 18),
+                  Icon(Icons.warning_amber,
+                      color: context.sahara.chartOrange, size: 18),
                   const SizedBox(width: 10),
                   Expanded(
                       child: Text(
                           'سيتم إضافة البيانات التجريبية إلى البيانات الحالية (لن يتم حذف أي بيانات موجودة)',
                           style: GoogleFonts.cairo(
-                              color: const Color(0xFFFFA726), fontSize: 11))),
+                              color: context.sahara.chartOrange, fontSize: 11))),
                 ]),
               ),
               const SizedBox(height: 20),
               _actionButton(
                 '🚀 إنشاء بيانات تجريبية الآن',
                 Icons.play_arrow,
-                const Color(0xFF10B981),
+                context.sahara.chartGreen,
                 _seedDemo,
               ),
             ],
@@ -698,7 +698,7 @@ class _DataManagementPageState extends State<DataManagementPage>
       decoration: BoxDecoration(
           color: Theme.of(context).extension<SaharaColors>()!.sidebar,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: const Color(0xFF2D3748))),
+          border: Border.all(color: context.sahara.statBorder)),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(children: [
           Container(
@@ -721,7 +721,7 @@ class _DataManagementPageState extends State<DataManagementPage>
           ]),
         ]),
         const SizedBox(height: 20),
-        const Divider(color: Color(0xFF2D3748), height: 1),
+        Divider(color: context.sahara.statBorder, height: 1),
         const SizedBox(height: 20),
         ...children,
       ]),
@@ -741,7 +741,7 @@ class _DataManagementPageState extends State<DataManagementPage>
         decoration: BoxDecoration(
             color: const Color(0xFF0F1923),
             borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: const Color(0xFF2D3748))),
+            border: Border.all(color: context.sahara.statBorder)),
         child: TextField(
           controller: ctrl,
           maxLines: maxLines,
@@ -776,7 +776,7 @@ class _DataManagementPageState extends State<DataManagementPage>
         decoration: BoxDecoration(
             color: const Color(0xFF0F1923),
             borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: const Color(0xFF2D3748))),
+            border: Border.all(color: context.sahara.statBorder)),
         child: DropdownButtonHideUnderline(
           child: DropdownButton<String>(
             value: value,
@@ -812,7 +812,7 @@ class _DataManagementPageState extends State<DataManagementPage>
         decoration: BoxDecoration(
             color: const Color(0xFF0F1923),
             borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: const Color(0xFF2D3748))),
+            border: Border.all(color: context.sahara.statBorder)),
         child: DropdownButtonHideUnderline(
           child: DropdownButton<String>(
             value: _selectedTank.isNotEmpty &&
@@ -945,9 +945,9 @@ class _DataManagementPageState extends State<DataManagementPage>
       child: Container(
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-            color: const Color(0xFF0D1B2A),
+            color: context.sahara.pageGradient[0],
             borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: const Color(0xFF2D3748))),
+            border: Border.all(color: context.sahara.statBorder)),
         child: Row(children: [
           Icon(Icons.content_copy, color: Theme.of(context).colorScheme.primary, size: 16),
           const SizedBox(width: 10),

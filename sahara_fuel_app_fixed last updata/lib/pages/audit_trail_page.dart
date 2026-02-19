@@ -227,7 +227,7 @@ class _AuditTrailPageState extends State<AuditTrailPage> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        border: Border(bottom: BorderSide(color: Colors.grey[800]!)),
+        border: Border(bottom: BorderSide(color: Theme.of(context).colorScheme.onSurface!)),
       ),
       child: Row(
         children: [

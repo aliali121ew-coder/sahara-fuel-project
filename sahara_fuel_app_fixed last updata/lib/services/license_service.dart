@@ -44,35 +44,38 @@ class LicenseInfo {
 
   String get typeArabic {
     switch (type) {
-      case LicenseType.trial: return 'تجريبي';
-      case LicenseType.annual: return 'سنوي';
-      case LicenseType.permanent: return 'دائم';
+      case LicenseType.trial:
+        return 'تجريبي';
+      case LicenseType.annual:
+        return 'سنوي';
+      case LicenseType.permanent:
+        return 'دائم';
     }
   }
 
   Map<String, dynamic> toJson() => {
-    'clientId': clientId,
-    'clientName': clientName,
-    'type': type.index,
-    'issueDate': issueDate.toIso8601String(),
-    'expiryDate': expiryDate.toIso8601String(),
-    'maxStations': maxStations,
-    'maxUsers': maxUsers,
-    'deviceHash': deviceHash,
-    'isActive': isActive,
-  };
+        'clientId': clientId,
+        'clientName': clientName,
+        'type': type.index,
+        'issueDate': issueDate.toIso8601String(),
+        'expiryDate': expiryDate.toIso8601String(),
+        'maxStations': maxStations,
+        'maxUsers': maxUsers,
+        'deviceHash': deviceHash,
+        'isActive': isActive,
+      };
 
   factory LicenseInfo.fromJson(Map<String, dynamic> json) => LicenseInfo(
-    clientId: json['clientId'],
-    clientName: json['clientName'],
-    type: LicenseType.values[json['type']],
-    issueDate: DateTime.parse(json['issueDate']),
-    expiryDate: DateTime.parse(json['expiryDate']),
-    maxStations: json['maxStations'],
-    maxUsers: json['maxUsers'],
-    deviceHash: json['deviceHash'],
-    isActive: json['isActive'] ?? true,
-  );
+        clientId: json['clientId'],
+        clientName: json['clientName'],
+        type: LicenseType.values[json['type']],
+        issueDate: DateTime.parse(json['issueDate']),
+        expiryDate: DateTime.parse(json['expiryDate']),
+        maxStations: json['maxStations'],
+        maxUsers: json['maxUsers'],
+        deviceHash: json['deviceHash'],
+        isActive: json['isActive'] ?? true,
+      );
 }
 
 // ============================================================
@@ -80,10 +83,12 @@ class LicenseInfo {
 // ============================================================
 class LicenseService {
   // المفتاح السري: يُأخذ من EnvConfig (--dart-define) في الإنتاج
-  static String get _secretKey =>
-      EnvConfig.licenseSecret.isNotEmpty ? EnvConfig.licenseSecret : 'SaharaFuel2026_DEV_ONLY';
-  static String get _salt =>
-      EnvConfig.licenseSalt.isNotEmpty ? EnvConfig.licenseSalt : 'SF_KARBALA_DEV';
+  static String get _secretKey => EnvConfig.licenseSecret.isNotEmpty
+      ? EnvConfig.licenseSecret
+      : 'SaharaFuel2026_DEV_ONLY';
+  static String get _salt => EnvConfig.licenseSalt.isNotEmpty
+      ? EnvConfig.licenseSalt
+      : 'SF_KARBALA_DEV';
 
   static void _log(String msg) {
     if (EnvConfig.debugMode) debugPrint(msg);
@@ -94,7 +99,11 @@ class LicenseService {
     try {
       final box = await Hive.openBox('license_data');
       await box.put('active_license', license.toJson());
-      await box.put('license_key_hash', sha256.convert(utf8.encode(license.clientId + license.deviceHash)).toString());
+      await box.put(
+          'license_key_hash',
+          sha256
+              .convert(utf8.encode(license.clientId + license.deviceHash))
+              .toString());
       _log('✅ تم حفظ الترخيص: ${license.clientName} - ${license.typeArabic}');
     } catch (e) {
       _log('⚠️ خطأ حفظ الترخيص: $e');
@@ -107,7 +116,8 @@ class LicenseService {
       final data = box.get('active_license');
       if (data != null) {
         final license = LicenseInfo.fromJson(Map<String, dynamic>.from(data));
-        _log('📋 ترخيص محفوظ: ${license.clientName} - صالح حتى ${license.expiryDate.toString().substring(0, 10)}');
+        _log(
+            '📋 ترخيص محفوظ: ${license.clientName} - صالح حتى ${license.expiryDate.toString().substring(0, 10)}');
         return license;
       }
     } catch (e) {
@@ -141,7 +151,8 @@ class LicenseService {
         final random = Random.secure();
         final randomBytes = List<int>.generate(32, (_) => random.nextInt(256));
         final timestamp = DateTime.now().millisecondsSinceEpoch.toString();
-        deviceInfo = 'WEB_${base64Encode(Uint8List.fromList(randomBytes))}_$timestamp';
+        deviceInfo =
+            'WEB_${base64Encode(Uint8List.fromList(randomBytes))}_$timestamp';
       } else {
         // على المنصات الأصلية: نحاول استخدام dart:io
         try {
@@ -156,11 +167,13 @@ class LicenseService {
       if (deviceInfo.isEmpty) {
         final random = Random.secure();
         final randomBytes = List<int>.generate(16, (_) => random.nextInt(256));
-        deviceInfo = 'FALLBACK_${base64Encode(Uint8List.fromList(randomBytes))}';
+        deviceInfo =
+            'FALLBACK_${base64Encode(Uint8List.fromList(randomBytes))}';
       }
 
       final bytes = utf8.encode(deviceInfo + _salt);
-      final hash = sha256.convert(bytes).toString().substring(0, 16).toUpperCase();
+      final hash =
+          sha256.convert(bytes).toString().substring(0, 16).toUpperCase();
 
       // حفظ الـ hash في Hive لضمان الثبات
       await box.put('device_hash', hash);
@@ -171,9 +184,11 @@ class LicenseService {
       try {
         final random = Random.secure();
         final randomBytes = List<int>.generate(16, (_) => random.nextInt(256));
-        final deviceInfo = 'ERROR_FALLBACK_${base64Encode(Uint8List.fromList(randomBytes))}';
+        final deviceInfo =
+            'ERROR_FALLBACK_${base64Encode(Uint8List.fromList(randomBytes))}';
         final bytes = utf8.encode('${deviceInfo}_$_salt');
-        final hash = sha256.convert(bytes).toString().substring(0, 16).toUpperCase();
+        final hash =
+            sha256.convert(bytes).toString().substring(0, 16).toUpperCase();
         final box = await Hive.openBox('license_data');
         await box.put('device_hash', hash);
         return hash;
@@ -233,7 +248,12 @@ class LicenseService {
     int? validDays,
   }) {
     // تحديد مدة الصلاحية
-    final days = validDays ?? (type == LicenseType.trial ? 30 : type == LicenseType.annual ? 365 : 36500);
+    final days = validDays ??
+        (type == LicenseType.trial
+            ? 30
+            : type == LicenseType.annual
+                ? 365
+                : 36500);
     final expiry = DateTime.now().add(Duration(days: days));
 
     // بناء البيانات المشفرة
@@ -275,7 +295,8 @@ class LicenseService {
   }
 
   // ===== التحقق من كود الترخيص =====
-  static LicenseValidationResult validateLicenseKey(String key, String currentDeviceHash) {
+  static LicenseValidationResult validateLicenseKey(
+      String key, String currentDeviceHash) {
     try {
       // إزالة الشرطات والمسافات
       final cleaned = key.replaceAll('-', '').replaceAll(' ', '').toLowerCase();
@@ -287,16 +308,19 @@ class LicenseService {
       // فصل البيانات عن Checksum
       final parts = decoded.split('.');
       if (parts.length != 2) {
-        return LicenseValidationResult(isValid: false, error: 'صيغة الكود غير صحيحة');
+        return LicenseValidationResult(
+            isValid: false, error: 'صيغة الكود غير صحيحة');
       }
 
       final encryptedBytes = base64Decode(parts[0]);
       final checksum = parts[1];
 
       // التحقق من Checksum
-      final calculatedChecksum = sha256.convert(encryptedBytes).toString().substring(0, 8);
+      final calculatedChecksum =
+          sha256.convert(encryptedBytes).toString().substring(0, 8);
       if (checksum != calculatedChecksum) {
-        return LicenseValidationResult(isValid: false, error: 'كود الترخيص غير صالح - تم التلاعب');
+        return LicenseValidationResult(
+            isValid: false, error: 'كود الترخيص غير صالح - تم التلاعب');
       }
 
       // فك التشفير
@@ -312,7 +336,10 @@ class LicenseService {
       // التحقق من تاريخ الانتهاء
       final expiry = DateTime.parse(payload['exp']);
       if (DateTime.now().isAfter(expiry)) {
-        return LicenseValidationResult(isValid: false, error: 'انتهت صلاحية الترخيص في ${payload['exp'].toString().substring(0, 10)}');
+        return LicenseValidationResult(
+            isValid: false,
+            error:
+                'انتهت صلاحية الترخيص في ${payload['exp'].toString().substring(0, 10)}');
       }
 
       // التحقق من الجهاز (أول تفعيل أو نفس الجهاز)
@@ -320,7 +347,8 @@ class LicenseService {
       if (storedDeviceHash != 'ANY' && storedDeviceHash != currentDeviceHash) {
         return LicenseValidationResult(
           isValid: false,
-          error: 'هذا الترخيص مرتبط بجهاز آخر\nبصمة الجهاز الحالي: $currentDeviceHash',
+          error:
+              'هذا الترخيص مرتبط بجهاز آخر\nبصمة الجهاز الحالي: $currentDeviceHash',
         );
       }
 
@@ -338,47 +366,41 @@ class LicenseService {
 
       return LicenseValidationResult(isValid: true, license: licenseInfo);
     } catch (e) {
-      return LicenseValidationResult(isValid: false, error: 'كود الترخيص غير صالح: ${e.toString().substring(0, min(50, e.toString().length))}');
+      return LicenseValidationResult(
+          isValid: false,
+          error:
+              'كود الترخيص غير صالح: ${e.toString().substring(0, min(50, e.toString().length))}');
     }
   }
 
   // ===== Instance methods for compatibility =====
-  
+
   /// Get device ID (instance wrapper for getDeviceHash)
   Future<String> getDeviceId() async {
     return await getDeviceHash();
   }
-  
+
   /// Validate license (instance wrapper)
   Future<LicenseValidationResult> validateLicense() async {
     try {
       final savedLicense = await loadSavedLicense();
       if (savedLicense == null) {
         return LicenseValidationResult(
-          isValid: false,
-          error: 'لا يوجد ترخيص محفوظ'
-        );
+            isValid: false, error: 'لا يوجد ترخيص محفوظ');
       }
-      
+
       if (savedLicense.isExpired) {
         return LicenseValidationResult(
-          isValid: false,
-          error: 'الترخيص منتهي الصلاحية'
-        );
+            isValid: false, error: 'الترخيص منتهي الصلاحية');
       }
-      
-      return LicenseValidationResult(
-        isValid: true,
-        license: savedLicense
-      );
+
+      return LicenseValidationResult(isValid: true, license: savedLicense);
     } catch (e) {
       return LicenseValidationResult(
-        isValid: false,
-        error: 'خطأ في التحقق من الترخيص: $e'
-      );
+          isValid: false, error: 'خطأ في التحقق من الترخيص: $e');
     }
   }
-  
+
   /// Save license key (instance wrapper)
   Future<void> saveLicenseKey(String key) async {
     try {
@@ -412,12 +434,14 @@ class LicenseActivationScreen extends StatefulWidget {
   const LicenseActivationScreen({super.key, required this.onActivated});
 
   @override
-  State<LicenseActivationScreen> createState() => _LicenseActivationScreenState();
+  State<LicenseActivationScreen> createState() =>
+      _LicenseActivationScreenState();
 }
 
 class _LicenseActivationScreenState extends State<LicenseActivationScreen>
     with SingleTickerProviderStateMixin {
-  final List<TextEditingController> _controllers = List.generate(5, (_) => TextEditingController());
+  final List<TextEditingController> _controllers =
+      List.generate(5, (_) => TextEditingController());
   final List<FocusNode> _focusNodes = List.generate(5, (_) => FocusNode());
   String _deviceHash = 'جاري التحميل...';
   String? _errorMessage;
@@ -429,8 +453,10 @@ class _LicenseActivationScreenState extends State<LicenseActivationScreen>
   @override
   void initState() {
     super.initState();
-    _animController = AnimationController(vsync: this, duration: const Duration(milliseconds: 1500));
-    _fadeAnim = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(parent: _animController, curve: Curves.easeOut));
+    _animController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 1500));
+    _fadeAnim = Tween<double>(begin: 0, end: 1).animate(
+        CurvedAnimation(parent: _animController, curve: Curves.easeOut));
     _animController.forward();
     _loadDeviceHash();
   }
@@ -447,8 +473,12 @@ class _LicenseActivationScreenState extends State<LicenseActivationScreen>
   @override
   void dispose() {
     _animController.dispose();
-    for (var c in _controllers) { c.dispose(); }
-    for (var f in _focusNodes) { f.dispose(); }
+    for (var c in _controllers) {
+      c.dispose();
+    }
+    for (var f in _focusNodes) {
+      f.dispose();
+    }
     super.dispose();
   }
 
@@ -458,7 +488,10 @@ class _LicenseActivationScreenState extends State<LicenseActivationScreen>
     if (value.length == 5 && index < 4) {
       _focusNodes[index + 1].requestFocus();
     }
-    setState(() { _errorMessage = null; _successMessage = null; });
+    setState(() {
+      _errorMessage = null;
+      _successMessage = null;
+    });
   }
 
   Future<void> _validateAndActivate() async {
@@ -468,7 +501,10 @@ class _LicenseActivationScreenState extends State<LicenseActivationScreen>
       return;
     }
 
-    setState(() { _isValidating = true; _errorMessage = null; });
+    setState(() {
+      _isValidating = true;
+      _errorMessage = null;
+    });
 
     // محاكاة تأخير الشبكة
     await Future.delayed(const Duration(seconds: 2));
@@ -505,7 +541,8 @@ class _LicenseActivationScreenState extends State<LicenseActivationScreen>
         body: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              begin: Alignment.topLeft, end: Alignment.bottomRight,
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
               colors: [Color(0xFF0D1B2A), Color(0xFF1B2838), Color(0xFF0F2847)],
             ),
           ),
@@ -520,7 +557,10 @@ class _LicenseActivationScreenState extends State<LicenseActivationScreen>
                   borderRadius: BorderRadius.circular(24),
                   border: Border.all(color: const Color(0xFF2D3748)),
                   boxShadow: [
-                    BoxShadow(color: Colors.black.withOpacity(0.4), blurRadius: 40, spreadRadius: 5),
+                    BoxShadow(
+                        color: Colors.black.withOpacity(0.4),
+                        blurRadius: 40,
+                        spreadRadius: 5),
                   ],
                 ),
                 child: Column(
@@ -528,31 +568,48 @@ class _LicenseActivationScreenState extends State<LicenseActivationScreen>
                   children: [
                     // ===== الشعار =====
                     Container(
-                      width: 80, height: 80,
+                      width: 80,
+                      height: 80,
                       decoration: BoxDecoration(
-                        gradient: const LinearGradient(colors: [Color(0xFF00D9A3), Color(0xFF00B4D8)]),
+                        gradient: const LinearGradient(
+                            colors: [Color(0xFF00D9A3), Color(0xFF00B4D8)]),
                         borderRadius: BorderRadius.circular(20),
-                        boxShadow: [BoxShadow(color: const Color(0xFF00D9A3).withOpacity(0.3), blurRadius: 20)],
+                        boxShadow: [
+                          BoxShadow(
+                              color: const Color(0xFF00D9A3).withOpacity(0.3),
+                              blurRadius: 20)
+                        ],
                       ),
-                      child: const Icon(Icons.local_gas_station, color: Colors.white, size: 40),
+                      child: const Icon(Icons.local_gas_station,
+                          color: Colors.white, size: 40),
                     ),
                     const SizedBox(height: 20),
 
                     // ===== العنوان =====
                     Text('وقود صحاري كربلاء',
-                        style: GoogleFonts.cairo(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white)),
+                        style: GoogleFonts.cairo(
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white)),
                     const SizedBox(height: 4),
                     Text('Sahara Fuel Management System',
-                        style: GoogleFonts.cairo(fontSize: 13, color: Colors.grey[500])),
+                        style: GoogleFonts.cairo(
+                            fontSize: 13, color: Colors.grey[500])),
                     const SizedBox(height: 8),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 6),
                       decoration: BoxDecoration(
                         color: const Color(0xFF00D9A3).withOpacity(0.1),
                         borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: const Color(0xFF00D9A3).withOpacity(0.3)),
+                        border: Border.all(
+                            color: const Color(0xFF00D9A3).withOpacity(0.3)),
                       ),
-                      child: Text('تفعيل الترخيص', style: GoogleFonts.cairo(color: const Color(0xFF00D9A3), fontSize: 14, fontWeight: FontWeight.bold)),
+                      child: Text('تفعيل الترخيص',
+                          style: GoogleFonts.cairo(
+                              color: const Color(0xFF00D9A3),
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold)),
                     ),
                     const SizedBox(height: 32),
 
@@ -566,20 +623,31 @@ class _LicenseActivationScreenState extends State<LicenseActivationScreen>
                       ),
                       child: Row(
                         children: [
-                          Icon(Icons.fingerprint, color: Colors.grey[500], size: 20),
+                          Icon(Icons.fingerprint,
+                              color: Colors.grey[500], size: 20),
                           const SizedBox(width: 10),
-                          Text('بصمة الجهاز:', style: GoogleFonts.cairo(color: Colors.grey[500], fontSize: 12)),
+                          Text('بصمة الجهاز:',
+                              style: GoogleFonts.cairo(
+                                  color: Colors.grey[500], fontSize: 12)),
                           const SizedBox(width: 8),
                           Expanded(
                             child: SelectableText(_deviceHash,
-                                style: GoogleFonts.sourceCodePro(color: const Color(0xFF00D9A3), fontSize: 13, fontWeight: FontWeight.bold)),
+                                style: GoogleFonts.sourceCodePro(
+                                    color: const Color(0xFF00D9A3),
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.bold)),
                           ),
                           IconButton(
-                            icon: Icon(Icons.copy, color: Colors.grey[600], size: 18),
+                            icon: Icon(Icons.copy,
+                                color: Colors.grey[600], size: 18),
                             onPressed: () {
-                              Clipboard.setData(ClipboardData(text: _deviceHash));
+                              Clipboard.setData(
+                                  ClipboardData(text: _deviceHash));
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('تم نسخ بصمة الجهاز', style: GoogleFonts.cairo()), backgroundColor: const Color(0xFF00D9A3)),
+                                SnackBar(
+                                    content: Text('تم نسخ بصمة الجهاز',
+                                        style: GoogleFonts.cairo()),
+                                    backgroundColor: const Color(0xFF00D9A3)),
                               );
                             },
                           ),
@@ -589,7 +657,9 @@ class _LicenseActivationScreenState extends State<LicenseActivationScreen>
                     const SizedBox(height: 24),
 
                     // ===== حقول كود الترخيص =====
-                    Text('أدخل كود الترخيص:', style: GoogleFonts.cairo(color: Colors.grey[400], fontSize: 14)),
+                    Text('أدخل كود الترخيص:',
+                        style: GoogleFonts.cairo(
+                            color: Colors.grey[400], fontSize: 14)),
                     const SizedBox(height: 12),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -604,27 +674,44 @@ class _LicenseActivationScreenState extends State<LicenseActivationScreen>
                                 textAlign: TextAlign.center,
                                 textDirection: TextDirection.ltr,
                                 maxLength: 5,
-                                inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[A-Za-z0-9]'))],
-                                style: GoogleFonts.sourceCodePro(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold, letterSpacing: 2),
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp(r'[A-Za-z0-9]'))
+                                ],
+                                style: GoogleFonts.sourceCodePro(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 2),
                                 decoration: InputDecoration(
                                   counterText: '',
                                   filled: true,
                                   fillColor: const Color(0xFF252830),
-                                  contentPadding: const EdgeInsets.symmetric(vertical: 14),
-                                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide.none),
+                                  contentPadding:
+                                      const EdgeInsets.symmetric(vertical: 14),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide.none),
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(color: Color(0xFF00D9A3), width: 2),
+                                    borderSide: const BorderSide(
+                                        color: Color(0xFF00D9A3), width: 2),
                                   ),
                                 ),
-                                onChanged: (v) => _onFieldChanged(i, v.toUpperCase()),
-                                textCapitalization: TextCapitalization.characters,
+                                onChanged: (v) =>
+                                    _onFieldChanged(i, v.toUpperCase()),
+                                textCapitalization:
+                                    TextCapitalization.characters,
                               ),
                             ),
-                            if (i < 4) Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 4),
-                              child: Text('-', style: GoogleFonts.sourceCodePro(color: Colors.grey[600], fontSize: 20)),
-                            ),
+                            if (i < 4)
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 4),
+                                child: Text('-',
+                                    style: GoogleFonts.sourceCodePro(
+                                        color: Colors.grey[600], fontSize: 20)),
+                              ),
                           ],
                         );
                       }),
@@ -638,13 +725,19 @@ class _LicenseActivationScreenState extends State<LicenseActivationScreen>
                         decoration: BoxDecoration(
                           color: const Color(0xFFEF5350).withOpacity(0.08),
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: const Color(0xFFEF5350).withOpacity(0.3)),
+                          border: Border.all(
+                              color: const Color(0xFFEF5350).withOpacity(0.3)),
                         ),
                         child: Row(
                           children: [
-                            const Icon(Icons.error_outline, color: Color(0xFFEF5350), size: 20),
+                            const Icon(Icons.error_outline,
+                                color: Color(0xFFEF5350), size: 20),
                             const SizedBox(width: 10),
-                            Expanded(child: Text(_errorMessage!, style: GoogleFonts.cairo(color: const Color(0xFFEF5350), fontSize: 13))),
+                            Expanded(
+                                child: Text(_errorMessage!,
+                                    style: GoogleFonts.cairo(
+                                        color: const Color(0xFFEF5350),
+                                        fontSize: 13))),
                           ],
                         ),
                       ),
@@ -655,13 +748,19 @@ class _LicenseActivationScreenState extends State<LicenseActivationScreen>
                         decoration: BoxDecoration(
                           color: const Color(0xFF10B981).withOpacity(0.08),
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: const Color(0xFF10B981).withOpacity(0.3)),
+                          border: Border.all(
+                              color: const Color(0xFF10B981).withOpacity(0.3)),
                         ),
                         child: Row(
                           children: [
-                            const Icon(Icons.check_circle, color: Color(0xFF10B981), size: 20),
+                            const Icon(Icons.check_circle,
+                                color: Color(0xFF10B981), size: 20),
                             const SizedBox(width: 10),
-                            Expanded(child: Text(_successMessage!, style: GoogleFonts.cairo(color: const Color(0xFF10B981), fontSize: 13))),
+                            Expanded(
+                                child: Text(_successMessage!,
+                                    style: GoogleFonts.cairo(
+                                        color: const Color(0xFF10B981),
+                                        fontSize: 13))),
                           ],
                         ),
                       ),
@@ -677,12 +776,19 @@ class _LicenseActivationScreenState extends State<LicenseActivationScreen>
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF00D9A3),
                           foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14)),
                           elevation: 0,
                         ),
                         child: _isValidating
-                            ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2.5))
-                            : Text('تفعيل الترخيص', style: GoogleFonts.cairo(fontSize: 16, fontWeight: FontWeight.bold)),
+                            ? const SizedBox(
+                                width: 24,
+                                height: 24,
+                                child: CircularProgressIndicator(
+                                    color: Colors.white, strokeWidth: 2.5))
+                            : Text('تفعيل الترخيص',
+                                style: GoogleFonts.cairo(
+                                    fontSize: 16, fontWeight: FontWeight.bold)),
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -697,21 +803,30 @@ class _LicenseActivationScreenState extends State<LicenseActivationScreen>
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.support_agent, color: Colors.grey[600], size: 16),
+                          Icon(Icons.support_agent,
+                              color: Colors.grey[600], size: 16),
                           const SizedBox(width: 8),
-                          Text('للحصول على ترخيص تواصل:', style: GoogleFonts.cairo(color: Colors.grey[600], fontSize: 11)),
+                          Text('للحصول على ترخيص تواصل:',
+                              style: GoogleFonts.cairo(
+                                  color: Colors.grey[600], fontSize: 11)),
                           const SizedBox(width: 4),
-                          Text('support@saharafuel.iq', style: GoogleFonts.cairo(color: const Color(0xFF00D9A3), fontSize: 11)),
+                          Text('support@saharafuel.iq',
+                              style: GoogleFonts.cairo(
+                                  color: const Color(0xFF00D9A3),
+                                  fontSize: 11)),
                           const SizedBox(width: 16),
                           Icon(Icons.phone, color: Colors.grey[600], size: 14),
                           const SizedBox(width: 4),
-                          Text('07XX-XXX-XXXX', style: GoogleFonts.cairo(color: Colors.grey[400], fontSize: 11)),
+                          Text('07XX-XXX-XXXX',
+                              style: GoogleFonts.cairo(
+                                  color: Colors.grey[400], fontSize: 11)),
                         ],
                       ),
                     ),
                     const SizedBox(height: 12),
                     Text('الإصدار 2.0.0 • جميع الحقوق محفوظة © 2026',
-                        style: GoogleFonts.cairo(color: Colors.grey[700], fontSize: 10)),
+                        style: GoogleFonts.cairo(
+                            color: Colors.grey[700], fontSize: 10)),
                     const SizedBox(height: 16),
 
                     // ===== تخطي (وضع تجريبي) =====
@@ -719,11 +834,13 @@ class _LicenseActivationScreenState extends State<LicenseActivationScreen>
                       onPressed: () async {
                         // إنشاء ترخيص تجريبي مؤقت
                         final trialLicense = LicenseInfo(
-                          clientId: 'TRIAL-${DateTime.now().millisecondsSinceEpoch}',
+                          clientId:
+                              'TRIAL-${DateTime.now().millisecondsSinceEpoch}',
                           clientName: 'وضع تجريبي',
                           type: LicenseType.trial,
                           issueDate: DateTime.now(),
-                          expiryDate: DateTime.now().add(const Duration(days: 30)),
+                          expiryDate:
+                              DateTime.now().add(const Duration(days: 30)),
                           maxStations: 3,
                           maxUsers: 2,
                           deviceHash: _deviceHash,
@@ -731,7 +848,11 @@ class _LicenseActivationScreenState extends State<LicenseActivationScreen>
                         await LicenseService.saveLicense(trialLicense);
                         widget.onActivated();
                       },
-                      child: Text('تخطي (وضع تجريبي - 30 يوم)', style: GoogleFonts.cairo(color: Colors.grey[600], fontSize: 12, decoration: TextDecoration.underline)),
+                      child: Text('تخطي (وضع تجريبي - 30 يوم)',
+                          style: GoogleFonts.cairo(
+                              color: Colors.grey[600],
+                              fontSize: 12,
+                              decoration: TextDecoration.underline)),
                     ),
                   ],
                 ),
@@ -751,7 +872,8 @@ class LicenseExpiredScreen extends StatelessWidget {
   final LicenseInfo license;
   final VoidCallback onRenew;
 
-  const LicenseExpiredScreen({super.key, required this.license, required this.onRenew});
+  const LicenseExpiredScreen(
+      {super.key, required this.license, required this.onRenew});
 
   @override
   Widget build(BuildContext context) {
@@ -761,7 +883,8 @@ class LicenseExpiredScreen extends StatelessWidget {
         body: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              begin: Alignment.topLeft, end: Alignment.bottomRight,
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
               colors: [Color(0xFF0D1B2A), Color(0xFF1B2838)],
             ),
           ),
@@ -772,41 +895,61 @@ class LicenseExpiredScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                 borderRadius: BorderRadius.circular(24),
-                border: Border.all(color: const Color(0xFFEF5350).withOpacity(0.3)),
+                border:
+                    Border.all(color: const Color(0xFFEF5350).withOpacity(0.3)),
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                    width: 80, height: 80,
+                    width: 80,
+                    height: 80,
                     decoration: BoxDecoration(
                       color: const Color(0xFFEF5350).withOpacity(0.1),
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: const Icon(Icons.lock_clock, color: Color(0xFFEF5350), size: 40),
+                    child: const Icon(Icons.lock_clock,
+                        color: Color(0xFFEF5350), size: 40),
                   ),
                   const SizedBox(height: 24),
-                  Text('انتهت صلاحية الترخيص', style: GoogleFonts.cairo(fontSize: 24, fontWeight: FontWeight.bold, color: const Color(0xFFEF5350))),
+                  Text('انتهت صلاحية الترخيص',
+                      style: GoogleFonts.cairo(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: const Color(0xFFEF5350))),
                   const SizedBox(height: 12),
-                  Text('العميل: ${license.clientName}', style: GoogleFonts.cairo(color: Colors.white, fontSize: 16)),
-                  Text('انتهى في: ${license.expiryDate.toString().substring(0, 10)}', style: GoogleFonts.cairo(color: Colors.grey[500], fontSize: 14)),
-                  Text('النوع: ${license.typeArabic}', style: GoogleFonts.cairo(color: Colors.grey[500], fontSize: 14)),
+                  Text('العميل: ${license.clientName}',
+                      style:
+                          GoogleFonts.cairo(color: Colors.white, fontSize: 16)),
+                  Text(
+                      'انتهى في: ${license.expiryDate.toString().substring(0, 10)}',
+                      style: GoogleFonts.cairo(
+                          color: Colors.grey[500], fontSize: 14)),
+                  Text('النوع: ${license.typeArabic}',
+                      style: GoogleFonts.cairo(
+                          color: Colors.grey[500], fontSize: 14)),
                   const SizedBox(height: 32),
                   SizedBox(
-                    width: double.infinity, height: 50,
+                    width: double.infinity,
+                    height: 50,
                     child: ElevatedButton.icon(
                       onPressed: onRenew,
                       icon: const Icon(Icons.refresh),
-                      label: Text('تجديد الترخيص', style: GoogleFonts.cairo(fontSize: 16, fontWeight: FontWeight.bold)),
+                      label: Text('تجديد الترخيص',
+                          style: GoogleFonts.cairo(
+                              fontSize: 16, fontWeight: FontWeight.bold)),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF00D9A3),
                         foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14)),
                       ),
                     ),
                   ),
                   const SizedBox(height: 12),
-                  Text('تواصل مع الدعم الفني لتجديد الترخيص', style: GoogleFonts.cairo(color: Colors.grey[600], fontSize: 12)),
+                  Text('تواصل مع الدعم الفني لتجديد الترخيص',
+                      style: GoogleFonts.cairo(
+                          color: Colors.grey[600], fontSize: 12)),
                 ],
               ),
             ),
@@ -857,7 +1000,8 @@ class _LicenseGeneratorToolState extends State<LicenseGeneratorTool> {
       child: Scaffold(
         backgroundColor: const Color(0xFF0D1B2A),
         appBar: AppBar(
-          title: Text('مولّد التراخيص', style: GoogleFonts.cairo(fontWeight: FontWeight.bold)),
+          title: Text('مولّد التراخيص',
+              style: GoogleFonts.cairo(fontWeight: FontWeight.bold)),
           backgroundColor: Theme.of(context).extension<SaharaColors>()!.sidebar,
           centerTitle: true,
         ),
@@ -870,27 +1014,39 @@ class _LicenseGeneratorToolState extends State<LicenseGeneratorTool> {
               children: [
                 _buildField('رقم العميل', _clientIdCtrl, 'مثال: CLT-001'),
                 const SizedBox(height: 12),
-                _buildField('اسم العميل', _clientNameCtrl, 'مثال: شركة صحاري كربلاء'),
+                _buildField(
+                    'اسم العميل', _clientNameCtrl, 'مثال: شركة صحاري كربلاء'),
                 const SizedBox(height: 12),
-                _buildField('بصمة الجهاز (اختياري)', _deviceHashCtrl, 'اتركه فارغاً لأي جهاز'),
+                _buildField('بصمة الجهاز (اختياري)', _deviceHashCtrl,
+                    'اتركه فارغاً لأي جهاز'),
                 const SizedBox(height: 16),
                 Row(
                   children: [
                     Expanded(child: _buildDropdown()),
                     const SizedBox(width: 16),
-                    Expanded(child: _buildNumberField('محطات', _maxStations, (v) => setState(() => _maxStations = v))),
+                    Expanded(
+                        child: _buildNumberField('محطات', _maxStations,
+                            (v) => setState(() => _maxStations = v))),
                     const SizedBox(width: 16),
-                    Expanded(child: _buildNumberField('مستخدمين', _maxUsers, (v) => setState(() => _maxUsers = v))),
+                    Expanded(
+                        child: _buildNumberField('مستخدمين', _maxUsers,
+                            (v) => setState(() => _maxUsers = v))),
                   ],
                 ),
                 const SizedBox(height: 24),
                 SizedBox(
-                  width: double.infinity, height: 50,
+                  width: double.infinity,
+                  height: 50,
                   child: ElevatedButton(
                     onPressed: _generate,
-                    style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF00D9A3), foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14))),
-                    child: Text('توليد كود الترخيص', style: GoogleFonts.cairo(fontSize: 16, fontWeight: FontWeight.bold)),
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF00D9A3),
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14))),
+                    child: Text('توليد كود الترخيص',
+                        style: GoogleFonts.cairo(
+                            fontSize: 16, fontWeight: FontWeight.bold)),
                   ),
                 ),
                 if (_generatedKey != null) ...[
@@ -898,24 +1054,36 @@ class _LicenseGeneratorToolState extends State<LicenseGeneratorTool> {
                   Container(
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                      color: Theme.of(context).extension<SaharaColors>()!.sidebar,
+                      color:
+                          Theme.of(context).extension<SaharaColors>()!.sidebar,
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: const Color(0xFF00D9A3).withOpacity(0.3)),
+                      border: Border.all(
+                          color: const Color(0xFF00D9A3).withOpacity(0.3)),
                     ),
                     child: Column(
                       children: [
-                        Text('كود الترخيص:', style: GoogleFonts.cairo(color: Colors.grey[400], fontSize: 13)),
+                        Text('كود الترخيص:',
+                            style: GoogleFonts.cairo(
+                                color: Colors.grey[400], fontSize: 13)),
                         const SizedBox(height: 8),
-                        SelectableText(_generatedKey!,
-                          style: GoogleFonts.sourceCodePro(color: const Color(0xFF00D9A3), fontSize: 14, fontWeight: FontWeight.bold),
+                        SelectableText(
+                          _generatedKey!,
+                          style: GoogleFonts.sourceCodePro(
+                              color: const Color(0xFF00D9A3),
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold),
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 12),
                         TextButton.icon(
                           onPressed: () {
-                            Clipboard.setData(ClipboardData(text: _generatedKey!));
+                            Clipboard.setData(
+                                ClipboardData(text: _generatedKey!));
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('تم النسخ', style: GoogleFonts.cairo()), backgroundColor: const Color(0xFF00D9A3)),
+                              SnackBar(
+                                  content: Text('تم النسخ',
+                                      style: GoogleFonts.cairo()),
+                                  backgroundColor: const Color(0xFF00D9A3)),
                             );
                           },
                           icon: const Icon(Icons.copy, size: 16),
@@ -938,12 +1106,18 @@ class _LicenseGeneratorToolState extends State<LicenseGeneratorTool> {
       controller: ctrl,
       style: GoogleFonts.cairo(color: Colors.white),
       decoration: InputDecoration(
-        labelText: label, hintText: hint,
+        labelText: label,
+        hintText: hint,
         labelStyle: GoogleFonts.cairo(color: Colors.grey[500]),
         hintStyle: GoogleFonts.cairo(color: Colors.grey[700]),
-        filled: true, fillColor: Theme.of(context).extension<SaharaColors>()!.sidebar,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
-        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFF00D9A3))),
+        filled: true,
+        fillColor: Theme.of(context).extension<SaharaColors>()!.sidebar,
+        border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none),
+        focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(color: Color(0xFF00D9A3))),
       ),
     );
   }
@@ -951,16 +1125,24 @@ class _LicenseGeneratorToolState extends State<LicenseGeneratorTool> {
   Widget _buildDropdown() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12),
-      decoration: BoxDecoration(color: Theme.of(context).extension<SaharaColors>()!.sidebar, borderRadius: BorderRadius.circular(12)),
+      decoration: BoxDecoration(
+          color: Theme.of(context).extension<SaharaColors>()!.sidebar,
+          borderRadius: BorderRadius.circular(12)),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<LicenseType>(
           value: _selectedType,
           dropdownColor: Theme.of(context).extension<SaharaColors>()!.sidebar,
           style: GoogleFonts.cairo(color: Colors.white, fontSize: 14),
           items: [
-            DropdownMenuItem(value: LicenseType.trial, child: Text('تجريبي (30 يوم)', style: GoogleFonts.cairo())),
-            DropdownMenuItem(value: LicenseType.annual, child: Text('سنوي', style: GoogleFonts.cairo())),
-            DropdownMenuItem(value: LicenseType.permanent, child: Text('دائم', style: GoogleFonts.cairo())),
+            DropdownMenuItem(
+                value: LicenseType.trial,
+                child: Text('تجريبي (30 يوم)', style: GoogleFonts.cairo())),
+            DropdownMenuItem(
+                value: LicenseType.annual,
+                child: Text('سنوي', style: GoogleFonts.cairo())),
+            DropdownMenuItem(
+                value: LicenseType.permanent,
+                child: Text('دائم', style: GoogleFonts.cairo())),
           ],
           onChanged: (v) => setState(() => _selectedType = v!),
         ),
@@ -971,14 +1153,25 @@ class _LicenseGeneratorToolState extends State<LicenseGeneratorTool> {
   Widget _buildNumberField(String label, int value, Function(int) onChanged) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(color: Theme.of(context).extension<SaharaColors>()!.sidebar, borderRadius: BorderRadius.circular(12)),
+      decoration: BoxDecoration(
+          color: Theme.of(context).extension<SaharaColors>()!.sidebar,
+          borderRadius: BorderRadius.circular(12)),
       child: Row(
         children: [
-          Text(label, style: GoogleFonts.cairo(color: Colors.grey[500], fontSize: 12)),
+          Text(label,
+              style: GoogleFonts.cairo(color: Colors.grey[500], fontSize: 12)),
           const Spacer(),
-          IconButton(icon: const Icon(Icons.remove, size: 16, color: Colors.grey), onPressed: () { if (value > 1) onChanged(value - 1); }),
-          Text('$value', style: GoogleFonts.cairo(color: Colors.white, fontWeight: FontWeight.bold)),
-          IconButton(icon: const Icon(Icons.add, size: 16, color: Color(0xFF00D9A3)), onPressed: () => onChanged(value + 1)),
+          IconButton(
+              icon: const Icon(Icons.remove, size: 16, color: Colors.grey),
+              onPressed: () {
+                if (value > 1) onChanged(value - 1);
+              }),
+          Text('$value',
+              style: GoogleFonts.cairo(
+                  color: Colors.white, fontWeight: FontWeight.bold)),
+          IconButton(
+              icon: const Icon(Icons.add, size: 16, color: Color(0xFF00D9A3)),
+              onPressed: () => onChanged(value + 1)),
         ],
       ),
     );

@@ -91,14 +91,14 @@ class _SettingsPageState extends State<SettingsPage>
                                       color: Colors.white)),
                               Text('إدارة النظام والمستخدمين والصلاحيات',
                                   style: GoogleFonts.cairo(
-                                      fontSize: 14, color: Colors.grey[500])),
+                                      fontSize: 14, color: context.sahara.hintText)),
                             ]),
                         Row(children: [
                           _badge('${users.where((u) => u.isActive).length} نشط',
                               Icons.people, Theme.of(context).colorScheme.primary),
                           const SizedBox(width: 12),
                           _badge('v2.0.0', Icons.info_outline,
-                              const Color(0xFF8B5CF6)),
+                              context.sahara.chartPurple),
                         ]),
                       ])),
               const SizedBox(height: 20),
@@ -109,7 +109,7 @@ class _SettingsPageState extends State<SettingsPage>
                     decoration: BoxDecoration(
                         color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                         borderRadius: BorderRadius.circular(14),
-                        border: Border.all(color: const Color(0xFF2D3748))),
+                        border: Border.all(color: context.sahara.statBorder)),
                     child: TabBar(
                         controller: _tabCtrl,
                         isScrollable: true,
@@ -121,7 +121,7 @@ class _SettingsPageState extends State<SettingsPage>
                             border: Border.all(
                                 color: Theme.of(context).colorScheme.primary.withOpacity(0.4))),
                         labelColor: Theme.of(context).colorScheme.primary,
-                        unselectedLabelColor: Colors.grey[500],
+                        unselectedLabelColor: context.sahara.hintText,
                         labelStyle: GoogleFonts.cairo(
                             fontWeight: FontWeight.bold, fontSize: 12),
                         unselectedLabelStyle: GoogleFonts.cairo(fontSize: 11),
@@ -160,7 +160,7 @@ class _SettingsPageState extends State<SettingsPage>
         padding: const EdgeInsets.all(24),
         child: Column(children: [
           Row(children: [
-            _stat('الكل', '${users.length}', const Color(0xFF42A5F5),
+            _stat('الكل', '${users.length}', context.sahara.chartBlue,
                 Icons.people),
             const SizedBox(width: 12),
             _stat('نشط', '${users.where((u) => u.isActive).length}',
@@ -198,13 +198,13 @@ class _SettingsPageState extends State<SettingsPage>
             decoration: BoxDecoration(
                 color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: const Color(0xFF2D3748))),
+                border: Border.all(color: context.sahara.statBorder)),
             child: Column(children: [
               Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
                   decoration: BoxDecoration(
-                      color: Color(0xFF1E2127),
+                      color: context.sahara.dialogHeader,
                       borderRadius:
                           BorderRadius.vertical(top: Radius.circular(16))),
                   child: Row(children: [
@@ -222,7 +222,7 @@ class _SettingsPageState extends State<SettingsPage>
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                   color: i.isOdd
-                      ? const Color(0xFF1E2127).withOpacity(0.3)
+                      ? context.sahara.dialogHeader.withOpacity(0.3)
                       : Colors.transparent,
                   child: Row(children: [
                     Expanded(
@@ -269,21 +269,21 @@ class _SettingsPageState extends State<SettingsPage>
                                 Row(children: [
                                   Text(u.email,
                                       style: GoogleFonts.cairo(
-                                          color: Colors.grey[600],
+                                          color: context.sahara.hintText,
                                           fontSize: 11)),
                                   const SizedBox(width: 6),
                                   Container(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 5, vertical: 1),
                                       decoration: BoxDecoration(
-                                          color: const Color(0xFFFFA726)
+                                          color: context.sahara.chartOrange
                                               .withOpacity(0.1),
                                           borderRadius:
                                               BorderRadius.circular(4)),
                                       child: Text(
                                           '${u.permissions.values.where((v) => v).length} صفحة',
                                           style: GoogleFonts.cairo(
-                                              color: const Color(0xFFFFA726),
+                                              color: context.sahara.chartOrange,
                                               fontSize: 8,
                                               fontWeight: FontWeight.bold))),
                                 ]),
@@ -311,14 +311,14 @@ class _SettingsPageState extends State<SettingsPage>
                         flex: 2,
                         child: Text(u.phone,
                             style: GoogleFonts.cairo(
-                                color: Colors.grey[400], fontSize: 12),
+                                color: context.sahara.subtleText, fontSize: 12),
                             textAlign: TextAlign.center)),
                     Expanded(
                         flex: 2,
                         child: Text(
                             u.lastLogin != null ? _timeAgo(u.lastLogin!) : '-',
                             style: GoogleFonts.cairo(
-                                color: Colors.grey[500], fontSize: 11),
+                                color: context.sahara.hintText, fontSize: 11),
                             textAlign: TextAlign.center)),
                     Expanded(
                         flex: 1,
@@ -344,7 +344,7 @@ class _SettingsPageState extends State<SettingsPage>
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              _iconBtn(Icons.vpn_key, const Color(0xFFFFA726),
+                              _iconBtn(Icons.vpn_key, context.sahara.chartOrange,
                                   () => _permissionsDialog(auth, u)),
                               const SizedBox(width: 4),
                               _iconBtn(Icons.edit, Theme.of(context).colorScheme.primary,
@@ -384,7 +384,7 @@ class _SettingsPageState extends State<SettingsPage>
               Text(
                   'تحكم بصلاحيات كل مستخدم لكل تبويب - التغييرات تُطبق فوراً وتُحفظ',
                   style:
-                      GoogleFonts.cairo(fontSize: 13, color: Colors.grey[500])),
+                      GoogleFonts.cairo(fontSize: 13, color: context.sahara.hintText)),
             ]),
             const Spacer(),
             // مفتاح الألوان
@@ -398,18 +398,18 @@ class _SettingsPageState extends State<SettingsPage>
               const SizedBox(width: 4),
               Text('مسموح',
                   style:
-                      GoogleFonts.cairo(color: Colors.grey[500], fontSize: 10)),
+                      GoogleFonts.cairo(color: context.sahara.hintText, fontSize: 10)),
               const SizedBox(width: 12),
               Container(
                   width: 12,
                   height: 12,
                   decoration: BoxDecoration(
-                      color: const Color(0xFF2D3748),
+                      color: context.sahara.statBorder,
                       borderRadius: BorderRadius.circular(3))),
               const SizedBox(width: 4),
               Text('محظور',
                   style:
-                      GoogleFonts.cairo(color: Colors.grey[500], fontSize: 10)),
+                      GoogleFonts.cairo(color: context.sahara.hintText, fontSize: 10)),
             ]),
           ]),
           const SizedBox(height: 20),
@@ -417,12 +417,12 @@ class _SettingsPageState extends State<SettingsPage>
               decoration: BoxDecoration(
                   color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: const Color(0xFF2D3748))),
+                  border: Border.all(color: context.sahara.statBorder)),
               child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: DataTable(
                     headingRowColor:
-                        WidgetStateProperty.all(const Color(0xFF1E2127)),
+                        WidgetStateProperty.all(context.sahara.dialogHeader),
                     headingRowHeight: 56,
                     dataRowMinHeight: 56,
                     dataRowMaxHeight: 60,
@@ -443,10 +443,10 @@ class _SettingsPageState extends State<SettingsPage>
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Icon(_pageIcons[e.key],
-                                        color: Colors.grey[400], size: 16),
+                                        color: context.sahara.subtleText, size: 16),
                                     Text(e.value,
                                         style: GoogleFonts.cairo(
-                                            color: Colors.grey[400],
+                                            color: context.sahara.subtleText,
                                             fontSize: 10),
                                         textAlign: TextAlign.center)
                                   ])))),
@@ -503,7 +503,7 @@ class _SettingsPageState extends State<SettingsPage>
                                 child: Switch(
                                   value: u.permissions[page] ?? false,
                                   activeColor: Theme.of(context).colorScheme.primary,
-                                  inactiveTrackColor: const Color(0xFF2D3748),
+                                  inactiveTrackColor: context.sahara.statBorder,
                                   trackOutlineColor: WidgetStateProperty.all(
                                       Colors.transparent),
                                   onChanged: u.role == UserRole.admin ||
@@ -520,11 +520,11 @@ class _SettingsPageState extends State<SettingsPage>
                                     width: 30,
                                     height: 30,
                                     decoration: BoxDecoration(
-                                        color: const Color(0xFFFFA726)
+                                        color: context.sahara.chartOrange
                                             .withOpacity(0.1),
                                         borderRadius: BorderRadius.circular(8)),
-                                    child: const Icon(Icons.open_in_new,
-                                        color: Color(0xFFFFA726), size: 14))))),
+                                    child: Icon(Icons.open_in_new,
+                                        color: context.sahara.chartOrange, size: 14))))),
                       ]);
                     }).toList(),
                   ))),
@@ -558,7 +558,7 @@ class _SettingsPageState extends State<SettingsPage>
                             Text(
                                 '${AppUser.defaultPermsForRole(r).values.where((v) => v).length} / ${_pageLabels.length} صفحة',
                                 style: GoogleFonts.cairo(
-                                    color: Colors.grey[500], fontSize: 11))
+                                    color: context.sahara.hintText, fontSize: 11))
                           ]))))
                   .toList()),
         ]));
@@ -575,9 +575,9 @@ class _SettingsPageState extends State<SettingsPage>
               _profileCard(auth),
               const SizedBox(height: 12),
               _row('تغيير كلمة المرور', Icons.lock_outline, Theme.of(context).colorScheme.primary,
-                  trailing: const Icon(Icons.chevron_right,
-                      color: Colors.grey, size: 20)),
-              _row('المصادقة الثنائية', Icons.security, const Color(0xFF8B5CF6),
+                  trailing: Icon(Icons.chevron_right,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant, size: 20)),
+              _row('المصادقة الثنائية', Icons.security, context.sahara.chartPurple,
                   trailing: _sw(false, (_) {})),
             ])),
             const SizedBox(width: 20),
@@ -610,7 +610,7 @@ class _SettingsPageState extends State<SettingsPage>
                 margin: const EdgeInsets.only(bottom: 6),
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                    color: const Color(0xFF252830),
+                    color: context.sahara.inputBg,
                     borderRadius: BorderRadius.circular(10)),
                 child: Row(children: [
                   Icon(r.success ? Icons.login : Icons.error_outline,
@@ -628,11 +628,11 @@ class _SettingsPageState extends State<SettingsPage>
                                 fontWeight: FontWeight.w600)),
                         Text(r.email,
                             style: GoogleFonts.cairo(
-                                color: Colors.grey[600], fontSize: 10)),
+                                color: context.sahara.hintText, fontSize: 10)),
                       ])),
                   Text(_timeAgo(r.time),
                       style: GoogleFonts.cairo(
-                          color: Colors.grey[500], fontSize: 10)),
+                          color: context.sahara.hintText, fontSize: 10)),
                   const SizedBox(width: 10),
                   Container(
                       padding: const EdgeInsets.symmetric(
@@ -655,7 +655,7 @@ class _SettingsPageState extends State<SettingsPage>
                   child: Padding(
                       padding: const EdgeInsets.all(20),
                       child: Text('لا توجد سجلات',
-                          style: GoogleFonts.cairo(color: Colors.grey[600])))),
+                          style: GoogleFonts.cairo(color: context.sahara.hintText)))),
           ]),
         ]));
   }
@@ -679,7 +679,7 @@ class _SettingsPageState extends State<SettingsPage>
             Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                    color: const Color(0xFF252830),
+                    color: context.sahara.inputBg,
                     borderRadius: BorderRadius.circular(12)),
                 child: Column(children: [
                   Row(children: [
@@ -703,7 +703,7 @@ class _SettingsPageState extends State<SettingsPage>
                                   fontWeight: FontWeight.bold)),
                           Text('إجمالي السجلات: $totalRecords',
                               style: GoogleFonts.cairo(
-                                  color: Colors.grey[500], fontSize: 11)),
+                                  color: context.sahara.hintText, fontSize: 11)),
                         ]),
                   ]),
                   const SizedBox(height: 14),
@@ -715,7 +715,7 @@ class _SettingsPageState extends State<SettingsPage>
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 12, vertical: 6),
                                 decoration: BoxDecoration(
-                                    color: const Color(0xFF1A1F2E),
+                                    color: context.sahara.sidebar,
                                     borderRadius: BorderRadius.circular(8)),
                                 child: Row(
                                     mainAxisSize: MainAxisSize.min,
@@ -728,7 +728,7 @@ class _SettingsPageState extends State<SettingsPage>
                                       const SizedBox(width: 6),
                                       Text(e.key,
                                           style: GoogleFonts.cairo(
-                                              color: Colors.grey[500],
+                                              color: context.sahara.hintText,
                                               fontSize: 10)),
                                     ]),
                               ))
@@ -777,7 +777,7 @@ class _SettingsPageState extends State<SettingsPage>
                   _row('نسخ تلقائي', Icons.backup, Theme.of(context).colorScheme.primary,
                       trailing: _sw(
                           _autoBackup, (v) => setState(() => _autoBackup = v))),
-                  _row('التكرار', Icons.repeat, const Color(0xFF42A5F5),
+                  _row('التكرار', Icons.repeat, context.sahara.chartBlue,
                       trailing: _dd(_backupFreq, ['يومي', 'أسبوعي', 'شهري'],
                           (v) => setState(() => _backupFreq = v!))),
                   const SizedBox(height: 12),
@@ -807,7 +807,7 @@ class _SettingsPageState extends State<SettingsPage>
                             margin: const EdgeInsets.only(bottom: 8),
                             padding: const EdgeInsets.all(12),
                             decoration: BoxDecoration(
-                                color: const Color(0xFF252830),
+                                color: context.sahara.inputBg,
                                 borderRadius: BorderRadius.circular(10)),
                             child: Row(children: [
                               Icon(
@@ -831,7 +831,7 @@ class _SettingsPageState extends State<SettingsPage>
                                             fontWeight: FontWeight.w600)),
                                     Text('الحجم: ${b['size']}',
                                         style: GoogleFonts.cairo(
-                                            color: Colors.grey[500],
+                                            color: context.sahara.hintText,
                                             fontSize: 10)),
                                   ])),
                               Container(
@@ -862,7 +862,7 @@ class _SettingsPageState extends State<SettingsPage>
         builder: (ctx) => Directionality(
             textDirection: ui.TextDirection.rtl,
             child: AlertDialog(
-              backgroundColor: const Color(0xFF1A1F2E),
+              backgroundColor: context.sahara.sidebar,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16)),
               title: Row(children: [
@@ -874,12 +874,12 @@ class _SettingsPageState extends State<SettingsPage>
               ]),
               content: Text(
                   'سيتم مسح جميع البيانات المحلية بما في ذلك الأرصدة والسجلات والإشعارات. هل أنت متأكد؟',
-                  style: GoogleFonts.cairo(color: Colors.grey[400])),
+                  style: GoogleFonts.cairo(color: context.sahara.subtleText)),
               actions: [
                 TextButton(
                     onPressed: () => Navigator.pop(ctx),
                     child: Text('إلغاء',
-                        style: GoogleFonts.cairo(color: Colors.grey[500]))),
+                        style: GoogleFonts.cairo(color: context.sahara.hintText))),
                 ElevatedButton(
                     onPressed: () async {
                       await db.clearAll();
@@ -910,14 +910,14 @@ class _SettingsPageState extends State<SettingsPage>
                 width: 80,
                 height: 80,
                 decoration: BoxDecoration(
-                    color: Colors.grey[800]!.withOpacity(0.3),
+                    color: Theme.of(context).colorScheme.onSurface!.withOpacity(0.3),
                     borderRadius: BorderRadius.circular(20)),
                 child:
-                    Icon(Icons.vpn_key_off, color: Colors.grey[600], size: 40)),
+                    Icon(Icons.vpn_key_off, color: context.sahara.hintText, size: 40)),
             const SizedBox(height: 20),
             Text('لا يوجد ترخيص مفعّل',
                 style: GoogleFonts.cairo(
-                    color: Colors.grey[400],
+                    color: context.sahara.subtleText,
                     fontSize: 18,
                     fontWeight: FontWeight.bold)),
           ]));
@@ -927,10 +927,10 @@ class _SettingsPageState extends State<SettingsPage>
         final isExpiring = daysLeft <= 30 && daysLeft > 0;
         final isExpired = license.isExpired;
         final statusColor = isExpired
-            ? const Color(0xFFEF5350)
+            ? context.sahara.chartRed
             : isExpiring
-                ? const Color(0xFFFFA726)
-                : const Color(0xFF10B981);
+                ? context.sahara.chartOrange
+                : context.sahara.chartGreen;
         final statusText = isExpired
             ? 'منتهي'
             : isExpiring
@@ -977,7 +977,7 @@ class _SettingsPageState extends State<SettingsPage>
                                   Row(children: [
                                     Text('حالة الترخيص',
                                         style: GoogleFonts.cairo(
-                                            color: Colors.grey[500],
+                                            color: context.sahara.hintText,
                                             fontSize: 12)),
                                     const SizedBox(width: 10),
                                     Container(
@@ -1003,7 +1003,7 @@ class _SettingsPageState extends State<SettingsPage>
                                   Text(
                                       '${license.typeArabic} • ${isExpired ? "انتهى" : "$daysLeft يوم متبقي"}',
                                       style: GoogleFonts.cairo(
-                                          color: Colors.grey[400],
+                                          color: context.sahara.subtleText,
                                           fontSize: 13)),
                                 ])),
                             // شريط تقدم الأيام
@@ -1030,7 +1030,7 @@ class _SettingsPageState extends State<SettingsPage>
                                                                 : 36500))
                                                     .clamp(0.0, 1.0),
                                                 backgroundColor:
-                                                    Colors.grey[800],
+                                                    Theme.of(context).colorScheme.onSurface,
                                                 color: statusColor,
                                                 strokeWidth: 6)),
                                         Text('$daysLeft',
@@ -1045,14 +1045,14 @@ class _SettingsPageState extends State<SettingsPage>
                       // تفاصيل الترخيص
                       _group('تفاصيل الترخيص', [
                         _licRow('رقم العميل', license.clientId, Icons.badge,
-                            const Color(0xFF42A5F5)),
+                            context.sahara.chartBlue),
                         _licRow('نوع الترخيص', license.typeArabic,
-                            Icons.card_membership, const Color(0xFF8B5CF6)),
+                            Icons.card_membership, context.sahara.chartPurple),
                         _licRow(
                             'تاريخ الإصدار',
                             license.issueDate.toString().substring(0, 10),
                             Icons.calendar_today,
-                            const Color(0xFF10B981)),
+                            context.sahara.chartGreen),
                         _licRow(
                             'تاريخ الانتهاء',
                             license.expiryDate.toString().substring(0, 10),
@@ -1062,14 +1062,14 @@ class _SettingsPageState extends State<SettingsPage>
                             'الحد الأقصى للمحطات',
                             '${license.maxStations} محطة',
                             Icons.store,
-                            const Color(0xFFFFA726)),
+                            context.sahara.chartOrange),
                         _licRow(
                             'الحد الأقصى للمستخدمين',
                             '${license.maxUsers} مستخدم',
                             Icons.people,
                             const Color(0xFF26A69A)),
                         _licRow('بصمة الجهاز', license.deviceHash,
-                            Icons.fingerprint, Colors.grey),
+                            Icons.fingerprint, Theme.of(context).colorScheme.onSurfaceVariant),
                       ]),
                       const SizedBox(height: 16),
 
@@ -1103,17 +1103,17 @@ class _SettingsPageState extends State<SettingsPage>
                                       await LicenseService.clearLicense();
                                       _snack(
                                           'تم إلغاء الترخيص - أعد تشغيل التطبيق',
-                                          const Color(0xFFEF5350));
+                                          context.sahara.chartRed);
                                     },
                                     icon: Icon(Icons.delete_outline,
-                                        size: 18, color: Colors.grey[500]),
+                                        size: 18, color: context.sahara.hintText),
                                     label: Text('إلغاء الترخيص',
                                         style: GoogleFonts.cairo(
                                             fontWeight: FontWeight.bold,
-                                            color: Colors.grey[500])),
+                                            color: context.sahara.hintText)),
                                     style: OutlinedButton.styleFrom(
                                         side: BorderSide(
-                                            color: Colors.grey[700]!),
+                                            color: Theme.of(context).colorScheme.onSurfaceVariant!),
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(12)))))),
@@ -1138,7 +1138,7 @@ class _SettingsPageState extends State<SettingsPage>
             Expanded(
                 child: Text(label,
                     style: GoogleFonts.cairo(
-                        color: Colors.grey[500], fontSize: 12))),
+                        color: context.sahara.hintText, fontSize: 12))),
             SelectableText(value,
                 style: GoogleFonts.cairo(
                     color: Colors.white,
@@ -1157,14 +1157,14 @@ class _SettingsPageState extends State<SettingsPage>
           decoration: BoxDecoration(
               color: Theme.of(context).extension<SaharaColors>()!.sidebar,
               borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: const Color(0xFF2D3748))),
+              border: Border.all(color: context.sahara.statBorder)),
           child: Column(children: [
             Container(
                 width: 80,
                 height: 80,
                 decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                        colors: [Color(0xFF00D9A3), Color(0xFF00B4D8)]),
+                    gradient: LinearGradient(
+                        colors: [Theme.of(context).colorScheme.primary, Color(0xFF00B4D8)]),
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
@@ -1181,17 +1181,17 @@ class _SettingsPageState extends State<SettingsPage>
                     color: Colors.white)),
             Text('Sahara Karbala Fuel Management',
                 style:
-                    GoogleFonts.cairo(fontSize: 13, color: Colors.grey[500])),
+                    GoogleFonts.cairo(fontSize: 13, color: context.sahara.hintText)),
             const SizedBox(height: 24),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               _chip('الإصدار', 'v2.0.0', Theme.of(context).colorScheme.primary),
               const SizedBox(width: 16),
-              _chip('الترخيص', 'سنوي', const Color(0xFF8B5CF6)),
+              _chip('الترخيص', 'سنوي', context.sahara.chartPurple),
               const SizedBox(width: 16),
-              _chip('المحطات', '7 / 10', const Color(0xFF42A5F5)),
+              _chip('المحطات', '7 / 10', context.sahara.chartBlue),
             ]),
             const SizedBox(height: 24),
-            Divider(color: Colors.grey[800]),
+            Divider(color: Theme.of(context).colorScheme.onSurface),
             const SizedBox(height: 16),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               _info('المطور', 'Sahara Tech'),
@@ -1203,7 +1203,7 @@ class _SettingsPageState extends State<SettingsPage>
             const SizedBox(height: 20),
             Text('© 2026 جميع الحقوق محفوظة',
                 style:
-                    GoogleFonts.cairo(color: Colors.grey[700], fontSize: 11)),
+                    GoogleFonts.cairo(color: Theme.of(context).colorScheme.onSurfaceVariant, fontSize: 11)),
           ]),
         )));
   }
@@ -1293,20 +1293,20 @@ class _SettingsPageState extends State<SettingsPage>
                                 padding: const EdgeInsets.all(10),
                                 margin: const EdgeInsets.only(top: 8),
                                 decoration: BoxDecoration(
-                                    color: const Color(0xFFFFA726)
+                                    color: context.sahara.chartOrange
                                         .withOpacity(0.08),
                                     borderRadius: BorderRadius.circular(10),
                                     border: Border.all(
-                                        color: const Color(0xFFFFA726)
+                                        color: context.sahara.chartOrange
                                             .withOpacity(0.2))),
                                 child: Row(children: [
-                                  const Icon(Icons.info_outline,
-                                      color: Color(0xFFFFA726), size: 16),
+                                  Icon(Icons.info_outline,
+                                      color: context.sahara.chartOrange, size: 16),
                                   const SizedBox(width: 8),
                                   Text(
                                       'المدير يملك صلاحية الوصول لجميع الصفحات',
                                       style: GoogleFonts.cairo(
-                                          color: const Color(0xFFFFA726),
+                                          color: context.sahara.chartOrange,
                                           fontSize: 11))
                                 ])),
 
@@ -1327,7 +1327,7 @@ class _SettingsPageState extends State<SettingsPage>
                               _quickBtn(
                                   'إلغاء الكل',
                                   Icons.deselect,
-                                  const Color(0xFFEF5350),
+                                  context.sahara.chartRed,
                                   () => ss(() {
                                         for (var k in perms.keys) {
                                           if (k != 'dashboard')
@@ -1338,7 +1338,7 @@ class _SettingsPageState extends State<SettingsPage>
                               _quickBtn(
                                   'استعادة الافتراضي',
                                   Icons.restore,
-                                  const Color(0xFF42A5F5),
+                                  context.sahara.chartBlue,
                                   () => ss(() {
                                         final def =
                                             AppUser.defaultPermsForRole(u.role);
@@ -1352,16 +1352,16 @@ class _SettingsPageState extends State<SettingsPage>
                           Container(
                             constraints: const BoxConstraints(maxHeight: 380),
                             decoration: BoxDecoration(
-                                color: const Color(0xFF1A1F2E),
+                                color: context.sahara.sidebar,
                                 borderRadius: BorderRadius.circular(14),
                                 border:
-                                    Border.all(color: const Color(0xFF2D3748))),
+                                    Border.all(color: context.sahara.statBorder)),
                             child: ListView.separated(
                               shrinkWrap: true,
                               padding: const EdgeInsets.all(8),
                               itemCount: allPages.length,
                               separatorBuilder: (_, __) =>
-                                  Divider(color: Colors.grey[800], height: 1),
+                                  Divider(color: Theme.of(context).colorScheme.onSurface, height: 1),
                               itemBuilder: (_, i) {
                                 final key = allPages[i].key;
                                 final label = allPages[i].value;
@@ -1379,20 +1379,20 @@ class _SettingsPageState extends State<SettingsPage>
                                       decoration: BoxDecoration(
                                           color: (isOn
                                                   ? Theme.of(context).colorScheme.primary
-                                                  : Colors.grey[700]!)
+                                                  : Theme.of(context).colorScheme.onSurfaceVariant!)
                                               .withOpacity(isOn ? 0.15 : 0.1),
                                           borderRadius:
                                               BorderRadius.circular(10)),
                                       child: Icon(icon,
                                           color: isOn
                                               ? Theme.of(context).colorScheme.primary
-                                              : Colors.grey[600],
+                                              : context.sahara.hintText,
                                           size: 20)),
                                   title: Text(label,
                                       style: GoogleFonts.cairo(
                                           color: isOn
                                               ? Colors.white
-                                              : Colors.grey[500],
+                                              : context.sahara.hintText,
                                           fontSize: 13,
                                           fontWeight: isOn
                                               ? FontWeight.bold
@@ -1409,7 +1409,7 @@ class _SettingsPageState extends State<SettingsPage>
                                         value: isOn,
                                         activeColor: Theme.of(context).colorScheme.primary,
                                         inactiveTrackColor:
-                                            const Color(0xFF2D3748),
+                                            context.sahara.statBorder,
                                         trackOutlineColor:
                                             WidgetStateProperty.all(
                                                 Colors.transparent),
@@ -1431,7 +1431,7 @@ class _SettingsPageState extends State<SettingsPage>
                                     onPressed: () => Navigator.pop(ctx),
                                     child: Text('إلغاء',
                                         style: GoogleFonts.cairo(
-                                            color: Colors.grey[400])))),
+                                            color: context.sahara.subtleText)))),
                             const SizedBox(width: 12),
                             Expanded(
                                 flex: 2,
@@ -1556,7 +1556,7 @@ class _SettingsPageState extends State<SettingsPage>
                               Container(
                                   padding: const EdgeInsets.all(12),
                                   decoration: BoxDecoration(
-                                      color: const Color(0xFF252830),
+                                      color: context.sahara.inputBg,
                                       borderRadius: BorderRadius.circular(12)),
                                   child: Column(
                                       crossAxisAlignment:
@@ -1564,7 +1564,7 @@ class _SettingsPageState extends State<SettingsPage>
                                       children: [
                                         Text('الدور:',
                                             style: GoogleFonts.cairo(
-                                                color: Colors.grey[400],
+                                                color: context.sahara.subtleText,
                                                 fontSize: 12)),
                                         const SizedBox(height: 8),
                                         Wrap(
@@ -1632,7 +1632,7 @@ class _SettingsPageState extends State<SettingsPage>
                               Container(
                                   padding: const EdgeInsets.all(12),
                                   decoration: BoxDecoration(
-                                      color: const Color(0xFF252830),
+                                      color: context.sahara.inputBg,
                                       borderRadius: BorderRadius.circular(12)),
                                   child: Column(
                                       crossAxisAlignment:
@@ -1641,7 +1641,7 @@ class _SettingsPageState extends State<SettingsPage>
                                         Row(children: [
                                           Text('الصفحات المسموحة:',
                                               style: GoogleFonts.cairo(
-                                                  color: Colors.grey[400],
+                                                  color: context.sahara.subtleText,
                                                   fontSize: 12)),
                                           const Spacer(),
                                           Container(
@@ -1698,7 +1698,7 @@ class _SettingsPageState extends State<SettingsPage>
                                                                     ? AppColors
                                                                         .accent
                                                                         .withOpacity(0.4)
-                                                                    : Colors.grey[700]!)),
+                                                                    : Theme.of(context).colorScheme.onSurfaceVariant!)),
                                                         child: Row(mainAxisSize: MainAxisSize.min, children: [
                                                           Icon(
                                                               _pageIcons[e.key],
@@ -1738,7 +1738,7 @@ class _SettingsPageState extends State<SettingsPage>
                                               'المدير يملك جميع الصلاحيات تلقائياً',
                                               style: GoogleFonts.cairo(
                                                   color:
-                                                      const Color(0xFFFFA726),
+                                                      context.sahara.chartOrange,
                                                   fontSize: 11)),
                                       ])),
                               const SizedBox(height: 24),
@@ -1748,7 +1748,7 @@ class _SettingsPageState extends State<SettingsPage>
                                         onPressed: () => Navigator.pop(ctx),
                                         child: Text('إلغاء',
                                             style: GoogleFonts.cairo(
-                                                color: Colors.grey[400])))),
+                                                color: context.sahara.subtleText)))),
                                 const SizedBox(width: 12),
                                 Expanded(
                                     child: ElevatedButton(
@@ -1839,7 +1839,7 @@ class _SettingsPageState extends State<SettingsPage>
                                       Text(u.email,
                                           style: GoogleFonts.cairo(
                                               fontSize: 11,
-                                              color: Colors.grey[600])),
+                                              color: context.sahara.hintText)),
                                     ]),
                               ]),
                               const SizedBox(height: 24),
@@ -1853,7 +1853,7 @@ class _SettingsPageState extends State<SettingsPage>
                               Container(
                                   padding: const EdgeInsets.all(12),
                                   decoration: BoxDecoration(
-                                      color: const Color(0xFF252830),
+                                      color: context.sahara.inputBg,
                                       borderRadius: BorderRadius.circular(12)),
                                   child: Column(
                                       crossAxisAlignment:
@@ -1861,7 +1861,7 @@ class _SettingsPageState extends State<SettingsPage>
                                       children: [
                                         Text('الدور:',
                                             style: GoogleFonts.cairo(
-                                                color: Colors.grey[400],
+                                                color: context.sahara.subtleText,
                                                 fontSize: 12)),
                                         const SizedBox(height: 8),
                                         Wrap(
@@ -1930,7 +1930,7 @@ class _SettingsPageState extends State<SettingsPage>
                               Container(
                                   padding: const EdgeInsets.all(12),
                                   decoration: BoxDecoration(
-                                      color: const Color(0xFF252830),
+                                      color: context.sahara.inputBg,
                                       borderRadius: BorderRadius.circular(12)),
                                   child: Column(
                                       crossAxisAlignment:
@@ -1938,12 +1938,12 @@ class _SettingsPageState extends State<SettingsPage>
                                       children: [
                                         Row(children: [
                                           Icon(Icons.vpn_key,
-                                              color: const Color(0xFFFFA726),
+                                              color: context.sahara.chartOrange,
                                               size: 16),
                                           const SizedBox(width: 8),
                                           Text('الصفحات المسموحة:',
                                               style: GoogleFonts.cairo(
-                                                  color: Colors.grey[400],
+                                                  color: context.sahara.subtleText,
                                                   fontSize: 12)),
                                           const Spacer(),
                                           Container(
@@ -1978,7 +1978,7 @@ class _SettingsPageState extends State<SettingsPage>
                                             const SizedBox(width: 6),
                                             _miniBtn(
                                                 'لا شيء',
-                                                const Color(0xFFEF5350),
+                                                context.sahara.chartRed,
                                                 () => ss(() {
                                                       for (var k
                                                           in perms.keys) {
@@ -1989,7 +1989,7 @@ class _SettingsPageState extends State<SettingsPage>
                                             const SizedBox(width: 6),
                                             _miniBtn(
                                                 'افتراضي',
-                                                const Color(0xFF42A5F5),
+                                                context.sahara.chartBlue,
                                                 () => ss(() {
                                                       perms = Map.from(AppUser
                                                           .defaultPermsForRole(
@@ -2032,7 +2032,7 @@ class _SettingsPageState extends State<SettingsPage>
                                                             border: Border.all(
                                                                 color: isOn
                                                                     ? Theme.of(context).colorScheme.primary.withOpacity(0.4)
-                                                                    : Colors.grey[700]!)),
+                                                                    : Theme.of(context).colorScheme.onSurfaceVariant!)),
                                                         child: Row(mainAxisSize: MainAxisSize.min, children: [
                                                           Icon(
                                                               _pageIcons[e.key],
@@ -2086,7 +2086,7 @@ class _SettingsPageState extends State<SettingsPage>
                                         onPressed: () => Navigator.pop(ctx),
                                         child: Text('إلغاء',
                                             style: GoogleFonts.cairo(
-                                                color: Colors.grey[400])))),
+                                                color: context.sahara.subtleText)))),
                                 const SizedBox(width: 12),
                                 Expanded(
                                     flex: 2,
@@ -2150,7 +2150,7 @@ class _SettingsPageState extends State<SettingsPage>
             style: GoogleFonts.cairo(
                 color: c, fontWeight: FontWeight.bold, fontSize: 16)),
         const SizedBox(width: 6),
-        Text(l, style: GoogleFonts.cairo(color: Colors.grey[500], fontSize: 11))
+        Text(l, style: GoogleFonts.cairo(color: context.sahara.hintText, fontSize: 11))
       ]));
   Widget _th(String t, int f) => Expanded(
       flex: f,
@@ -2174,7 +2174,7 @@ class _SettingsPageState extends State<SettingsPage>
       decoration: BoxDecoration(
           color: Theme.of(context).extension<SaharaColors>()!.sidebar,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: const Color(0xFF2D3748))),
+          border: Border.all(color: context.sahara.statBorder)),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text(t,
             style: GoogleFonts.cairo(
@@ -2190,7 +2190,7 @@ class _SettingsPageState extends State<SettingsPage>
           margin: const EdgeInsets.only(bottom: 8),
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-              color: const Color(0xFF252830),
+              color: context.sahara.inputBg,
               borderRadius: BorderRadius.circular(12)),
           child: Row(children: [
             Container(
@@ -2213,7 +2213,7 @@ class _SettingsPageState extends State<SettingsPage>
                   if (sub != null)
                     Text(sub,
                         style: GoogleFonts.cairo(
-                            color: Colors.grey[600], fontSize: 10))
+                            color: context.sahara.hintText, fontSize: 10))
                 ])),
             if (trailing != null) trailing
           ]));
@@ -2221,19 +2221,19 @@ class _SettingsPageState extends State<SettingsPage>
       value: v,
       onChanged: f,
       activeColor: Theme.of(context).colorScheme.primary,
-      inactiveTrackColor: const Color(0xFF2D3748),
+      inactiveTrackColor: context.sahara.statBorder,
       trackOutlineColor: WidgetStateProperty.all(Colors.transparent));
   Widget _dd(String v, List<String> items, ValueChanged<String?> f) =>
       Container(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           height: 34,
           decoration: BoxDecoration(
-              color: const Color(0xFF252830),
+              color: context.sahara.inputBg,
               borderRadius: BorderRadius.circular(8)),
           child: DropdownButtonHideUnderline(
               child: DropdownButton<String>(
                   value: v,
-                  dropdownColor: const Color(0xFF252830),
+                  dropdownColor: context.sahara.inputBg,
                   style: GoogleFonts.cairo(color: Colors.white, fontSize: 12),
                   items: items
                       .map((e) => DropdownMenuItem(value: e, child: Text(e)))
@@ -2242,7 +2242,7 @@ class _SettingsPageState extends State<SettingsPage>
   Widget _profileCard(AuthService auth) => Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-          color: const Color(0xFF252830),
+          color: context.sahara.inputBg,
           borderRadius: BorderRadius.circular(14)),
       child: Row(children: [
         Container(
@@ -2263,7 +2263,7 @@ class _SettingsPageState extends State<SettingsPage>
                   fontWeight: FontWeight.bold,
                   fontSize: 16)),
           Text(auth.userEmail,
-              style: GoogleFonts.cairo(color: Colors.grey[500], fontSize: 12)),
+              style: GoogleFonts.cairo(color: context.sahara.hintText, fontSize: 12)),
           Container(
               margin: const EdgeInsets.only(top: 4),
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
@@ -2286,10 +2286,10 @@ class _SettingsPageState extends State<SettingsPage>
           decoration: InputDecoration(
               labelText: l,
               labelStyle:
-                  GoogleFonts.cairo(color: Colors.grey[600], fontSize: 13),
+                  GoogleFonts.cairo(color: context.sahara.hintText, fontSize: 13),
               prefixIcon: Icon(i, color: Theme.of(context).colorScheme.primary, size: 20),
               filled: true,
-              fillColor: const Color(0xFF252830),
+              fillColor: context.sahara.inputBg,
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                   borderSide: BorderSide.none),
@@ -2306,11 +2306,11 @@ class _SettingsPageState extends State<SettingsPage>
         Text(v,
             style: GoogleFonts.cairo(
                 color: c, fontWeight: FontWeight.bold, fontSize: 16)),
-        Text(l, style: GoogleFonts.cairo(color: Colors.grey[500], fontSize: 11))
+        Text(l, style: GoogleFonts.cairo(color: context.sahara.hintText, fontSize: 11))
       ]));
   Widget _info(String l, String v) => Column(children: [
         Text(l,
-            style: GoogleFonts.cairo(color: Colors.grey[600], fontSize: 11)),
+            style: GoogleFonts.cairo(color: context.sahara.hintText, fontSize: 11)),
         Text(v,
             style: GoogleFonts.cairo(
                 color: Colors.white, fontSize: 12, fontWeight: FontWeight.w600))
@@ -2341,21 +2341,21 @@ class _SettingsPageState extends State<SettingsPage>
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                       gradient: LinearGradient(colors: [
-                        const Color(0xFFFFA726).withOpacity(0.08),
-                        const Color(0xFFFFA726).withOpacity(0.02)
+                        context.sahara.chartOrange.withOpacity(0.08),
+                        context.sahara.chartOrange.withOpacity(0.02)
                       ]),
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(
-                          color: const Color(0xFFFFA726).withOpacity(0.2))),
+                          color: context.sahara.chartOrange.withOpacity(0.2))),
                   child: Row(children: [
                     Container(
                         width: 56,
                         height: 56,
                         decoration: BoxDecoration(
-                            color: const Color(0xFFFFA726).withOpacity(0.12),
+                            color: context.sahara.chartOrange.withOpacity(0.12),
                             borderRadius: BorderRadius.circular(14)),
-                        child: const Icon(Icons.notifications_active,
-                            color: Color(0xFFFFA726), size: 28)),
+                        child: Icon(Icons.notifications_active,
+                            color: context.sahara.chartOrange, size: 28)),
                     const SizedBox(width: 16),
                     Expanded(
                         child: Column(
@@ -2369,19 +2369,19 @@ class _SettingsPageState extends State<SettingsPage>
                           Text(
                               '${alert.activeCount} تنبيه نشط • ${alert.criticalCount} حرج',
                               style: GoogleFonts.cairo(
-                                  color: const Color(0xFFFFA726),
+                                  color: context.sahara.chartOrange,
                                   fontSize: 12)),
                           Text(
                               '${alert.rules.where((r) => r.enabled).length} من ${alert.rules.length} قاعدة مفعّلة',
                               style: GoogleFonts.cairo(
-                                  color: Colors.grey[500], fontSize: 11)),
+                                  color: context.sahara.hintText, fontSize: 11)),
                         ])),
                     Column(children: [
                       Row(children: [
                         Icon(Icons.volume_up,
                             color: alert.soundEnabled
-                                ? const Color(0xFF10B981)
-                                : Colors.grey[700],
+                                ? context.sahara.chartGreen
+                                : Theme.of(context).colorScheme.onSurfaceVariant,
                             size: 16),
                         Switch(
                             value: alert.soundEnabled,
@@ -2389,16 +2389,16 @@ class _SettingsPageState extends State<SettingsPage>
                               alert.toggleSound(v);
                               ss(() {});
                             },
-                            activeColor: const Color(0xFF10B981),
-                            inactiveTrackColor: const Color(0xFF2D3748),
+                            activeColor: context.sahara.chartGreen,
+                            inactiveTrackColor: context.sahara.statBorder,
                             trackOutlineColor:
                                 WidgetStateProperty.all(Colors.transparent)),
                       ]),
                       Row(children: [
                         Icon(Icons.notifications,
                             color: alert.popupEnabled
-                                ? const Color(0xFF42A5F5)
-                                : Colors.grey[700],
+                                ? context.sahara.chartBlue
+                                : Theme.of(context).colorScheme.onSurfaceVariant,
                             size: 16),
                         Switch(
                             value: alert.popupEnabled,
@@ -2406,8 +2406,8 @@ class _SettingsPageState extends State<SettingsPage>
                               alert.togglePopup(v);
                               ss(() {});
                             },
-                            activeColor: const Color(0xFF42A5F5),
-                            inactiveTrackColor: const Color(0xFF2D3748),
+                            activeColor: context.sahara.chartBlue,
+                            inactiveTrackColor: context.sahara.statBorder,
                             trackOutlineColor:
                                 WidgetStateProperty.all(Colors.transparent)),
                       ]),
@@ -2420,27 +2420,27 @@ class _SettingsPageState extends State<SettingsPage>
                 decoration: BoxDecoration(
                     color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: const Color(0xFF2D3748))),
+                    border: Border.all(color: context.sahara.statBorder)),
                 child: Column(children: [
                   Container(
                       padding: const EdgeInsets.all(14),
                       decoration: BoxDecoration(
-                          color: Color(0xFF1E2127),
+                          color: context.sahara.dialogHeader,
                           borderRadius:
                               BorderRadius.vertical(top: Radius.circular(16))),
                       child: Row(children: [
-                        const Icon(Icons.rule,
-                            color: Color(0xFFFFA726), size: 18),
+                        Icon(Icons.rule,
+                            color: context.sahara.chartOrange, size: 18),
                         const SizedBox(width: 8),
                         Text('قواعد التنبيه',
                             style: GoogleFonts.cairo(
-                                color: const Color(0xFFFFA726),
+                                color: context.sahara.chartOrange,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 14)),
                         const Spacer(),
                         Text('${alert.rules.length} قاعدة',
                             style: GoogleFonts.cairo(
-                                color: Colors.grey[500], fontSize: 11)),
+                                color: context.sahara.hintText, fontSize: 11)),
                       ])),
                   ...alert.rules.map((rule) => Container(
                       padding: const EdgeInsets.symmetric(
@@ -2448,18 +2448,18 @@ class _SettingsPageState extends State<SettingsPage>
                       decoration: BoxDecoration(
                           border: Border(
                               bottom: BorderSide(
-                                  color: Colors.grey[800]!, width: 0.5))),
+                                  color: Theme.of(context).colorScheme.onSurface!, width: 0.5))),
                       child: Row(children: [
                         Container(
                             width: 36,
                             height: 36,
                             decoration: BoxDecoration(
                                 color: rule.priority == AlertPriority.critical
-                                    ? const Color(0xFFEF5350).withOpacity(0.12)
+                                    ? context.sahara.chartRed.withOpacity(0.12)
                                     : rule.priority == AlertPriority.high
-                                        ? const Color(0xFFFFA726)
+                                        ? context.sahara.chartOrange
                                             .withOpacity(0.12)
-                                        : const Color(0xFF42A5F5)
+                                        : context.sahara.chartBlue
                                             .withOpacity(0.12),
                                 borderRadius: BorderRadius.circular(10)),
                             child: Icon(
@@ -2475,10 +2475,10 @@ class _SettingsPageState extends State<SettingsPage>
                                                 ? Icons.store
                                                 : Icons.build,
                                 color: rule.priority == AlertPriority.critical
-                                    ? const Color(0xFFEF5350)
+                                    ? context.sahara.chartRed
                                     : rule.priority == AlertPriority.high
-                                        ? const Color(0xFFFFA726)
-                                        : const Color(0xFF42A5F5),
+                                        ? context.sahara.chartOrange
+                                        : context.sahara.chartBlue,
                                 size: 18)),
                         const SizedBox(width: 12),
                         Expanded(
@@ -2492,7 +2492,7 @@ class _SettingsPageState extends State<SettingsPage>
                                       fontSize: 12)),
                               Text(rule.description,
                                   style: GoogleFonts.cairo(
-                                      color: Colors.grey[600], fontSize: 10)),
+                                      color: context.sahara.hintText, fontSize: 10)),
                             ])),
                         if (rule.threshold != null)
                           Container(
@@ -2500,20 +2500,20 @@ class _SettingsPageState extends State<SettingsPage>
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 8, vertical: 2),
                               decoration: BoxDecoration(
-                                  color: const Color(0xFF252830),
+                                  color: context.sahara.inputBg,
                                   borderRadius: BorderRadius.circular(6)),
                               child: Text(
                                   '${rule.threshold!.toStringAsFixed(0)}${rule.category == AlertCategory.tank && rule.id.contains('temp') ? "°C" : rule.category == AlertCategory.license ? " يوم" : "%"}',
                                   style: GoogleFonts.cairo(
-                                      color: Colors.grey[400], fontSize: 10))),
+                                      color: context.sahara.subtleText, fontSize: 10))),
                         Switch(
                             value: rule.enabled,
                             onChanged: (v) {
                               alert.toggleRule(rule.id, v);
                               ss(() {});
                             },
-                            activeColor: const Color(0xFF10B981),
-                            inactiveTrackColor: const Color(0xFF2D3748),
+                            activeColor: context.sahara.chartGreen,
+                            inactiveTrackColor: context.sahara.statBorder,
                             trackOutlineColor:
                                 WidgetStateProperty.all(Colors.transparent)),
                       ]))),
@@ -2527,21 +2527,21 @@ class _SettingsPageState extends State<SettingsPage>
                   decoration: BoxDecoration(
                       color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: const Color(0xFF2D3748))),
+                      border: Border.all(color: context.sahara.statBorder)),
                   child: Column(children: [
                     Container(
                         padding: const EdgeInsets.all(14),
                         decoration: BoxDecoration(
-                            color: Color(0xFF1E2127),
+                            color: context.sahara.dialogHeader,
                             borderRadius: BorderRadius.vertical(
                                 top: Radius.circular(16))),
                         child: Row(children: [
-                          const Icon(Icons.warning_amber,
-                              color: Color(0xFFEF5350), size: 18),
+                          Icon(Icons.warning_amber,
+                              color: context.sahara.chartRed, size: 18),
                           const SizedBox(width: 8),
                           Text('تنبيهات نشطة',
                               style: GoogleFonts.cairo(
-                                  color: const Color(0xFFEF5350),
+                                  color: context.sahara.chartRed,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 14)),
                           const Spacer(),
@@ -2552,7 +2552,7 @@ class _SettingsPageState extends State<SettingsPage>
                               },
                               child: Text('إخفاء الكل',
                                   style: GoogleFonts.cairo(
-                                      color: Colors.grey[500], fontSize: 11))),
+                                      color: context.sahara.hintText, fontSize: 11))),
                         ])),
                     ...alert.activeAlerts.take(10).map((a) => Container(
                         padding: const EdgeInsets.symmetric(
@@ -2560,7 +2560,7 @@ class _SettingsPageState extends State<SettingsPage>
                         decoration: BoxDecoration(
                             border: Border(
                                 bottom: BorderSide(
-                                    color: Colors.grey[800]!, width: 0.5))),
+                                    color: Theme.of(context).colorScheme.onSurface!, width: 0.5))),
                         child: Row(children: [
                           Icon(a.icon, color: a.color, size: 16),
                           const SizedBox(width: 10),
@@ -2575,7 +2575,7 @@ class _SettingsPageState extends State<SettingsPage>
                                         fontWeight: FontWeight.w600)),
                                 Text(a.message,
                                     style: GoogleFonts.cairo(
-                                        color: Colors.grey[600], fontSize: 9),
+                                        color: context.sahara.hintText, fontSize: 9),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis),
                               ])),
@@ -2595,7 +2595,7 @@ class _SettingsPageState extends State<SettingsPage>
                                 ss(() {});
                               },
                               child: Icon(Icons.close,
-                                  color: Colors.grey[600], size: 14)),
+                                  color: context.sahara.hintText, size: 14)),
                         ]))),
                   ]),
                 ),

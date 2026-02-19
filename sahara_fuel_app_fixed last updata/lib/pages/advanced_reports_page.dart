@@ -43,6 +43,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
   Widget build(BuildContext context) {
     return Consumer2<FuelProvider, ThemeProvider>(
         builder: (context, prov, themeProvider, _) {
+      final sahara = context.sahara;
       final fmt = NumberFormat('#,###');
       final totalStock =
           prov.tanks.fold<double>(0, (s, t) => s + t.currentAmount);
@@ -100,24 +101,24 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                           'وارد الفترة',
                           '${fmt.format(prov.todayIncoming * _dateRange.duration.inDays)} لتر',
                           Icons.arrow_downward,
-                          const Color(0xFF10B981),
+                          context.sahara.chartGreen,
                           '+${(_dateRange.duration.inDays * 0.8).toStringAsFixed(0)}%'),
                       const SizedBox(width: 12),
                       _miniStat(
                           'صادر الفترة',
                           '${fmt.format(prov.todayOutgoing * _dateRange.duration.inDays)} لتر',
                           Icons.arrow_upward,
-                          const Color(0xFFEF5350),
+                          context.sahara.chartRed,
                           '-${(_dateRange.duration.inDays * 0.3).toStringAsFixed(0)}%'),
                       const SizedBox(width: 12),
                       _miniStat('الشحنات', '${prov.incomingRecords.length}',
-                          Icons.local_shipping, const Color(0xFF42A5F5), ''),
+                          Icons.local_shipping, context.sahara.chartBlue, ''),
                       const SizedBox(width: 12),
                       _miniStat('التحويلات', '${prov.unionTransfers.length}',
-                          Icons.swap_horiz, const Color(0xFF8B5CF6), ''),
+                          Icons.swap_horiz, context.sahara.chartPurple, ''),
                       const SizedBox(width: 12),
                       _miniStat('الأيام', '${_dateRange.duration.inDays}',
-                          Icons.date_range, const Color(0xFFFFA726), ''),
+                          Icons.date_range, context.sahara.chartOrange, ''),
                     ]),
                   ])),
               const SizedBox(height: 16),
@@ -130,7 +131,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                     decoration: BoxDecoration(
                         color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                         borderRadius: BorderRadius.circular(14),
-                        border: Border.all(color: const Color(0xFF2D3748))),
+                        border: Border.all(color: context.sahara.statBorder)),
                     child: TabBar(
                         controller: _tabCtrl,
                         isScrollable: false,
@@ -141,7 +142,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                             border: Border.all(
                                 color: Theme.of(context).colorScheme.primary.withOpacity(0.4))),
                         labelColor: Theme.of(context).colorScheme.primary,
-                        unselectedLabelColor: Colors.grey[500],
+                        unselectedLabelColor: context.sahara.hintText,
                         labelStyle: GoogleFonts.cairo(
                             fontWeight: FontWeight.bold, fontSize: 11),
                         unselectedLabelStyle: GoogleFonts.cairo(fontSize: 10),
@@ -206,7 +207,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                     drawVerticalLine: false,
                     horizontalInterval: maxY / 5,
                     getDrawingHorizontalLine: (v) =>
-                        FlLine(color: Colors.grey[800]!, strokeWidth: 0.5)),
+                        FlLine(color: Theme.of(context).colorScheme.onSurface!, strokeWidth: 0.5)),
                 titlesData: FlTitlesData(
                   rightTitles: const AxisTitles(
                       sideTitles: SideTitles(showTitles: false)),
@@ -218,35 +219,35 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                           interval: max(1, (min(days, 30) / 8).ceilToDouble()),
                           getTitlesWidget: (v, m) => Text('${v.toInt() + 1}',
                               style: GoogleFonts.cairo(
-                                  color: Colors.grey[600], fontSize: 9)))),
+                                  color: context.sahara.hintText, fontSize: 9)))),
                   leftTitles: AxisTitles(
                       sideTitles: SideTitles(
                           showTitles: true,
                           reservedSize: 50,
                           getTitlesWidget: (v, m) => Text(fmt.format(v.toInt()),
                               style: GoogleFonts.cairo(
-                                  color: Colors.grey[600], fontSize: 9)))),
+                                  color: context.sahara.hintText, fontSize: 9)))),
                 ),
                 borderData: FlBorderData(show: false),
                 lineBarsData: [
                   LineChartBarData(
                       spots: inData,
                       isCurved: true,
-                      color: const Color(0xFF10B981),
+                      color: context.sahara.chartGreen,
                       barWidth: 3,
                       dotData: const FlDotData(show: false),
                       belowBarData: BarAreaData(
                           show: true,
-                          color: const Color(0xFF10B981).withOpacity(0.08))),
+                          color: context.sahara.chartGreen.withOpacity(0.08))),
                   LineChartBarData(
                       spots: outData,
                       isCurved: true,
-                      color: const Color(0xFFEF5350),
+                      color: context.sahara.chartRed,
                       barWidth: 3,
                       dotData: const FlDotData(show: false),
                       belowBarData: BarAreaData(
                           show: true,
-                          color: const Color(0xFFEF5350).withOpacity(0.08))),
+                          color: context.sahara.chartRed.withOpacity(0.08))),
                 ],
                 lineTouchData: LineTouchData(
                     touchTooltipData: LineTouchTooltipData(
@@ -272,7 +273,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                         PieChartSectionData(
                             value: 45,
                             title: '45%',
-                            color: const Color(0xFF10B981),
+                            color: context.sahara.chartGreen,
                             radius: 50,
                             titleStyle: GoogleFonts.cairo(
                                 color: Colors.white,
@@ -281,7 +282,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                         PieChartSectionData(
                             value: 30,
                             title: '30%',
-                            color: const Color(0xFF42A5F5),
+                            color: context.sahara.chartBlue,
                             radius: 45,
                             titleStyle: GoogleFonts.cairo(
                                 color: Colors.white,
@@ -290,7 +291,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                         PieChartSectionData(
                             value: 25,
                             title: '25%',
-                            color: const Color(0xFFFFA726),
+                            color: context.sahara.chartOrange,
                             radius: 40,
                             titleStyle: GoogleFonts.cairo(
                                 color: Colors.white,
@@ -325,14 +326,14 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                         flex: 3,
                         child: Text(e.key,
                             style: GoogleFonts.cairo(
-                                color: Colors.grey[400], fontSize: 11))),
+                                color: context.sahara.subtleText, fontSize: 11))),
                     Expanded(
                         flex: 4,
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(4),
                             child: LinearProgressIndicator(
                                 value: e.value / 50,
-                                backgroundColor: Colors.grey[800],
+                                backgroundColor: Theme.of(context).colorScheme.onSurface,
                                 color: Theme.of(context).colorScheme.primary,
                                 minHeight: 8))),
                     const SizedBox(width: 8),
@@ -361,7 +362,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                     drawVerticalLine: false,
                     horizontalInterval: 25,
                     getDrawingHorizontalLine: (v) =>
-                        FlLine(color: Colors.grey[800]!, strokeWidth: 0.5)),
+                        FlLine(color: Theme.of(context).colorScheme.onSurface!, strokeWidth: 0.5)),
                 titlesData: FlTitlesData(
                   rightTitles: const AxisTitles(
                       sideTitles: SideTitles(showTitles: false)),
@@ -378,7 +379,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                                   child: Text(
                                       prov.tanks[idx].name.split(' ').last,
                                       style: GoogleFonts.cairo(
-                                          color: Colors.grey[500],
+                                          color: context.sahara.hintText,
                                           fontSize: 9)));
                             return const SizedBox();
                           })),
@@ -388,7 +389,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                           reservedSize: 40,
                           getTitlesWidget: (v, m) => Text('${v.toInt()}%',
                               style: GoogleFonts.cairo(
-                                  color: Colors.grey[600], fontSize: 9)))),
+                                  color: context.sahara.hintText, fontSize: 9)))),
                 ),
                 borderData: FlBorderData(show: false),
                 maxY: 100,
@@ -401,16 +402,16 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                         toY: pct.toDouble(),
                         width: 22,
                         color: pct > 70
-                            ? const Color(0xFF10B981)
+                            ? context.sahara.chartGreen
                             : pct > 30
-                                ? const Color(0xFFFFA726)
-                                : const Color(0xFFEF5350),
+                                ? context.sahara.chartOrange
+                                : context.sahara.chartRed,
                         borderRadius: const BorderRadius.vertical(
                             top: Radius.circular(6)),
                         backDrawRodData: BackgroundBarChartRodData(
                             show: true,
                             toY: 100,
-                            color: Colors.grey[800]!.withOpacity(0.3))),
+                            color: Theme.of(context).colorScheme.onSurface!.withOpacity(0.3))),
                   ]);
                 }),
               ))),
@@ -421,12 +422,12 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
             decoration: BoxDecoration(
                 color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: const Color(0xFF2D3748))),
+                border: Border.all(color: context.sahara.statBorder)),
             child: Column(children: [
               Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                      color: Color(0xFF1E2127),
+                      color: context.sahara.dialogHeader,
                       borderRadius:
                           BorderRadius.vertical(top: Radius.circular(16))),
                   child: Row(children: [
@@ -440,23 +441,23 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                     const Spacer(),
                     Text('${prov.tanks.length} خزان',
                         style: GoogleFonts.cairo(
-                            color: Colors.grey[500], fontSize: 12)),
+                            color: context.sahara.hintText, fontSize: 12)),
                   ])),
               ...prov.tanks.map((t) {
                 final pct =
                     t.capacity > 0 ? (t.currentAmount / t.capacity * 100) : 0;
                 final color = pct > 70
-                    ? const Color(0xFF10B981)
+                    ? context.sahara.chartGreen
                     : pct > 30
-                        ? const Color(0xFFFFA726)
-                        : const Color(0xFFEF5350);
+                        ? context.sahara.chartOrange
+                        : context.sahara.chartRed;
                 return Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16, vertical: 10),
                     decoration: BoxDecoration(
                         border: Border(
                             bottom: BorderSide(
-                                color: Colors.grey[800]!, width: 0.5))),
+                                color: Theme.of(context).colorScheme.onSurface!, width: 0.5))),
                     child: Row(children: [
                       Container(
                           width: 40,
@@ -479,7 +480,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                                         fontSize: 13)),
                                 Text(t.location,
                                     style: GoogleFonts.cairo(
-                                        color: Colors.grey[600], fontSize: 10)),
+                                        color: context.sahara.hintText, fontSize: 10)),
                               ])),
                       Expanded(
                           flex: 3,
@@ -488,7 +489,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                               Text(
                                   '${fmt.format(t.currentAmount)} / ${fmt.format(t.capacity)} لتر',
                                   style: GoogleFonts.cairo(
-                                      color: Colors.grey[400], fontSize: 11)),
+                                      color: context.sahara.subtleText, fontSize: 11)),
                               const Spacer(),
                               Text('${pct.toStringAsFixed(1)}%',
                                   style: GoogleFonts.cairo(
@@ -501,7 +502,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                                 borderRadius: BorderRadius.circular(4),
                                 child: LinearProgressIndicator(
                                     value: pct / 100,
-                                    backgroundColor: Colors.grey[800],
+                                    backgroundColor: Theme.of(context).colorScheme.onSurface,
                                     color: color,
                                     minHeight: 6)),
                           ])),
@@ -552,7 +553,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                                   child: Text(
                                       prov.stations[idx].name.split(' ').last,
                                       style: GoogleFonts.cairo(
-                                          color: Colors.grey[500],
+                                          color: context.sahara.hintText,
                                           fontSize: 8)));
                             return const SizedBox();
                           })),
@@ -562,7 +563,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                           reservedSize: 50,
                           getTitlesWidget: (v, m) => Text(fmt.format(v.toInt()),
                               style: GoogleFonts.cairo(
-                                  color: Colors.grey[600], fontSize: 9)))),
+                                  color: context.sahara.hintText, fontSize: 9)))),
                 ),
                 borderData: FlBorderData(show: false),
                 barGroups: List.generate(prov.stations.length, (i) {
@@ -571,13 +572,13 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                     BarChartRodData(
                         toY: s.balance,
                         width: 14,
-                        color: const Color(0xFF42A5F5),
+                        color: context.sahara.chartBlue,
                         borderRadius: const BorderRadius.vertical(
                             top: Radius.circular(4))),
                     BarChartRodData(
                         toY: s.dailyConsumption,
                         width: 14,
-                        color: const Color(0xFFFFA726),
+                        color: context.sahara.chartOrange,
                         borderRadius: const BorderRadius.vertical(
                             top: Radius.circular(4))),
                   ]);
@@ -586,9 +587,9 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
           const SizedBox(height: 12),
           // مفتاح الألوان
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            _legendDot('الرصيد', const Color(0xFF42A5F5)),
+            _legendDot('الرصيد', context.sahara.chartBlue),
             const SizedBox(width: 24),
-            _legendDot('الاستهلاك اليومي', const Color(0xFFFFA726)),
+            _legendDot('الاستهلاك اليومي', context.sahara.chartOrange),
           ]),
           const SizedBox(height: 16),
 
@@ -597,12 +598,12 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
             decoration: BoxDecoration(
                 color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: const Color(0xFF2D3748))),
+                border: Border.all(color: context.sahara.statBorder)),
             child: Column(children: [
               Container(
                   padding: const EdgeInsets.all(14),
                   decoration: BoxDecoration(
-                      color: Color(0xFF1E2127),
+                      color: context.sahara.dialogHeader,
                       borderRadius:
                           BorderRadius.vertical(top: Radius.circular(16))),
                   child: Row(children: [
@@ -630,15 +631,15 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                         .clamp(0, 150)
                     : 0;
                 final color = achievement > 90
-                    ? const Color(0xFF10B981)
+                    ? context.sahara.chartGreen
                     : achievement > 60
-                        ? const Color(0xFFFFA726)
-                        : const Color(0xFFEF5350);
+                        ? context.sahara.chartOrange
+                        : context.sahara.chartRed;
                 return Container(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
                     color: i.isOdd
-                        ? const Color(0xFF1E2127).withOpacity(0.3)
+                        ? context.sahara.dialogHeader.withOpacity(0.3)
                         : Colors.transparent,
                     child: Row(children: [
                       Expanded(
@@ -651,17 +652,17 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                       Expanded(
                           child: Text('${fmt.format(s.balance)}',
                               style: GoogleFonts.cairo(
-                                  color: const Color(0xFF42A5F5), fontSize: 11),
+                                  color: context.sahara.chartBlue, fontSize: 11),
                               textAlign: TextAlign.center)),
                       Expanded(
                           child: Text('${fmt.format(s.dailyConsumption)}',
                               style: GoogleFonts.cairo(
-                                  color: const Color(0xFFFFA726), fontSize: 11),
+                                  color: context.sahara.chartOrange, fontSize: 11),
                               textAlign: TextAlign.center)),
                       Expanded(
                           child: Text('${fmt.format(s.monthlyTarget)}',
                               style: GoogleFonts.cairo(
-                                  color: Colors.grey[400], fontSize: 11),
+                                  color: context.sahara.subtleText, fontSize: 11),
                               textAlign: TextAlign.center)),
                       Expanded(
                           child: Text('${achievement.toStringAsFixed(0)}%',
@@ -673,7 +674,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                       Expanded(
                           child: Text('${s.farms}',
                               style: GoogleFonts.cairo(
-                                  color: Colors.grey[400], fontSize: 11),
+                                  color: context.sahara.subtleText, fontSize: 11),
                               textAlign: TextAlign.center)),
                       Expanded(
                           child: Center(
@@ -737,7 +738,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                           getTitlesWidget: (v, m) => Text(
                               months[v.toInt() % 12].substring(0, 3),
                               style: GoogleFonts.cairo(
-                                  color: Colors.grey[500], fontSize: 8)))),
+                                  color: context.sahara.hintText, fontSize: 8)))),
                   leftTitles: AxisTitles(
                       sideTitles: SideTitles(
                           showTitles: true,
@@ -745,7 +746,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                           getTitlesWidget: (v, m) => Text(
                               '${(v / 1000).toStringAsFixed(0)}K',
                               style: GoogleFonts.cairo(
-                                  color: Colors.grey[600], fontSize: 9)))),
+                                  color: context.sahara.hintText, fontSize: 9)))),
                 ),
                 borderData: FlBorderData(show: false),
                 barGroups: List.generate(
@@ -754,22 +755,22 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                           BarChartRodData(
                               toY: monthlyIn[i].toDouble(),
                               width: 10,
-                              color: const Color(0xFF10B981),
+                              color: context.sahara.chartGreen,
                               borderRadius: const BorderRadius.vertical(
                                   top: Radius.circular(3))),
                           BarChartRodData(
                               toY: monthlyOut[i].toDouble(),
                               width: 10,
-                              color: const Color(0xFFEF5350),
+                              color: context.sahara.chartRed,
                               borderRadius: const BorderRadius.vertical(
                                   top: Radius.circular(3))),
                         ])),
               ))),
           const SizedBox(height: 12),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            _legendDot('الوارد', const Color(0xFF10B981)),
+            _legendDot('الوارد', context.sahara.chartGreen),
             const SizedBox(width: 20),
-            _legendDot('الصادر', const Color(0xFFEF5350))
+            _legendDot('الصادر', context.sahara.chartRed)
           ]),
           const SizedBox(height: 16),
 
@@ -780,7 +781,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                     'معدل الاستهلاك اليومي',
                     '${fmt.format(prov.todayOutgoing)} لتر',
                     Icons.speed,
-                    const Color(0xFFFFA726),
+                    context.sahara.chartOrange,
                     '+5.2%')),
             const SizedBox(width: 12),
             Expanded(
@@ -788,19 +789,19 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                     'معدل التعبئة',
                     '${fmt.format(prov.todayIncoming)} لتر/يوم',
                     Icons.trending_up,
-                    const Color(0xFF10B981),
+                    context.sahara.chartGreen,
                     '+12%')),
             const SizedBox(width: 12),
             Expanded(
                 child: _kpiCard('كفاءة التوزيع', '94.3%', Icons.pie_chart,
-                    const Color(0xFF42A5F5), '+2.1%')),
+                    context.sahara.chartBlue, '+2.1%')),
             const SizedBox(width: 12),
             Expanded(
                 child: _kpiCard(
                     'أيام التغطية',
                     '${(prov.tanks.fold<double>(0, (s, t) => s + t.currentAmount) / max(1, prov.todayOutgoing)).toStringAsFixed(0)} يوم',
                     Icons.calendar_today,
-                    const Color(0xFF8B5CF6),
+                    context.sahara.chartPurple,
                     '')),
           ]),
           const SizedBox(height: 24),
@@ -837,7 +838,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                 decoration: BoxDecoration(
                     color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: const Color(0xFF2D3748))),
+                    border: Border.all(color: context.sahara.statBorder)),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -846,22 +847,22 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                               ? Icons.trending_up
                               : Icons.trending_down,
                           color: changePercent >= 0
-                              ? const Color(0xFF10B981)
-                              : const Color(0xFFEF5350),
+                              ? context.sahara.chartGreen
+                              : context.sahara.chartRed,
                           size: 24),
                       Text(
                           '${changePercent >= 0 ? "+" : ""}${changePercent.toStringAsFixed(1)}%',
                           style: GoogleFonts.cairo(
                               color: changePercent >= 0
-                                  ? const Color(0xFF10B981)
-                                  : const Color(0xFFEF5350),
+                                  ? context.sahara.chartGreen
+                                  : context.sahara.chartRed,
                               fontWeight: FontWeight.bold,
                               fontSize: 14)),
                     ])),
             const SizedBox(width: 12),
             Expanded(
                 child: _compareCard('الشهر السابق',
-                    fmt.format(prevTotal.toInt()), 'لتر', Colors.grey)),
+                    fmt.format(prevTotal.toInt()), 'لتر', Theme.of(context).colorScheme.onSurfaceVariant)),
           ]),
           const SizedBox(height: 16),
 
@@ -882,14 +883,14 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                           interval: 5,
                           getTitlesWidget: (v, m) => Text('${v.toInt() + 1}',
                               style: GoogleFonts.cairo(
-                                  color: Colors.grey[600], fontSize: 9)))),
+                                  color: context.sahara.hintText, fontSize: 9)))),
                   leftTitles: AxisTitles(
                       sideTitles: SideTitles(
                           showTitles: true,
                           reservedSize: 50,
                           getTitlesWidget: (v, m) => Text(fmt.format(v.toInt()),
                               style: GoogleFonts.cairo(
-                                  color: Colors.grey[600], fontSize: 9)))),
+                                  color: context.sahara.hintText, fontSize: 9)))),
                 ),
                 borderData: FlBorderData(show: false),
                 lineBarsData: [
@@ -907,7 +908,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                       spots: List.generate(
                           30, (i) => FlSpot(i.toDouble(), prevMonth[i])),
                       isCurved: true,
-                      color: Colors.grey,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
                       barWidth: 2,
                       dotData: const FlDotData(show: false),
                       dashArray: [5, 5]),
@@ -917,7 +918,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             _legendDot('الشهر الحالي', Theme.of(context).colorScheme.primary),
             const SizedBox(width: 20),
-            _legendDot('الشهر السابق', Colors.grey)
+            _legendDot('الشهر السابق', Theme.of(context).colorScheme.onSurfaceVariant)
           ]),
           const SizedBox(height: 24),
         ]));
@@ -932,12 +933,12 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
             decoration: BoxDecoration(
                 color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: const Color(0xFF2D3748))),
+                border: Border.all(color: context.sahara.statBorder)),
             child: Column(children: [
               Container(
                   padding: const EdgeInsets.all(14),
                   decoration: BoxDecoration(
-                      color: Color(0xFF1E2127),
+                      color: context.sahara.dialogHeader,
                       borderRadius:
                           BorderRadius.vertical(top: Radius.circular(16))),
                   child: Row(children: [
@@ -964,7 +965,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
               Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                  color: const Color(0xFF1A1F2E),
+                  color: context.sahara.sidebar,
                   child: Row(children: [
                     for (final h in [
                       'التاريخ',
@@ -978,7 +979,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                       Expanded(
                           child: Text(h,
                               style: GoogleFonts.cairo(
-                                  color: Colors.grey[400],
+                                  color: context.sahara.subtleText,
                                   fontSize: 10,
                                   fontWeight: FontWeight.bold),
                               textAlign: TextAlign.center)),
@@ -990,13 +991,13 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                     padding:
                         const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     color: i.isOdd
-                        ? const Color(0xFF1E2127).withOpacity(0.3)
+                        ? context.sahara.dialogHeader.withOpacity(0.3)
                         : Colors.transparent,
                     child: Row(children: [
                       Expanded(
                           child: Text(DateFormat('MM/dd').format(r.date),
                               style: GoogleFonts.cairo(
-                                  color: Colors.grey[400], fontSize: 10),
+                                  color: context.sahara.subtleText, fontSize: 10),
                               textAlign: TextAlign.center)),
                       Expanded(
                           child: Text(r.supplier,
@@ -1006,31 +1007,31 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                       Expanded(
                           child: Text(r.fuelType,
                               style: GoogleFonts.cairo(
-                                  color: Colors.grey[400], fontSize: 10),
+                                  color: context.sahara.subtleText, fontSize: 10),
                               textAlign: TextAlign.center)),
                       Expanded(
                           child: Text(fmt.format(r.quantity),
                               style: GoogleFonts.cairo(
-                                  color: const Color(0xFF10B981),
+                                  color: context.sahara.chartGreen,
                                   fontSize: 10,
                                   fontWeight: FontWeight.bold),
                               textAlign: TextAlign.center)),
                       Expanded(
                           child: Text(fmt.format(r.unitPrice),
                               style: GoogleFonts.cairo(
-                                  color: Colors.grey[400], fontSize: 10),
+                                  color: context.sahara.subtleText, fontSize: 10),
                               textAlign: TextAlign.center)),
                       Expanded(
                           child: Text(fmt.format(r.totalCost),
                               style: GoogleFonts.cairo(
-                                  color: const Color(0xFFFFA726),
+                                  color: context.sahara.chartOrange,
                                   fontSize: 10,
                                   fontWeight: FontWeight.bold),
                               textAlign: TextAlign.center)),
                       Expanded(
                           child: Text(r.tankName,
                               style: GoogleFonts.cairo(
-                                  color: Colors.grey[400], fontSize: 10),
+                                  color: context.sahara.subtleText, fontSize: 10),
                               textAlign: TextAlign.center)),
                     ]));
               }),
@@ -1061,7 +1062,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
           decoration: BoxDecoration(
               color: Theme.of(context).extension<SaharaColors>()!.sidebar,
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: const Color(0xFF2D3748))),
+              border: Border.all(color: context.sahara.statBorder)),
           child: Row(children: [
             Icon(Icons.date_range, color: Theme.of(context).colorScheme.primary, size: 16),
             const SizedBox(width: 8),
@@ -1078,10 +1079,10 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
           decoration: BoxDecoration(
               color: Theme.of(context).extension<SaharaColors>()!.sidebar,
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: const Color(0xFF2D3748))),
+              border: Border.all(color: context.sahara.statBorder)),
           child: Row(children: [
-            const Icon(Icons.compare_arrows,
-                color: Color(0xFF8B5CF6), size: 16),
+            Icon(Icons.compare_arrows,
+                color: context.sahara.chartPurple, size: 16),
             const SizedBox(width: 6),
             Text(_compareMode,
                 style: GoogleFonts.cairo(color: Colors.white, fontSize: 11))
@@ -1101,7 +1102,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
           decoration: BoxDecoration(
               color: Theme.of(context).extension<SaharaColors>()!.sidebar,
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: const Color(0xFF2D3748))),
+              border: Border.all(color: context.sahara.statBorder)),
           child: Row(children: [
             Icon(
                 _chartType == 'خطي'
@@ -1109,7 +1110,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                     : _chartType == 'أعمدة'
                         ? Icons.bar_chart
                         : Icons.pie_chart,
-                color: const Color(0xFFFFA726),
+                color: context.sahara.chartOrange,
                 size: 16),
             const SizedBox(width: 6),
             Text(_chartType,
@@ -1146,7 +1147,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                         children: [
                       Text(label,
                           style: GoogleFonts.cairo(
-                              color: Colors.grey[500], fontSize: 9)),
+                              color: context.sahara.hintText, fontSize: 9)),
                       Text(value,
                           style: GoogleFonts.cairo(
                               color: Colors.white,
@@ -1157,8 +1158,8 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                   Text(change,
                       style: GoogleFonts.cairo(
                           color: change.startsWith('+')
-                              ? const Color(0xFF10B981)
-                              : const Color(0xFFEF5350),
+                              ? context.sahara.chartGreen
+                              : context.sahara.chartRed,
                           fontSize: 9,
                           fontWeight: FontWeight.bold)),
               ])));
@@ -1168,7 +1169,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
       decoration: BoxDecoration(
           color: Theme.of(context).extension<SaharaColors>()!.sidebar,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: const Color(0xFF2D3748))),
+          border: Border.all(color: context.sahara.statBorder)),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text(title,
             style: GoogleFonts.cairo(
@@ -1196,8 +1197,8 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                 Text(change,
                     style: GoogleFonts.cairo(
                         color: change.startsWith('+')
-                            ? const Color(0xFF10B981)
-                            : const Color(0xFFEF5350),
+                            ? context.sahara.chartGreen
+                            : context.sahara.chartRed,
                         fontSize: 11,
                         fontWeight: FontWeight.bold))
             ]),
@@ -1209,7 +1210,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                     fontSize: 18)),
             Text(title,
                 style:
-                    GoogleFonts.cairo(color: Colors.grey[500], fontSize: 11)),
+                    GoogleFonts.cairo(color: context.sahara.hintText, fontSize: 11)),
           ]));
 
   Widget _compareCard(String title, String value, String unit, Color color) =>
@@ -1229,7 +1230,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                     fontSize: 22)),
             Text(unit,
                 style:
-                    GoogleFonts.cairo(color: Colors.grey[500], fontSize: 11)),
+                    GoogleFonts.cairo(color: context.sahara.hintText, fontSize: 11)),
           ]));
 
   Widget _legendDot(String label, Color color) => Row(children: [
@@ -1240,6 +1241,6 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                 color: color, borderRadius: BorderRadius.circular(3))),
         const SizedBox(width: 6),
         Text(label,
-            style: GoogleFonts.cairo(color: Colors.grey[500], fontSize: 10))
+            style: GoogleFonts.cairo(color: context.sahara.hintText, fontSize: 10))
       ]);
 }

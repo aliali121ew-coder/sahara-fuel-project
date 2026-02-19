@@ -268,7 +268,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 16, vertical: 10),
                             decoration: BoxDecoration(
-                              color: const Color(0xFF8B5CF6),
+                              color: context.sahara.chartPurple,
                               borderRadius: BorderRadius.circular(10),
                               boxShadow: [
                                 BoxShadow(
@@ -294,7 +294,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                         const SizedBox(width: 12),
                         Container(
                           decoration: BoxDecoration(
-                            color: const Color(0xFF2D3748),
+                            color: context.sahara.statBorder,
                             borderRadius: BorderRadius.circular(10),
                             boxShadow: [
                               BoxShadow(
@@ -307,7 +307,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                             offset: const Offset(0, 45),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12)),
-                            color: const Color(0xFF2D3748),
+                            color: context.sahara.statBorder,
                             elevation: 4,
                             onSelected: (value) {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -325,7 +325,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                                           style: GoogleFonts.cairo()),
                                     ],
                                   ),
-                                  backgroundColor: const Color(0xFF32363F),
+                                  backgroundColor: context.sahara.inputBg,
                                   behavior: SnackBarBehavior.floating,
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10)),
@@ -340,12 +340,12 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                                     Container(
                                       padding: const EdgeInsets.all(6),
                                       decoration: BoxDecoration(
-                                          color: const Color(0xFFE53935)
+                                          color: context.sahara.chartRed
                                               .withValues(alpha: 0.1),
                                           borderRadius:
                                               BorderRadius.circular(6)),
-                                      child: const Icon(Icons.picture_as_pdf,
-                                          color: Color(0xFFE53935), size: 18),
+                                      child: Icon(Icons.picture_as_pdf,
+                                          color: context.sahara.chartRed, size: 18),
                                     ),
                                     const SizedBox(width: 12),
                                     Text('ملف PDF',
@@ -362,12 +362,12 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                                     Container(
                                       padding: const EdgeInsets.all(6),
                                       decoration: BoxDecoration(
-                                          color: const Color(0xFF2E7D32)
+                                          color: context.sahara.chartGreen
                                               .withValues(alpha: 0.1),
                                           borderRadius:
                                               BorderRadius.circular(6)),
-                                      child: const Icon(Icons.table_chart,
-                                          color: Color(0xFF2E7D32), size: 18),
+                                      child: Icon(Icons.table_chart,
+                                          color: context.sahara.chartGreen, size: 18),
                                     ),
                                     const SizedBox(width: 12),
                                     Text('ملف Excel',
@@ -392,7 +392,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                                           fontWeight: FontWeight.bold)),
                                   const SizedBox(width: 6),
                                   Icon(Icons.keyboard_arrow_down,
-                                      color: Colors.grey[400], size: 16),
+                                      color: context.sahara.subtleText, size: 16),
                                 ],
                               ),
                             ),
@@ -437,7 +437,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                           ''),
                       const SizedBox(width: 16),
                       _statCard('عدد الموردين', '$dashSuppliers',
-                          Icons.business, const Color(0xFF8B5CF6), ''),
+                          Icons.business, context.sahara.chartPurple, ''),
                     ],
                   );
                 }),
@@ -454,9 +454,9 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                         height: 340,
                         padding: const EdgeInsets.all(24),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF1E2127),
+                          color: context.sahara.dialogHeader,
                           borderRadius: BorderRadius.circular(16),
-                          border: Border.all(color: const Color(0xFF2D3748)),
+                          border: Border.all(color: context.sahara.statBorder),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -496,10 +496,10 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                             height: 200,
                             padding: const EdgeInsets.all(20),
                             decoration: BoxDecoration(
-                              color: const Color(0xFF1E2127),
+                              color: context.sahara.dialogHeader,
                               borderRadius: BorderRadius.circular(16),
                               border:
-                                  Border.all(color: const Color(0xFF2D3748)),
+                                  Border.all(color: context.sahara.statBorder),
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -516,7 +516,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                                     Text('انقر للتفاصيل',
                                         style: GoogleFonts.cairo(
                                             fontSize: 10,
-                                            color: Colors.grey[500])),
+                                            color: context.sahara.hintText)),
                                   ],
                                 ),
                                 const SizedBox(height: 12),
@@ -530,10 +530,10 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                             height: 124,
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
-                              color: const Color(0xFF1E2127),
+                              color: context.sahara.dialogHeader,
                               borderRadius: BorderRadius.circular(16),
                               border:
-                                  Border.all(color: const Color(0xFF2D3748)),
+                                  Border.all(color: context.sahara.statBorder),
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -558,9 +558,9 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                 // Advanced Table
                 Container(
                   decoration: BoxDecoration(
-                    color: const Color(0xFF1E2127),
+                    color: context.sahara.dialogHeader,
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: const Color(0xFF2D3748)),
+                    border: Border.all(color: context.sahara.statBorder),
                   ),
                   child: Column(
                     children: [
@@ -573,7 +573,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                               child: Container(
                                 height: 48,
                                 decoration: BoxDecoration(
-                                    color: const Color(0xFF2D3748),
+                                    color: context.sahara.statBorder,
                                     borderRadius: BorderRadius.circular(10)),
                                 child: TextField(
                                   onChanged: (v) =>
@@ -583,9 +583,9 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                                   decoration: InputDecoration(
                                     hintText: 'بحث في جميع الأعمدة...',
                                     hintStyle: GoogleFonts.cairo(
-                                        color: Colors.grey[600], fontSize: 14),
+                                        color: context.sahara.hintText, fontSize: 14),
                                     prefixIcon: Icon(Icons.search,
-                                        color: Colors.grey[600], size: 22),
+                                        color: context.sahara.hintText, size: 22),
                                     border: InputBorder.none,
                                     contentPadding: const EdgeInsets.symmetric(
                                         horizontal: 16, vertical: 14),
@@ -607,7 +607,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                                 height: 48,
                                 width: 48,
                                 decoration: BoxDecoration(
-                                    color: const Color(0xFF2D3748),
+                                    color: context.sahara.statBorder,
                                     borderRadius: BorderRadius.circular(10)),
                                 child: const Icon(Icons.refresh,
                                     color: Colors.white, size: 22),
@@ -620,7 +620,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 16),
                               decoration: BoxDecoration(
-                                  color: const Color(0xFF2D3748),
+                                  color: context.sahara.statBorder,
                                   borderRadius: BorderRadius.circular(10)),
                               child: DropdownButtonHideUnderline(
                                 child: DropdownButton<String>(
@@ -631,19 +631,19 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                                   hint: Row(
                                     children: [
                                       Icon(Icons.filter_list,
-                                          color: Colors.grey[500], size: 18),
+                                          color: context.sahara.hintText, size: 18),
                                       const SizedBox(width: 8),
                                       Text('فلتر المورد',
                                           style: GoogleFonts.cairo(
-                                              color: Colors.grey[500],
+                                              color: context.sahara.hintText,
                                               fontSize: 13)),
                                     ],
                                   ),
-                                  dropdownColor: const Color(0xFF2D3748),
+                                  dropdownColor: context.sahara.statBorder,
                                   style: GoogleFonts.cairo(
                                       color: Colors.white, fontSize: 13),
                                   icon: Icon(Icons.keyboard_arrow_down,
-                                      color: Colors.grey[500]),
+                                      color: context.sahara.hintText),
                                   items: [
                                     DropdownMenuItem(
                                         value: '',
@@ -725,9 +725,9 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                         width: double.infinity,
                         margin: const EdgeInsets.fromLTRB(20, 0, 20, 20),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF252830),
+                          color: context.sahara.inputBg,
                           borderRadius: BorderRadius.circular(16),
-                          border: Border.all(color: const Color(0xFF2D3748)),
+                          border: Border.all(color: context.sahara.statBorder),
                         ),
                         child: Column(
                           children: [
@@ -737,7 +737,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                               padding: const EdgeInsets.symmetric(
                                   vertical: 16, horizontal: 8),
                               decoration: BoxDecoration(
-                                color: Color(0xFF1E2127),
+                                color: context.sahara.dialogHeader,
                                 borderRadius: BorderRadius.vertical(
                                     top: Radius.circular(16)),
                               ),
@@ -772,8 +772,8 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                                         return Container(
                                           width: double.infinity,
                                           color: isOdd
-                                              ? const Color(0xFF1E2127)
-                                              : const Color(0xFF252830),
+                                              ? context.sahara.dialogHeader
+                                              : context.sahara.inputBg,
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 14, horizontal: 8),
                                           child: Row(
@@ -804,7 +804,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                                 child: Text(
                                     'إجمالي: ${_filteredData.length} سجل',
                                     style: GoogleFonts.cairo(
-                                        color: Colors.grey[500],
+                                        color: context.sahara.hintText,
                                         fontSize: 13))),
                             Flexible(
                               child: Row(
@@ -812,7 +812,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                                 children: [
                                   Text('الكمية: ',
                                       style: GoogleFonts.cairo(
-                                          color: Colors.grey[500],
+                                          color: context.sahara.hintText,
                                           fontSize: 12)),
                                   Text('${_formatNumber(totalQuantity)} لتر',
                                       style: GoogleFonts.cairo(
@@ -873,7 +873,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                           ? Icons.arrow_upward
                           : Icons.arrow_downward)
                       : Icons.unfold_more,
-                  color: isActive ? Theme.of(context).colorScheme.primary : Colors.grey[600],
+                  color: isActive ? Theme.of(context).colorScheme.primary : context.sahara.hintText,
                   size: 16,
                 ),
               ],
@@ -886,7 +886,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
               height: 32,
               padding: const EdgeInsets.symmetric(horizontal: 8),
               decoration: BoxDecoration(
-                  color: const Color(0xFF2D3748),
+                  color: context.sahara.statBorder,
                   borderRadius: BorderRadius.circular(6)),
               child: DropdownButtonHideUnderline(
                 child: DropdownButton<String>(
@@ -895,12 +895,12 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                       : _columnFilters[key],
                   hint: Text('الكل',
                       style: GoogleFonts.cairo(
-                          color: Colors.grey[500], fontSize: 11)),
+                          color: context.sahara.hintText, fontSize: 11)),
                   isExpanded: true,
-                  dropdownColor: const Color(0xFF2D3748),
+                  dropdownColor: context.sahara.statBorder,
                   style: GoogleFonts.cairo(color: Colors.white, fontSize: 11),
                   icon: Icon(Icons.keyboard_arrow_down,
-                      color: Colors.grey[600], size: 16),
+                      color: context.sahara.hintText, size: 16),
                   items: [
                     DropdownMenuItem(
                         value: '',
@@ -926,7 +926,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
   Widget _buildDataCell(Map<String, dynamic> data, String key) {
     final value = data[key];
     String displayValue;
-    Color textColor = Colors.grey[300]!;
+    Color textColor = context.sahara.subtleText!;
     FontWeight fontWeight = FontWeight.normal;
 
     if (value is int) {
@@ -936,7 +936,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
         fontWeight = FontWeight.bold;
       } else if (key == 'cost') {
         displayValue = value > 0 ? _formatNumber(value) : '-';
-        textColor = value > 0 ? const Color(0xFFF59E0B) : Colors.grey[500]!;
+        textColor = value > 0 ? const Color(0xFFF59E0B) : context.sahara.hintText!;
         fontWeight = value > 0 ? FontWeight.bold : FontWeight.normal;
       } else if (key == 'price') {
         displayValue = value > 0 ? '$value' : '-';
@@ -945,7 +945,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
       }
     } else {
       displayValue = value.toString().isNotEmpty ? value.toString() : '-';
-      if (displayValue == '-') textColor = Colors.grey[600]!;
+      if (displayValue == '-') textColor = context.sahara.hintText!;
     }
 
     // Special styling for color column
@@ -1021,7 +1021,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                               ? Icons.arrow_upward
                               : Icons.arrow_downward)
                           : Icons.sort,
-                      color: isActive ? Theme.of(context).colorScheme.primary : Colors.grey[600],
+                      color: isActive ? Theme.of(context).colorScheme.primary : context.sahara.hintText,
                       size: 12,
                     ),
                   ],
@@ -1036,7 +1036,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                 ? Container(
                     padding: const EdgeInsets.symmetric(horizontal: 6),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF2D3748),
+                      color: context.sahara.statBorder,
                       borderRadius: BorderRadius.circular(6),
                       border: _columnFilters[key]?.isNotEmpty == true
                           ? Border.all(
@@ -1053,31 +1053,31 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(Icons.filter_alt_outlined,
-                                color: Colors.grey[600], size: 11),
+                                color: context.sahara.hintText, size: 11),
                             const SizedBox(width: 3),
                             Text('الكل',
                                 style: GoogleFonts.cairo(
-                                    color: Colors.grey[500], fontSize: 10)),
+                                    color: context.sahara.hintText, fontSize: 10)),
                           ],
                         ),
                         isExpanded: true,
-                        dropdownColor: const Color(0xFF2D3748),
+                        dropdownColor: context.sahara.statBorder,
                         style: GoogleFonts.cairo(
                             color: Colors.white, fontSize: 10),
                         icon: Icon(Icons.keyboard_arrow_down,
-                            color: Colors.grey[600], size: 12),
+                            color: context.sahara.hintText, size: 12),
                         items: [
                           DropdownMenuItem(
                               value: '',
                               child: Row(
                                 children: [
                                   Icon(Icons.clear_all,
-                                      color: Colors.grey[500], size: 12),
+                                      color: context.sahara.hintText, size: 12),
                                   const SizedBox(width: 6),
                                   Text('إظهار الكل',
                                       style: GoogleFonts.cairo(
                                           fontSize: 10,
-                                          color: Colors.grey[400])),
+                                          color: context.sahara.subtleText)),
                                 ],
                               )),
                           ...uniqueValues.map((v) => DropdownMenuItem(
@@ -1095,7 +1095,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                 : Center(
                     child: Text('-',
                         style: GoogleFonts.cairo(
-                            color: Colors.grey[700], fontSize: 10)),
+                            color: Theme.of(context).colorScheme.onSurfaceVariant, fontSize: 10)),
                   ),
           ),
         ],
@@ -1106,7 +1106,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
   Widget _buildProDataCell(Map<String, dynamic> data, String key) {
     final value = data[key];
     String displayValue;
-    Color textColor = Colors.grey[300]!;
+    Color textColor = context.sahara.subtleText!;
     FontWeight fontWeight = FontWeight.normal;
 
     if (value is int) {
@@ -1116,18 +1116,18 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
         fontWeight = FontWeight.bold;
       } else if (key == 'cost') {
         displayValue = value > 0 ? '${_formatNumber(value)} د.ع' : '-';
-        textColor = value > 0 ? const Color(0xFFF59E0B) : Colors.grey[600]!;
+        textColor = value > 0 ? const Color(0xFFF59E0B) : context.sahara.hintText!;
         fontWeight = value > 0 ? FontWeight.bold : FontWeight.normal;
       } else if (key == 'price') {
         displayValue = value > 0 ? '$value' : '-';
-        textColor = value > 0 ? const Color(0xFF3B82F6) : Colors.grey[600]!;
+        textColor = value > 0 ? const Color(0xFF3B82F6) : context.sahara.hintText!;
       } else {
         displayValue = value.toString();
       }
     } else {
       displayValue = value?.toString() ?? '-';
       if (displayValue.isEmpty) displayValue = '-';
-      if (displayValue == '-') textColor = Colors.grey[600]!;
+      if (displayValue == '-') textColor = context.sahara.hintText!;
     }
 
     // Special styling for color column
@@ -1174,7 +1174,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setDialogState) => Dialog(
-          backgroundColor: const Color(0xFF1E2127),
+          backgroundColor: context.sahara.dialogHeader,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           child: Container(
@@ -1193,8 +1193,8 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                             fontWeight: FontWeight.bold,
                             color: Colors.white)),
                     IconButton(
-                        icon: const Icon(Icons.close,
-                            color: Colors.grey, size: 20),
+                        icon: Icon(Icons.close,
+                            color: Theme.of(context).colorScheme.onSurfaceVariant, size: 20),
                         onPressed: () => Navigator.pop(context)),
                   ],
                 ),
@@ -1202,9 +1202,9 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                 // Manual date search field
                 Container(
                   decoration: BoxDecoration(
-                    color: const Color(0xFF252830),
+                    color: context.sahara.inputBg,
                     borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: const Color(0xFF2D3748)),
+                    border: Border.all(color: context.sahara.statBorder),
                   ),
                   child: TextField(
                     controller: searchController,
@@ -1213,9 +1213,9 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                     decoration: InputDecoration(
                       hintText: 'ابحث عن تاريخ (مثال: 1/24/2026)',
                       hintStyle: GoogleFonts.cairo(
-                          color: Colors.grey[600], fontSize: 12),
-                      prefixIcon: const Icon(Icons.search,
-                          color: Colors.grey, size: 20),
+                          color: context.sahara.hintText, fontSize: 12),
+                      prefixIcon: Icon(Icons.search,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant, size: 20),
                       border: InputBorder.none,
                       contentPadding: const EdgeInsets.symmetric(
                           horizontal: 12, vertical: 12),
@@ -1260,12 +1260,12 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                           decoration: BoxDecoration(
                             color: _selectedDate == date
                                 ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.2)
-                                : const Color(0xFF252830),
+                                : context.sahara.inputBg,
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(
                                 color: _selectedDate == date
                                     ? Theme.of(context).colorScheme.primary
-                                    : const Color(0xFF2D3748)),
+                                    : context.sahara.statBorder),
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1301,9 +1301,9 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
       child: Container(
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: const Color(0xFF1E2127),
+          color: context.sahara.dialogHeader,
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: const Color(0xFF2D3748)),
+          border: Border.all(color: context.sahara.statBorder),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1324,16 +1324,16 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
-                        color: const Color(0xFF10B981).withValues(alpha: 0.15),
+                        color: context.sahara.chartGreen.withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(6)),
                     child: Row(
                       children: [
                         Icon(Icons.trending_up,
-                            color: const Color(0xFF10B981), size: 12),
+                            color: context.sahara.chartGreen, size: 12),
                         const SizedBox(width: 4),
                         Text(change,
                             style: GoogleFonts.cairo(
-                                color: const Color(0xFF10B981),
+                                color: context.sahara.chartGreen,
                                 fontSize: 11,
                                 fontWeight: FontWeight.bold)),
                       ],
@@ -1350,7 +1350,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
             const SizedBox(height: 4),
             Text(title,
                 style:
-                    GoogleFonts.cairo(fontSize: 12, color: Colors.grey[500])),
+                    GoogleFonts.cairo(fontSize: 12, color: context.sahara.hintText)),
           ],
         ),
       ),
@@ -1371,7 +1371,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
     final colors = [
       Theme.of(context).colorScheme.primary,
       const Color(0xFFF59E0B),
-      const Color(0xFF8B5CF6),
+      context.sahara.chartPurple,
       const Color(0xFF3B82F6),
       const Color(0xFFEC4899)
     ];
@@ -1440,7 +1440,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                                 fontWeight: FontWeight.bold)),
                         Text(' لتر',
                             style: GoogleFonts.cairo(
-                                color: Colors.grey[500], fontSize: 11)),
+                                color: context.sahara.hintText, fontSize: 11)),
                       ],
                     ),
                   ],
@@ -1452,7 +1452,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                       height: 8,
                       width: double.infinity,
                       decoration: BoxDecoration(
-                          color: const Color(0xFF2D3748),
+                          color: context.sahara.statBorder,
                           borderRadius: BorderRadius.circular(4)),
                     ),
                     AnimatedContainer(
@@ -1498,7 +1498,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: const Color(0xFF252830),
+            color: context.sahara.inputBg,
             borderRadius: BorderRadius.circular(10),
           ),
           child: Row(
@@ -1523,7 +1523,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
   Widget _chartStat(String label, String value, IconData icon) {
     return Row(
       children: [
-        Icon(icon, color: Colors.grey[500], size: 18),
+        Icon(icon, color: context.sahara.hintText, size: 18),
         const SizedBox(width: 8),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1535,7 +1535,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                     fontWeight: FontWeight.bold)),
             Text(label,
                 style:
-                    GoogleFonts.cairo(color: Colors.grey[500], fontSize: 10)),
+                    GoogleFonts.cairo(color: context.sahara.hintText, fontSize: 10)),
           ],
         ),
       ],
@@ -1552,7 +1552,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                 color: color, borderRadius: BorderRadius.circular(2))),
         const SizedBox(width: 6),
         Text(label,
-            style: GoogleFonts.cairo(color: Colors.grey[400], fontSize: 11)),
+            style: GoogleFonts.cairo(color: context.sahara.subtleText, fontSize: 11)),
       ],
     );
   }
@@ -1563,7 +1563,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
     if (data.isEmpty) {
       return Center(
           child: Text('لا توجد بيانات لهذا التاريخ',
-              style: GoogleFonts.cairo(color: Colors.grey[500], fontSize: 14)));
+              style: GoogleFonts.cairo(color: context.sahara.hintText, fontSize: 14)));
     }
 
     // Group by supplier and calculate totals
@@ -1609,7 +1609,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
           drawVerticalLine: false,
           horizontalInterval: maxQuantity > 0 ? maxQuantity / 4 : 1000,
           getDrawingHorizontalLine: (value) =>
-              FlLine(color: const Color(0xFF2D3748), strokeWidth: 1),
+              FlLine(color: context.sahara.statBorder, strokeWidth: 1),
         ),
         titlesData: FlTitlesData(
           bottomTitles: AxisTitles(
@@ -1626,7 +1626,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                     padding: const EdgeInsets.only(top: 8),
                     child: Text(name,
                         style: GoogleFonts.cairo(
-                            color: Colors.grey[600], fontSize: 9),
+                            color: context.sahara.hintText, fontSize: 9),
                         textAlign: TextAlign.center),
                   );
                 }
@@ -1683,7 +1683,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
         lineTouchData: LineTouchData(
           touchTooltipData: LineTouchTooltipData(
             maxContentWidth: 200,
-            getTooltipColor: (touchedSpot) => const Color(0xFF252830),
+            getTooltipColor: (touchedSpot) => context.sahara.inputBg,
             tooltipRoundedRadius: 12,
             getTooltipItems: (spots) {
               return spots.map((spot) {
@@ -1722,13 +1722,13 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
     if (totals.isEmpty) {
       return Center(
           child: Text('لا توجد بيانات',
-              style: GoogleFonts.cairo(color: Colors.grey[500], fontSize: 12)));
+              style: GoogleFonts.cairo(color: context.sahara.hintText, fontSize: 12)));
     }
 
     final colors = [
       Theme.of(context).colorScheme.primary,
       const Color(0xFFF59E0B),
-      const Color(0xFF8B5CF6),
+      context.sahara.chartPurple,
       const Color(0xFF3B82F6)
     ];
     final total = totals.values.fold<int>(0, (a, b) => a + b);
@@ -1795,7 +1795,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                       Expanded(
                           child: Text(entry.value.key,
                               style: GoogleFonts.cairo(
-                                  color: Colors.grey[300], fontSize: 10),
+                                  color: context.sahara.subtleText, fontSize: 10),
                               overflow: TextOverflow.ellipsis)),
                       Text('$percent%',
                           style: GoogleFonts.cairo(
@@ -1830,7 +1830,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
     showDialog(
       context: context,
       builder: (context) => Dialog(
-        backgroundColor: const Color(0xFF1E2127),
+        backgroundColor: context.sahara.dialogHeader,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         child: Container(
           width: 600,
@@ -1845,7 +1845,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                   gradient: LinearGradient(
                     colors: [
                       Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
-                      const Color(0xFF1E2127)
+                      context.sahara.dialogHeader
                     ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
@@ -1876,7 +1876,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                                   color: Colors.white)),
                           Text('تفاصيل الشحنات الواردة',
                               style: GoogleFonts.cairo(
-                                  fontSize: 12, color: Colors.grey[400])),
+                                  fontSize: 12, color: context.sahara.subtleText)),
                         ],
                       ),
                     ),
@@ -1884,7 +1884,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                       icon: Container(
                         padding: const EdgeInsets.all(6),
                         decoration: BoxDecoration(
-                            color: Colors.grey[800], shape: BoxShape.circle),
+                            color: Theme.of(context).colorScheme.onSurface, shape: BoxShape.circle),
                         child: const Icon(Icons.close,
                             color: Colors.white, size: 18),
                       ),
@@ -1926,7 +1926,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                     Row(
                       children: [
                         Icon(Icons.table_chart,
-                            color: Colors.grey[500], size: 18),
+                            color: context.sahara.hintText, size: 18),
                         const SizedBox(width: 8),
                         Text('جدول الشحنات',
                             style: GoogleFonts.cairo(
@@ -1939,9 +1939,9 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                     Container(
                       constraints: const BoxConstraints(maxHeight: 220),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF252830),
+                        color: context.sahara.inputBg,
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: const Color(0xFF2D3748)),
+                        border: Border.all(color: context.sahara.statBorder),
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(12),
@@ -1949,14 +1949,14 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                           child: Table(
                             border: TableBorder(
                               horizontalInside: BorderSide(
-                                  color: const Color(0xFF2D3748)
+                                  color: context.sahara.statBorder
                                       .withValues(alpha: 0.5),
                                   width: 0.5),
                             ),
                             children: [
                               TableRow(
                                 decoration:
-                                    BoxDecoration(color: Color(0xFF1E2127)),
+                                    BoxDecoration(color: context.sahara.dialogHeader),
                                 children: [
                                   'التاريخ',
                                   'الكمية',
@@ -1981,8 +1981,8 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                                 return TableRow(
                                   decoration: BoxDecoration(
                                       color: isOdd
-                                          ? const Color(0xFF1E2127)
-                                          : const Color(0xFF252830)),
+                                          ? context.sahara.dialogHeader
+                                          : context.sahara.inputBg),
                                   children: [
                                     Padding(
                                         padding: const EdgeInsets.symmetric(
@@ -2016,7 +2016,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                                         child: Text(
                                             d['density']?.toString() ?? '-',
                                             style: GoogleFonts.cairo(
-                                                color: Colors.grey[400],
+                                                color: context.sahara.subtleText,
                                                 fontSize: 12),
                                             textAlign: TextAlign.center)),
                                   ],
@@ -2058,7 +2058,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                     fontWeight: FontWeight.bold)),
             Text(label,
                 style:
-                    GoogleFonts.cairo(color: Colors.grey[500], fontSize: 11)),
+                    GoogleFonts.cairo(color: context.sahara.hintText, fontSize: 11)),
           ],
         ),
       ),
@@ -2076,7 +2076,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                 fontSize: 13,
                 fontWeight: FontWeight.bold)),
         Text(label,
-            style: GoogleFonts.cairo(color: Colors.grey[500], fontSize: 10)),
+            style: GoogleFonts.cairo(color: context.sahara.hintText, fontSize: 10)),
       ],
     );
   }
@@ -2091,7 +2091,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
     final colors = [
       Theme.of(context).colorScheme.primary,
       const Color(0xFFF59E0B),
-      const Color(0xFF8B5CF6),
+      context.sahara.chartPurple,
       const Color(0xFF3B82F6)
     ];
 
@@ -2157,7 +2157,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
     final colors = [
       Theme.of(context).colorScheme.primary,
       const Color(0xFFF59E0B),
-      const Color(0xFF8B5CF6),
+      context.sahara.chartPurple,
       const Color(0xFF3B82F6)
     ];
 
@@ -2225,7 +2225,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
-          backgroundColor: const Color(0xFF1E2127),
+          backgroundColor: context.sahara.dialogHeader,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: Row(
@@ -2233,11 +2233,11 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF8B5CF6).withValues(alpha: 0.2),
+                  color: context.sahara.chartPurple.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child:
-                    const Icon(Icons.lock, color: Color(0xFF8B5CF6), size: 24),
+                    Icon(Icons.lock, color: context.sahara.chartPurple, size: 24),
               ),
               const SizedBox(width: 12),
               Text('صلاحية الدخول',
@@ -2259,9 +2259,9 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                     labelText: 'اسم المستخدم',
                     labelStyle: GoogleFonts.cairo(color: Colors.white70),
                     prefixIcon:
-                        const Icon(Icons.person, color: Color(0xFF8B5CF6)),
+                        Icon(Icons.person, color: context.sahara.chartPurple),
                     filled: true,
-                    fillColor: const Color(0xFF252830),
+                    fillColor: context.sahara.inputBg,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide.none,
@@ -2274,7 +2274,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide:
-                          const BorderSide(color: Color(0xFF8B5CF6), width: 2),
+                          BorderSide(color: context.sahara.chartPurple, width: 2),
                     ),
                   ),
                 ),
@@ -2287,7 +2287,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                     labelText: 'كلمة المرور',
                     labelStyle: GoogleFonts.cairo(color: Colors.white70),
                     prefixIcon:
-                        const Icon(Icons.vpn_key, color: Color(0xFF8B5CF6)),
+                        Icon(Icons.vpn_key, color: context.sahara.chartPurple),
                     suffixIcon: IconButton(
                       icon: Icon(
                         obscurePassword
@@ -2302,7 +2302,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                       },
                     ),
                     filled: true,
-                    fillColor: const Color(0xFF252830),
+                    fillColor: context.sahara.inputBg,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide.none,
@@ -2315,7 +2315,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide:
-                          const BorderSide(color: Color(0xFF8B5CF6), width: 2),
+                          BorderSide(color: context.sahara.chartPurple, width: 2),
                     ),
                   ),
                 ),
@@ -2346,7 +2346,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF8B5CF6),
+                backgroundColor: context.sahara.chartPurple,
                 foregroundColor: Colors.white,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
@@ -2369,7 +2369,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setDialogState) => Dialog(
-          backgroundColor: const Color(0xFF1E2127),
+          backgroundColor: context.sahara.dialogHeader,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           child: Container(
@@ -2383,11 +2383,11 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                     Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF8B5CF6).withValues(alpha: 0.2),
+                        color: context.sahara.chartPurple.withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: const Icon(Icons.storage,
-                          color: Color(0xFF8B5CF6), size: 24),
+                      child: Icon(Icons.storage,
+                          color: context.sahara.chartPurple, size: 24),
                     ),
                     const SizedBox(width: 12),
                     Expanded(
@@ -2433,7 +2433,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
 
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF252830),
+        color: context.sahara.inputBg,
         borderRadius: BorderRadius.circular(15),
         border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
       ),
@@ -2442,14 +2442,14 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: const Color(0xFF1E2127),
+              color: context.sahara.dialogHeader,
               borderRadius:
                   const BorderRadius.vertical(top: Radius.circular(15)),
             ),
             child: Row(
               children: [
-                const Icon(Icons.filter_alt,
-                    color: Color(0xFF8B5CF6), size: 20),
+                Icon(Icons.filter_alt,
+                    color: context.sahara.chartPurple, size: 20),
                 const SizedBox(width: 8),
                 Text('الفلاتر',
                     style: GoogleFonts.cairo(
@@ -2483,7 +2483,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                   headingRowHeight: 100,
                   dataRowHeight: 55,
                   headingRowColor: WidgetStateProperty.all(
-                      const Color(0xFF8B5CF6).withValues(alpha: 0.15)),
+                      context.sahara.chartPurple.withValues(alpha: 0.15)),
                   columns: columns.map((col) {
                     return DataColumn(
                       label: SizedBox(
@@ -2521,7 +2521,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                                   hintStyle: GoogleFonts.cairo(
                                       color: Colors.white38, fontSize: 11),
                                   filled: true,
-                                  fillColor: const Color(0xFF252830),
+                                  fillColor: context.sahara.inputBg,
                                   contentPadding: const EdgeInsets.symmetric(
                                       horizontal: 8, vertical: 8),
                                   border: OutlineInputBorder(
@@ -2603,7 +2603,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
     showDialog(
       context: context,
       builder: (context) => Dialog(
-        backgroundColor: const Color(0xFF1E2127),
+        backgroundColor: context.sahara.dialogHeader,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         child: Container(
           width: MediaQuery.of(context).size.width * 0.95,
@@ -2644,7 +2644,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                       Container(
                         padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF252830),
+                          color: context.sahara.inputBg,
                           borderRadius: BorderRadius.circular(15),
                           border: Border.all(
                               color: Colors.white.withValues(alpha: 0.1)),
@@ -2771,7 +2771,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                       const SizedBox(height: 20),
                       Container(
                         decoration: BoxDecoration(
-                          color: const Color(0xFF252830),
+                          color: context.sahara.inputBg,
                           borderRadius: BorderRadius.circular(15),
                           border: Border.all(
                               color: Colors.white.withValues(alpha: 0.1)),
@@ -2821,7 +2821,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
         labelStyle: GoogleFonts.cairo(color: Colors.white70, fontSize: 13),
         prefixIcon: Icon(icon, color: Theme.of(context).colorScheme.primary, size: 20),
         filled: true,
-        fillColor: const Color(0xFF1E2127),
+        fillColor: context.sahara.dialogHeader,
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
         border: OutlineInputBorder(

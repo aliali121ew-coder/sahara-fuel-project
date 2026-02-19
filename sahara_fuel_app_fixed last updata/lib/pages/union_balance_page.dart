@@ -50,7 +50,7 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                Color(0xFF0D1B2A),
+                context.sahara.pageGradient[0],
                 Theme.of(context).extension<SaharaColors>()!.sidebar,
                 Color(0xFF0F2847)
               ])),
@@ -90,7 +90,7 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
                   fontWeight: FontWeight.bold,
                   color: Colors.white)),
           Text('إدارة ومتابعة التحويلات',
-              style: GoogleFonts.cairo(fontSize: 14, color: Colors.grey[500])),
+              style: GoogleFonts.cairo(fontSize: 14, color: context.sahara.hintText)),
         ]),
       ),
       _periodSelector(),
@@ -136,7 +136,7 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
                 const Color(0xFFF59E0B), Icons.arrow_upward, '+8%'),
             const SizedBox(width: 12),
             _card('صافي الحركة', fmt.format(totalIn - totalOut), 'لتر',
-                const Color(0xFF8B5CF6), Icons.swap_vert, ''),
+                context.sahara.chartPurple, Icons.swap_vert, ''),
           ]),
         ]);
       }
@@ -157,7 +157,7 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
             const Color(0xFFF59E0B), Icons.arrow_upward, '+8%'),
         const SizedBox(width: 16),
         _card('صافي الحركة', fmt.format(totalIn - totalOut), 'لتر',
-            const Color(0xFF8B5CF6), Icons.swap_vert, ''),
+            context.sahara.chartPurple, Icons.swap_vert, ''),
       ]);
     });
   }
@@ -223,14 +223,14 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
               decoration: BoxDecoration(
                   color: (change.startsWith('+')
-                          ? const Color(0xFF10B981)
+                          ? context.sahara.chartGreen
                           : const Color(0xFFEF4444))
                       .withOpacity(0.12),
                   borderRadius: BorderRadius.circular(8)),
               child: Text(change,
                   style: GoogleFonts.cairo(
                       color: change.startsWith('+')
-                          ? const Color(0xFF10B981)
+                          ? context.sahara.chartGreen
                           : const Color(0xFFEF4444),
                       fontSize: 11,
                       fontWeight: FontWeight.bold)),
@@ -238,7 +238,7 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
         ]),
         const SizedBox(height: 14),
         Text(title,
-            style: GoogleFonts.cairo(color: Colors.grey[500], fontSize: 12)),
+            style: GoogleFonts.cairo(color: context.sahara.hintText, fontSize: 12)),
         const SizedBox(height: 4),
         FittedBox(
           fit: BoxFit.scaleDown,
@@ -254,7 +254,7 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
                 padding: const EdgeInsets.only(bottom: 3),
                 child: Text(unit,
                     style: GoogleFonts.cairo(
-                        color: Colors.grey[600], fontSize: 12))),
+                        color: context.sahara.hintText, fontSize: 12))),
           ]),
         ),
       ]),
@@ -269,7 +269,7 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
       decoration: BoxDecoration(
           color: Theme.of(context).extension<SaharaColors>()!.sidebar,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: const Color(0xFF2D3748))),
+          border: Border.all(color: context.sahara.statBorder)),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Text(title,
@@ -313,7 +313,7 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
           drawVerticalLine: false,
           horizontalInterval: chartMax / 5,
           getDrawingHorizontalLine: (v) =>
-              FlLine(color: const Color(0xFF2D3748), strokeWidth: 0.5)),
+              FlLine(color: context.sahara.statBorder, strokeWidth: 0.5)),
       titlesData: FlTitlesData(
         bottomTitles: AxisTitles(
             sideTitles: SideTitles(
@@ -322,14 +322,14 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
                     padding: const EdgeInsets.only(top: 8),
                     child: Text(days[v.toInt() % 7],
                         style: GoogleFonts.cairo(
-                            color: Colors.grey[600], fontSize: 10))))),
+                            color: context.sahara.hintText, fontSize: 10))))),
         leftTitles: AxisTitles(
             sideTitles: SideTitles(
                 showTitles: true,
                 reservedSize: 45,
                 interval: chartMax / 5,
                 getTitlesWidget: (v, _) => Text(formatY(v),
-                    style: TextStyle(color: Colors.grey[600], fontSize: 9)))),
+                    style: TextStyle(color: context.sahara.hintText, fontSize: 9)))),
         topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
         rightTitles:
             const AxisTitles(sideTitles: SideTitles(showTitles: false)),
@@ -386,7 +386,7 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
     final colors = [
       Theme.of(context).colorScheme.primary,
       const Color(0xFFF59E0B),
-      const Color(0xFF8B5CF6),
+      context.sahara.chartPurple,
       const Color(0xFF3B82F6),
       const Color(0xFFEC4899),
       const Color(0xFFFF7043)
@@ -397,7 +397,7 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
     if (entries.isEmpty || total == 0) {
       return Center(
           child: Text('لا توجد تحويلات',
-              style: GoogleFonts.cairo(color: Colors.grey[600], fontSize: 14)));
+              style: GoogleFonts.cairo(color: context.sahara.hintText, fontSize: 14)));
     }
 
     return Column(children: [
@@ -431,7 +431,7 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
               Expanded(
                   child: Text(e.value.key,
                       style: GoogleFonts.cairo(
-                          color: Colors.grey[400], fontSize: 10),
+                          color: context.sahara.subtleText, fontSize: 10),
                       overflow: TextOverflow.ellipsis)),
               Text('${(e.value.value / total * 100).round()}%',
                   style: GoogleFonts.cairo(
@@ -450,7 +450,7 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
       decoration: BoxDecoration(
           color: Theme.of(context).extension<SaharaColors>()!.sidebar,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: const Color(0xFF2D3748))),
+          border: Border.all(color: context.sahara.statBorder)),
       child: Column(children: [
         Padding(
             padding: const EdgeInsets.all(20),
@@ -476,13 +476,13 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
                           border: Border.all(
                               color: _selectedFilter == f
                                   ? Theme.of(context).extension<SaharaColors>()!.cardOrange
-                                  : Colors.grey[700]!),
+                                  : Theme.of(context).colorScheme.onSurfaceVariant!),
                         ),
                         child: Text(f,
                             style: GoogleFonts.cairo(
                                 color: _selectedFilter == f
                                     ? Theme.of(context).extension<SaharaColors>()!.cardOrange
-                                    : Colors.grey[500],
+                                    : context.sahara.hintText,
                                 fontSize: 12,
                                 fontWeight: _selectedFilter == f
                                     ? FontWeight.bold
@@ -495,9 +495,9 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
         Container(
           padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
           decoration: BoxDecoration(
-              color: const Color(0xFF0D1B2A),
+              color: context.sahara.pageGradient[0],
               border: Border.symmetric(
-                  horizontal: BorderSide(color: Colors.grey[800]!))),
+                  horizontal: BorderSide(color: Theme.of(context).colorScheme.onSurface!))),
           child: Row(children: [
             _thCell('التاريخ', 2),
             _thCell('الوقت', 1),
@@ -516,7 +516,7 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
                 children: [
                   Text('إجمالي: ${filteredTx.length} عملية',
                       style: GoogleFonts.cairo(
-                          color: Colors.grey[600], fontSize: 12)),
+                          color: context.sahara.hintText, fontSize: 12)),
                   Text(
                       'المجموع: ${fmt.format(filteredTx.fold<double>(0, (s, t) => s + t.amount))} لتر',
                       style: GoogleFonts.cairo(
@@ -551,7 +551,7 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
                             style: GoogleFonts.cairo(
                                 color: _selectedPeriod == p
                                     ? Theme.of(context).extension<SaharaColors>()!.cardOrange
-                                    : Colors.grey[500],
+                                    : context.sahara.hintText,
                                 fontSize: 11,
                                 fontWeight: _selectedPeriod == p
                                     ? FontWeight.bold
@@ -565,19 +565,19 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
       flex: flex,
       child: Text(text,
           style: GoogleFonts.cairo(
-              color: Colors.grey[400],
+              color: context.sahara.subtleText,
               fontWeight: FontWeight.bold,
               fontSize: 12),
           textAlign: TextAlign.center));
 
   Widget _txRow(UnionTransaction t, int idx) {
     final isIn = t.type == 'استلام';
-    final tc = isIn ? const Color(0xFF10B981) : const Color(0xFFF59E0B);
+    final tc = isIn ? context.sahara.chartGreen : const Color(0xFFF59E0B);
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
       color: idx % 2 == 0
           ? Colors.transparent
-          : const Color(0xFF0D1B2A).withOpacity(0.3),
+          : context.sahara.pageGradient[0].withOpacity(0.3),
       child: Row(children: [
         Expanded(
             flex: 2,
@@ -587,7 +587,7 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
         Expanded(
             flex: 1,
             child: Text(t.time,
-                style: GoogleFonts.cairo(color: Colors.grey[500], fontSize: 11),
+                style: GoogleFonts.cairo(color: context.sahara.hintText, fontSize: 11),
                 textAlign: TextAlign.center)),
         Expanded(
             flex: 2,
@@ -617,7 +617,7 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
         Expanded(
             flex: 3,
             child: Text(t.target,
-                style: GoogleFonts.cairo(color: Colors.grey[400], fontSize: 12),
+                style: GoogleFonts.cairo(color: context.sahara.subtleText, fontSize: 12),
                 textAlign: TextAlign.center)),
         Expanded(
             flex: 2,
@@ -649,6 +649,6 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
                 color: c, borderRadius: BorderRadius.circular(3))),
         const SizedBox(width: 6),
         Text(label,
-            style: GoogleFonts.cairo(color: Colors.grey[500], fontSize: 11)),
+            style: GoogleFonts.cairo(color: context.sahara.hintText, fontSize: 11)),
       ]);
 }

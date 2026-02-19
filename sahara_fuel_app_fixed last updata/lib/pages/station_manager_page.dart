@@ -39,6 +39,7 @@ class _StationManagerPageState extends State<StationManagerPage>
   Widget build(BuildContext context) {
     return Consumer2<FuelProvider, ThemeProvider>(
         builder: (context, prov, themeProvider, _) {
+      final sahara = context.sahara;
       final fmt = NumberFormat('#,###');
       final stations = prov.stations;
       final totalConsumption =
@@ -71,7 +72,7 @@ class _StationManagerPageState extends State<StationManagerPage>
                                     color: Colors.white)),
                             Text('مراقبة وإدارة جميع المحطات',
                                 style: GoogleFonts.cairo(
-                                    fontSize: 13, color: Colors.grey[500])),
+                                    fontSize: 13, color: context.sahara.hintText)),
                           ]),
                       const Spacer(),
                       // فلتر المحطة
@@ -82,7 +83,7 @@ class _StationManagerPageState extends State<StationManagerPage>
                               color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                               borderRadius: BorderRadius.circular(10),
                               border:
-                                  Border.all(color: const Color(0xFF2D3748))),
+                                  Border.all(color: context.sahara.statBorder)),
                           child: DropdownButtonHideUnderline(
                               child: DropdownButton<String?>(
                             value: _selectedStation,
@@ -121,22 +122,22 @@ class _StationManagerPageState extends State<StationManagerPage>
                           'الاستهلاك اليومي',
                           '${fmt.format(totalConsumption)} لتر',
                           Icons.speed,
-                          const Color(0xFFFFA726)),
+                          context.sahara.chartOrange),
                       const SizedBox(width: 10),
                       _quickStat(
                           'الهدف الشهري',
                           '${fmt.format(totalTarget)} لتر',
                           Icons.flag,
-                          const Color(0xFF42A5F5)),
+                          context.sahara.chartBlue),
                       const SizedBox(width: 10),
                       _quickStat('المزارع', '$totalFarms', Icons.agriculture,
-                          const Color(0xFF10B981)),
+                          context.sahara.chartGreen),
                       const SizedBox(width: 10),
                       _quickStat(
                           'الكفاءة',
                           '${(totalConsumption * 30 / max(1, totalTarget) * 100).toStringAsFixed(0)}%',
                           Icons.trending_up,
-                          const Color(0xFF8B5CF6)),
+                          context.sahara.chartPurple),
                     ]),
                   ])),
               const SizedBox(height: 16),
@@ -149,7 +150,7 @@ class _StationManagerPageState extends State<StationManagerPage>
                     decoration: BoxDecoration(
                         color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                         borderRadius: BorderRadius.circular(14),
-                        border: Border.all(color: const Color(0xFF2D3748))),
+                        border: Border.all(color: context.sahara.statBorder)),
                     child: TabBar(
                         controller: _tabCtrl,
                         isScrollable: false,
@@ -160,7 +161,7 @@ class _StationManagerPageState extends State<StationManagerPage>
                             border: Border.all(
                                 color: Theme.of(context).colorScheme.primary.withOpacity(0.4))),
                         labelColor: Theme.of(context).colorScheme.primary,
-                        unselectedLabelColor: Colors.grey[500],
+                        unselectedLabelColor: context.sahara.hintText,
                         labelStyle: GoogleFonts.cairo(
                             fontWeight: FontWeight.bold, fontSize: 12),
                         tabs: const [
@@ -208,10 +209,10 @@ class _StationManagerPageState extends State<StationManagerPage>
         ? (s.dailyConsumption * 30 / s.monthlyTarget * 100).clamp(0, 150)
         : 0;
     final color = achievement > 90
-        ? const Color(0xFFEF5350)
+        ? context.sahara.chartRed
         : achievement > 70
-            ? const Color(0xFFFFA726)
-            : const Color(0xFF10B981);
+            ? context.sahara.chartOrange
+            : context.sahara.chartGreen;
     final coverageDays =
         s.dailyConsumption > 0 ? (s.balance / 1000 / s.dailyConsumption) : 999;
 
@@ -250,16 +251,16 @@ class _StationManagerPageState extends State<StationManagerPage>
                         width: 8,
                         height: 8,
                         decoration: BoxDecoration(
-                            color: const Color(0xFF10B981),
+                            color: context.sahara.chartGreen,
                             shape: BoxShape.circle)),
                     const SizedBox(width: 4),
                     Text('متصلة',
                         style: GoogleFonts.cairo(
-                            color: const Color(0xFF10B981), fontSize: 10)),
+                            color: context.sahara.chartGreen, fontSize: 10)),
                     const SizedBox(width: 10),
                     Text('${s.totalFarms} مزرعة',
                         style: GoogleFonts.cairo(
-                            color: Colors.grey[500], fontSize: 10)),
+                            color: context.sahara.hintText, fontSize: 10)),
                   ]),
                 ])),
             Container(
@@ -267,14 +268,14 @@ class _StationManagerPageState extends State<StationManagerPage>
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
                     color: s.change >= 0
-                        ? const Color(0xFF10B981).withOpacity(0.1)
-                        : const Color(0xFFEF5350).withOpacity(0.1),
+                        ? context.sahara.chartGreen.withOpacity(0.1)
+                        : context.sahara.chartRed.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(8)),
                 child: Text('${s.change >= 0 ? "+" : ""}${s.change}%',
                     style: GoogleFonts.cairo(
                         color: s.change >= 0
-                            ? const Color(0xFF10B981)
-                            : const Color(0xFFEF5350),
+                            ? context.sahara.chartGreen
+                            : context.sahara.chartRed,
                         fontSize: 11,
                         fontWeight: FontWeight.bold))),
           ]),
@@ -283,15 +284,15 @@ class _StationManagerPageState extends State<StationManagerPage>
           // إحصائيات
           Row(children: [
             _miniKPI('الرصيد', FuelProvider.formatNumber(s.balance),
-                const Color(0xFF42A5F5)),
+                context.sahara.chartBlue),
             _miniKPI('استهلاك/يوم', '${fmt.format(s.dailyConsumption)}',
-                const Color(0xFFFFA726)),
+                context.sahara.chartOrange),
             _miniKPI(
                 'التغطية',
                 '${coverageDays.toStringAsFixed(0)} يوم',
                 coverageDays < 5
-                    ? const Color(0xFFEF5350)
-                    : const Color(0xFF10B981)),
+                    ? context.sahara.chartRed
+                    : context.sahara.chartGreen),
           ]),
           const SizedBox(height: 12),
 
@@ -299,7 +300,7 @@ class _StationManagerPageState extends State<StationManagerPage>
           Row(children: [
             Text('الإنجاز الشهري',
                 style:
-                    GoogleFonts.cairo(color: Colors.grey[500], fontSize: 10)),
+                    GoogleFonts.cairo(color: context.sahara.hintText, fontSize: 10)),
             const Spacer(),
             Text('${achievement.toStringAsFixed(0)}%',
                 style: GoogleFonts.cairo(
@@ -310,7 +311,7 @@ class _StationManagerPageState extends State<StationManagerPage>
               borderRadius: BorderRadius.circular(4),
               child: LinearProgressIndicator(
                   value: (achievement / 100).clamp(0, 1).toDouble(),
-                  backgroundColor: Colors.grey[800],
+                  backgroundColor: Theme.of(context).colorScheme.onSurface,
                   color: color,
                   minHeight: 8)),
 
@@ -318,10 +319,10 @@ class _StationManagerPageState extends State<StationManagerPage>
           // التشغيل
           Row(children: [
             _opBadge('مولّد', '${s.generatorHours}h', Icons.electrical_services,
-                const Color(0xFFFFA726)),
+                context.sahara.chartOrange),
             const SizedBox(width: 8),
             _opBadge('تدفئة', '${s.heaterHours}h', Icons.thermostat,
-                const Color(0xFFEF5350)),
+                context.sahara.chartRed),
             const Spacer(),
             Container(
                 padding:
@@ -351,7 +352,7 @@ class _StationManagerPageState extends State<StationManagerPage>
               decoration: BoxDecoration(
                   color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: const Color(0xFF2D3748))),
+                  border: Border.all(color: context.sahara.statBorder)),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -384,7 +385,7 @@ class _StationManagerPageState extends State<StationManagerPage>
                                                     .name
                                                     .replaceAll('محطة ', ''),
                                                 style: GoogleFonts.cairo(
-                                                    color: Colors.grey[500],
+                                                    color: context.sahara.hintText,
                                                     fontSize: 8)));
                                       return const SizedBox();
                                     })),
@@ -395,7 +396,7 @@ class _StationManagerPageState extends State<StationManagerPage>
                                     getTitlesWidget: (v, m) => Text(
                                         fmt.format(v.toInt()),
                                         style: GoogleFonts.cairo(
-                                            color: Colors.grey[600],
+                                            color: context.sahara.hintText,
                                             fontSize: 9)))),
                           ),
                           borderData: FlBorderData(show: false),
@@ -414,7 +415,7 @@ class _StationManagerPageState extends State<StationManagerPage>
                                   BarChartRodData(
                                       toY: s.monthlyTarget / 30,
                                       width: 12,
-                                      color: Colors.grey[700]!,
+                                      color: Theme.of(context).colorScheme.onSurfaceVariant!,
                                       borderRadius: const BorderRadius.vertical(
                                           top: Radius.circular(4))),
                                 ]);
@@ -424,7 +425,7 @@ class _StationManagerPageState extends State<StationManagerPage>
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                       _legendDot('الاستهلاك الفعلي', Theme.of(context).colorScheme.primary),
                       const SizedBox(width: 20),
-                      _legendDot('الهدف اليومي', Colors.grey),
+                      _legendDot('الهدف اليومي', Theme.of(context).colorScheme.onSurfaceVariant),
                     ]),
                   ])),
           const SizedBox(height: 16),
@@ -434,12 +435,12 @@ class _StationManagerPageState extends State<StationManagerPage>
             decoration: BoxDecoration(
                 color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: const Color(0xFF2D3748))),
+                border: Border.all(color: context.sahara.statBorder)),
             child: Column(children: [
               Container(
                   padding: const EdgeInsets.all(14),
                   decoration: BoxDecoration(
-                      color: Color(0xFF1E2127),
+                      color: context.sahara.dialogHeader,
                       borderRadius:
                           BorderRadius.vertical(top: Radius.circular(16))),
                   child: Row(children: [
@@ -473,17 +474,17 @@ class _StationManagerPageState extends State<StationManagerPage>
                         ? '⭐⭐'
                         : '⭐';
                 final color = ach < 70
-                    ? const Color(0xFF10B981)
+                    ? context.sahara.chartGreen
                     : ach < 90
-                        ? const Color(0xFFFFA726)
-                        : const Color(0xFFEF5350);
+                        ? context.sahara.chartOrange
+                        : context.sahara.chartRed;
                 return Container(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
                     decoration: BoxDecoration(
                         border: Border(
                             bottom: BorderSide(
-                                color: Colors.grey[800]!, width: 0.5))),
+                                color: Theme.of(context).colorScheme.onSurface!, width: 0.5))),
                     child: Row(children: [
                       Expanded(
                           child: Row(
@@ -500,12 +501,12 @@ class _StationManagerPageState extends State<StationManagerPage>
                       Expanded(
                           child: Text(fmt.format(s.dailyConsumption),
                               style: GoogleFonts.cairo(
-                                  color: const Color(0xFFFFA726), fontSize: 10),
+                                  color: context.sahara.chartOrange, fontSize: 10),
                               textAlign: TextAlign.center)),
                       Expanded(
                           child: Text(fmt.format(s.monthlyTarget),
                               style: GoogleFonts.cairo(
-                                  color: Colors.grey[400], fontSize: 10),
+                                  color: context.sahara.subtleText, fontSize: 10),
                               textAlign: TextAlign.center)),
                       Expanded(
                           child: Text('${ach.toStringAsFixed(0)}%',
@@ -517,12 +518,12 @@ class _StationManagerPageState extends State<StationManagerPage>
                       Expanded(
                           child: Text('${s.totalFarms}',
                               style: GoogleFonts.cairo(
-                                  color: Colors.grey[400], fontSize: 10),
+                                  color: context.sahara.subtleText, fontSize: 10),
                               textAlign: TextAlign.center)),
                       Expanded(
                           child: Text('$eff لتر/h',
                               style: GoogleFonts.cairo(
-                                  color: Colors.grey[400], fontSize: 10),
+                                  color: context.sahara.subtleText, fontSize: 10),
                               textAlign: TextAlign.center)),
                       Expanded(
                           child: Text(rating,
@@ -551,7 +552,7 @@ class _StationManagerPageState extends State<StationManagerPage>
                     'ساعات المولدات',
                     '$totalGen ساعة',
                     Icons.electrical_services,
-                    const Color(0xFFFFA726),
+                    context.sahara.chartOrange,
                     '${stations.length} محطة')),
             const SizedBox(width: 12),
             Expanded(
@@ -559,7 +560,7 @@ class _StationManagerPageState extends State<StationManagerPage>
                     'ساعات التدفئة',
                     '$totalHeat ساعة',
                     Icons.thermostat,
-                    const Color(0xFFEF5350),
+                    context.sahara.chartRed,
                     '${stations.where((s) => s.heaterHours > 0).length} محطة')),
             const SizedBox(width: 12),
             Expanded(
@@ -567,7 +568,7 @@ class _StationManagerPageState extends State<StationManagerPage>
                     'معدل التشغيل',
                     '${totalGen > 0 ? ((totalGen / (stations.length * 168)) * 100).toStringAsFixed(0) : 0}%',
                     Icons.speed,
-                    const Color(0xFF42A5F5),
+                    context.sahara.chartBlue,
                     'من إجمالي الأسبوع')),
             const SizedBox(width: 12),
             Expanded(
@@ -575,7 +576,7 @@ class _StationManagerPageState extends State<StationManagerPage>
                     'كفاءة الوقود',
                     '${prov.todayOutgoing > 0 ? (prov.todayOutgoing / max(1, totalGen)).toStringAsFixed(0) : 0} لتر/h',
                     Icons.eco,
-                    const Color(0xFF10B981),
+                    context.sahara.chartGreen,
                     'معدل الاستهلاك')),
           ]),
           const SizedBox(height: 16),
@@ -586,7 +587,7 @@ class _StationManagerPageState extends State<StationManagerPage>
               decoration: BoxDecoration(
                   color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: const Color(0xFF2D3748))),
+                  border: Border.all(color: context.sahara.statBorder)),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -607,7 +608,7 @@ class _StationManagerPageState extends State<StationManagerPage>
                                 Flexible(
                                     child: Text(s.name.replaceAll('محطة ', ''),
                                         style: GoogleFonts.cairo(
-                                            color: Colors.grey[400],
+                                            color: context.sahara.subtleText,
                                             fontSize: 11),
                                         overflow: TextOverflow.ellipsis))
                               ])),
@@ -619,13 +620,13 @@ class _StationManagerPageState extends State<StationManagerPage>
                                       borderRadius: BorderRadius.circular(4),
                                       child: LinearProgressIndicator(
                                           value: s.generatorHours / 168,
-                                          backgroundColor: Colors.grey[800],
-                                          color: const Color(0xFFFFA726),
+                                          backgroundColor: Theme.of(context).colorScheme.onSurface,
+                                          color: context.sahara.chartOrange,
                                           minHeight: 8))),
                               const SizedBox(width: 8),
                               Text('${s.generatorHours}h',
                                   style: GoogleFonts.cairo(
-                                      color: const Color(0xFFFFA726),
+                                      color: context.sahara.chartOrange,
                                       fontSize: 10,
                                       fontWeight: FontWeight.bold)),
                             ]),
@@ -636,22 +637,22 @@ class _StationManagerPageState extends State<StationManagerPage>
                                       borderRadius: BorderRadius.circular(4),
                                       child: LinearProgressIndicator(
                                           value: s.heaterHours / 168,
-                                          backgroundColor: Colors.grey[800],
-                                          color: const Color(0xFFEF5350),
+                                          backgroundColor: Theme.of(context).colorScheme.onSurface,
+                                          color: context.sahara.chartRed,
                                           minHeight: 8))),
                               const SizedBox(width: 8),
                               Text('${s.heaterHours}h',
                                   style: GoogleFonts.cairo(
-                                      color: const Color(0xFFEF5350),
+                                      color: context.sahara.chartRed,
                                       fontSize: 10,
                                       fontWeight: FontWeight.bold)),
                             ]),
                           ])),
                         ]))),
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      _legendDot('مولّد', const Color(0xFFFFA726)),
+                      _legendDot('مولّد', context.sahara.chartOrange),
                       const SizedBox(width: 20),
-                      _legendDot('تدفئة', const Color(0xFFEF5350)),
+                      _legendDot('تدفئة', context.sahara.chartRed),
                     ]),
                   ])),
           const SizedBox(height: 24),
@@ -670,7 +671,7 @@ class _StationManagerPageState extends State<StationManagerPage>
               decoration: BoxDecoration(
                   color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: const Color(0xFF2D3748))),
+                  border: Border.all(color: context.sahara.statBorder)),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -681,7 +682,7 @@ class _StationManagerPageState extends State<StationManagerPage>
                             fontSize: 14)),
                     Text('ترتيب المحطات حسب الأداء والكفاءة',
                         style: GoogleFonts.cairo(
-                            color: Colors.grey[500], fontSize: 11)),
+                            color: context.sahara.hintText, fontSize: 11)),
                     const SizedBox(height: 20),
                     // أفضل وأسوأ
                     Row(children: [
@@ -693,7 +694,7 @@ class _StationManagerPageState extends State<StationManagerPage>
                                       ? a
                                       : b),
                               fmt,
-                              const Color(0xFFEF5350))),
+                              context.sahara.chartRed)),
                       const SizedBox(width: 12),
                       Expanded(
                           child: _rankCard(
@@ -703,7 +704,7 @@ class _StationManagerPageState extends State<StationManagerPage>
                                       ? a
                                       : b),
                               fmt,
-                              const Color(0xFF10B981))),
+                              context.sahara.chartGreen)),
                       const SizedBox(width: 12),
                       Expanded(
                           child: _rankCard(
@@ -711,7 +712,7 @@ class _StationManagerPageState extends State<StationManagerPage>
                               stations.reduce((a, b) =>
                                   a.totalFarms > b.totalFarms ? a : b),
                               fmt,
-                              const Color(0xFF42A5F5))),
+                              context.sahara.chartBlue)),
                     ]),
                   ])),
           const SizedBox(height: 16),
@@ -721,12 +722,12 @@ class _StationManagerPageState extends State<StationManagerPage>
             decoration: BoxDecoration(
                 color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: const Color(0xFF2D3748))),
+                border: Border.all(color: context.sahara.statBorder)),
             child: Column(children: [
               Container(
                   padding: const EdgeInsets.all(14),
                   decoration: BoxDecoration(
-                      color: Color(0xFF1E2127),
+                      color: context.sahara.dialogHeader,
                       borderRadius:
                           BorderRadius.vertical(top: Radius.circular(16))),
                   child: Row(children: [
@@ -750,7 +751,7 @@ class _StationManagerPageState extends State<StationManagerPage>
                     decoration: BoxDecoration(
                         border: Border(
                             bottom: BorderSide(
-                                color: Colors.grey[800]!, width: 0.5))),
+                                color: Theme.of(context).colorScheme.onSurface!, width: 0.5))),
                     child: Row(children: [
                       // ترتيب
                       Container(
@@ -765,7 +766,7 @@ class _StationManagerPageState extends State<StationManagerPage>
                                       : i == 2
                                           ? const Color(0xFFCD7F32)
                                               .withOpacity(0.15)
-                                          : Colors.grey[800],
+                                          : Theme.of(context).colorScheme.onSurface,
                               borderRadius: BorderRadius.circular(8)),
                           child: Center(
                               child: Text('${i + 1}',
@@ -776,7 +777,7 @@ class _StationManagerPageState extends State<StationManagerPage>
                                               ? const Color(0xFFC0C0C0)
                                               : i == 2
                                                   ? const Color(0xFFCD7F32)
-                                                  : Colors.grey[500],
+                                                  : context.sahara.hintText,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 14)))),
                       const SizedBox(width: 12),
@@ -796,7 +797,7 @@ class _StationManagerPageState extends State<StationManagerPage>
                               child: LinearProgressIndicator(
                                   value: s.dailyConsumption /
                                       max(1, maxConsumption),
-                                  backgroundColor: Colors.grey[800],
+                                  backgroundColor: Theme.of(context).colorScheme.onSurface,
                                   color: s.color,
                                   minHeight: 10))),
                       const SizedBox(width: 12),
@@ -837,7 +838,7 @@ class _StationManagerPageState extends State<StationManagerPage>
                         children: [
                       Text(label,
                           style: GoogleFonts.cairo(
-                              color: Colors.grey[500], fontSize: 9)),
+                              color: context.sahara.hintText, fontSize: 9)),
                       Text(value,
                           style: GoogleFonts.cairo(
                               color: Colors.white,
@@ -852,7 +853,7 @@ class _StationManagerPageState extends State<StationManagerPage>
             style: GoogleFonts.cairo(
                 color: color, fontWeight: FontWeight.bold, fontSize: 13)),
         Text(label,
-            style: GoogleFonts.cairo(color: Colors.grey[600], fontSize: 9)),
+            style: GoogleFonts.cairo(color: context.sahara.hintText, fontSize: 9)),
       ]));
 
   Widget _opBadge(String label, String value, IconData icon, Color color) =>
@@ -889,9 +890,9 @@ class _StationManagerPageState extends State<StationManagerPage>
                     fontSize: 16)),
             Text(title,
                 style:
-                    GoogleFonts.cairo(color: Colors.grey[400], fontSize: 11)),
+                    GoogleFonts.cairo(color: context.sahara.subtleText, fontSize: 11)),
             Text(sub,
-                style: GoogleFonts.cairo(color: Colors.grey[600], fontSize: 9)),
+                style: GoogleFonts.cairo(color: context.sahara.hintText, fontSize: 9)),
           ]));
 
   Widget _rankCard(
@@ -913,7 +914,7 @@ class _StationManagerPageState extends State<StationManagerPage>
                     fontSize: 13)),
             Text('${fmt.format(s.dailyConsumption)} لتر/يوم',
                 style:
-                    GoogleFonts.cairo(color: Colors.grey[400], fontSize: 10)),
+                    GoogleFonts.cairo(color: context.sahara.subtleText, fontSize: 10)),
           ]));
 
   Widget _legendDot(String label, Color color) => Row(children: [
@@ -924,6 +925,6 @@ class _StationManagerPageState extends State<StationManagerPage>
                 color: color, borderRadius: BorderRadius.circular(3))),
         const SizedBox(width: 6),
         Text(label,
-            style: GoogleFonts.cairo(color: Colors.grey[500], fontSize: 10))
+            style: GoogleFonts.cairo(color: context.sahara.hintText, fontSize: 10))
       ]);
 }

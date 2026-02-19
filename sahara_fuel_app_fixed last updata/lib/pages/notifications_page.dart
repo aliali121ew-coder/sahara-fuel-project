@@ -101,7 +101,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                   ]),
                   Text('متابعة تنبيهات النظام والتحديثات',
                       style: GoogleFonts.cairo(
-                          fontSize: 14, color: Colors.grey[500])),
+                          fontSize: 14, color: context.sahara.hintText)),
                 ]),
                 Row(children: [
                   if (unreadCount > 0)
@@ -112,7 +112,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                         () => provider.markAllNotificationsAsRead()),
                   const SizedBox(width: 12),
                   _actionBtn('مسح المقروءة', Icons.delete_sweep,
-                      Colors.grey[600]!, () {}),
+                      context.sahara.hintText!, () {}),
                 ]),
               ]),
               const SizedBox(height: 24),
@@ -120,7 +120,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
               // ===== ملخص الإشعارات =====
               Row(children: [
                 _summaryCard('الكل', '${allNotifications.length}',
-                    Icons.notifications, Colors.grey),
+                    Icons.notifications, Theme.of(context).colorScheme.onSurfaceVariant),
                 const SizedBox(width: 12),
                 _summaryCard(
                     'تنبيهات',
@@ -166,7 +166,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                   border: Border.all(
                                       color: _activeFilter == f
                                           ? _filterColor(f)
-                                          : Colors.grey[700]!),
+                                          : Theme.of(context).colorScheme.onSurfaceVariant!),
                                 ),
                                 child: Row(
                                     mainAxisSize: MainAxisSize.min,
@@ -180,7 +180,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                           style: GoogleFonts.cairo(
                                               color: _activeFilter == f
                                                   ? _filterColor(f)
-                                                  : Colors.grey[500],
+                                                  : context.sahara.hintText,
                                               fontWeight: _activeFilter == f
                                                   ? FontWeight.bold
                                                   : FontWeight.normal,
@@ -216,11 +216,11 @@ class _NotificationsPageState extends State<NotificationsPage> {
                   padding: const EdgeInsets.all(60),
                   child: Column(children: [
                     Icon(Icons.notifications_off,
-                        color: Colors.grey[700], size: 60),
+                        color: Theme.of(context).colorScheme.onSurfaceVariant, size: 60),
                     const SizedBox(height: 16),
                     Text('لا توجد إشعارات',
                         style: GoogleFonts.cairo(
-                            fontSize: 18, color: Colors.grey[600])),
+                            fontSize: 18, color: context.sahara.hintText)),
                   ]),
                 ),
             ]),
@@ -243,7 +243,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
               color:
-                  isActive ? color.withOpacity(0.4) : const Color(0xFF2D3748)),
+                  isActive ? color.withOpacity(0.4) : context.sahara.statBorder),
         ),
         child: Column(children: [
           Icon(icon, color: color, size: 22),
@@ -254,7 +254,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                   fontWeight: FontWeight.bold,
                   color: Colors.white)),
           Text(label,
-              style: GoogleFonts.cairo(fontSize: 11, color: Colors.grey[500])),
+              style: GoogleFonts.cairo(fontSize: 11, color: context.sahara.hintText)),
         ]),
       ),
     ));
@@ -276,7 +276,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
             borderRadius: BorderRadius.circular(14),
             border: Border.all(
                 color: n.isRead
-                    ? const Color(0xFF2D3748)
+                    ? context.sahara.statBorder
                     : color.withOpacity(0.4)),
           ),
           child: Padding(
@@ -316,15 +316,15 @@ class _NotificationsPageState extends State<NotificationsPage> {
                     const SizedBox(height: 4),
                     Text(n.message,
                         style: GoogleFonts.cairo(
-                            color: Colors.grey[500], fontSize: 12)),
+                            color: context.sahara.hintText, fontSize: 12)),
                     const SizedBox(height: 8),
                     Row(children: [
                       Icon(Icons.access_time,
-                          color: Colors.grey[700], size: 14),
+                          color: Theme.of(context).colorScheme.onSurfaceVariant, size: 14),
                       const SizedBox(width: 4),
                       Text(_timeAgo(n.date),
                           style: GoogleFonts.cairo(
-                              color: Colors.grey[600], fontSize: 11)),
+                              color: context.sahara.hintText, fontSize: 11)),
                       const Spacer(),
                       Container(
                         padding: const EdgeInsets.symmetric(
@@ -351,18 +351,18 @@ class _NotificationsPageState extends State<NotificationsPage> {
           style: GoogleFonts.cairo(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: Colors.grey[400])),
+              color: context.sahara.subtleText)),
       const SizedBox(width: 8),
       Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
         decoration: BoxDecoration(
-            color: const Color(0xFF252830),
+            color: context.sahara.inputBg,
             borderRadius: BorderRadius.circular(10)),
         child: Text('$count',
-            style: GoogleFonts.cairo(color: Colors.grey[500], fontSize: 11)),
+            style: GoogleFonts.cairo(color: context.sahara.hintText, fontSize: 11)),
       ),
       const SizedBox(width: 12),
-      Expanded(child: Container(height: 1, color: Colors.grey[800])),
+      Expanded(child: Container(height: 1, color: Theme.of(context).colorScheme.onSurface)),
     ]);
   }
 

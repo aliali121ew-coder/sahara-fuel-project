@@ -201,8 +201,8 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
         final fuelColor = widget.fuelType == 'كاز'
             ? const Color(0xFFFF6B35)
             : widget.fuelType == 'بنزين'
-                ? const Color(0xFF2196F3)
-                : const Color(0xFF9C27B0);
+                ? context.sahara.chartBlue
+                : context.sahara.chartPurple;
 
         return SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
@@ -221,14 +221,14 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
                   fuelColor,
                   '${todayList.length} عملية'),
               _statCard('العربات الشغالة', '$activeCount', Icons.directions_car,
-                  const Color(0xFF4CAF50), 'نشطة الآن'),
+                  context.sahara.chartGreen, 'نشطة الآن'),
               _statCard('العربات الكلي', '$totalCount', Icons.garage,
-                  const Color(0xFF42A5F5), 'مسجلة'),
+                  context.sahara.chartBlue, 'مسجلة'),
               _statCard(
                   'الكمية المستهلكة',
                   '${formatter.format(allVehicles.where((v) => v.fuelType == widget.fuelType).fold(0.0, (s, v) => s + v.totalConsumed))} لتر',
                   Icons.speed,
-                  const Color(0xFFFFA726),
+                  context.sahara.chartOrange,
                   'إجمالي'),
             ]),
             const SizedBox(height: 20),
@@ -281,15 +281,15 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
       }),
       // تفويل
       _actionBtn(Icons.local_gas_station, 'تفويل سيارة',
-          const Color(0xFF4CAF50), () => _showRefuelDialog(provider)),
+          context.sahara.chartGreen, () => _showRefuelDialog(provider)),
       // إضافة
       _actionBtn(Icons.add, 'إضافة سيارة', Theme.of(context).colorScheme.primary,
           () => _showAddVehicleDialog(provider)),
       // تحميل Excel
-      _actionBtn(Icons.upload_file, 'تحميل Excel', const Color(0xFF8B5CF6),
+      _actionBtn(Icons.upload_file, 'تحميل Excel', context.sahara.chartPurple,
           () => _showUploadSnackbar()),
       // تصدير
-      _actionBtn(Icons.file_download, 'تصدير', const Color(0xFF42A5F5),
+      _actionBtn(Icons.file_download, 'تصدير', context.sahara.chartBlue,
           () => _showExportDialog()),
       // بحث
       Container(
@@ -471,11 +471,11 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
               _miniStat(
                   'أعلى يوم',
                   '${fmt.format(data.isEmpty ? 0 : data.reduce((a, b) => a > b ? a : b))} لتر',
-                  const Color(0xFFEF5350)),
+                  context.sahara.chartRed),
               _miniStat(
                   'أقل يوم',
                   '${fmt.format(data.isEmpty ? 0 : data.where((d) => d > 0).isEmpty ? 0 : data.where((d) => d > 0).reduce((a, b) => a < b ? a : b))} لتر',
-                  const Color(0xFF4CAF50)),
+                  context.sahara.chartGreen),
             ]),
           ])),
     );
@@ -744,18 +744,18 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
                         DataCell(Row(children: [
                           IconButton(
                               icon: Icon(Icons.local_gas_station,
-                                  color: const Color(0xFF4CAF50), size: 16),
+                                  color: context.sahara.chartGreen, size: 16),
                               tooltip: 'تفويل',
                               onPressed: () =>
                                   _showRefuelOneDialog(provider, v)),
                           IconButton(
                               icon: Icon(Icons.edit,
-                                  color: const Color(0xFF42A5F5), size: 16),
+                                  color: context.sahara.chartBlue, size: 16),
                               tooltip: 'تعديل',
                               onPressed: () => _showEditDialog(provider, v)),
                           IconButton(
                               icon: Icon(Icons.history,
-                                  color: const Color(0xFFFFA726), size: 16),
+                                  color: context.sahara.chartOrange, size: 16),
                               tooltip: 'السجل',
                               onPressed: () => _showHistoryDialog(v)),
                         ])),
@@ -785,18 +785,18 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-          color: (active ? const Color(0xFF4CAF50) : const Color(0xFFEF5350))
+          color: (active ? context.sahara.chartGreen : context.sahara.chartRed)
               .withOpacity(0.12),
           borderRadius: BorderRadius.circular(12)),
       child: Row(mainAxisSize: MainAxisSize.min, children: [
         Icon(Icons.circle,
             size: 6,
-            color: active ? const Color(0xFF4CAF50) : const Color(0xFFEF5350)),
+            color: active ? context.sahara.chartGreen : context.sahara.chartRed),
         const SizedBox(width: 4),
         Text(active ? 'نشط' : 'متوقف',
             style: TextStyle(
                 color:
-                    active ? const Color(0xFF4CAF50) : const Color(0xFFEF5350),
+                    active ? context.sahara.chartGreen : context.sahara.chartRed,
                 fontSize: 10,
                 fontWeight: FontWeight.bold)),
       ]),
@@ -842,10 +842,10 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
                     width: 40,
                     height: 40,
                     decoration: BoxDecoration(
-                        color: const Color(0xFF4CAF50).withOpacity(0.15),
+                        color: context.sahara.chartGreen.withOpacity(0.15),
                         borderRadius: BorderRadius.circular(12)),
-                    child: const Icon(Icons.local_gas_station,
-                        color: Color(0xFF4CAF50))),
+                    child: Icon(Icons.local_gas_station,
+                        color: context.sahara.chartGreen)),
                 const SizedBox(width: 12),
                 Text('تفويل سيارة - ${widget.fuelType}',
                     style: GoogleFonts.cairo(
@@ -880,10 +880,10 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text('تم التفويل بنجاح',
                             style: GoogleFonts.cairo()),
-                        backgroundColor: const Color(0xFF4CAF50)));
+                        backgroundColor: context.sahara.chartGreen));
                   },
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF4CAF50),
+                      backgroundColor: context.sahara.chartGreen,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10))),
                   child: Text('تفويل',
@@ -925,10 +925,10 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text('تم تفويل ${v.plateNumber}',
                             style: GoogleFonts.cairo()),
-                        backgroundColor: const Color(0xFF4CAF50)));
+                        backgroundColor: context.sahara.chartGreen));
                   },
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF4CAF50),
+                      backgroundColor: context.sahara.chartGreen,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10))),
                   child: Text('تفويل',
@@ -1085,7 +1085,7 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
                     Navigator.pop(ctx);
                   },
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF42A5F5),
+                      backgroundColor: context.sahara.chartBlue,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10))),
                   child: Text('حفظ',
@@ -1156,7 +1156,7 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
               content: Column(mainAxisSize: MainAxisSize.min, children: [
                 ListTile(
                     leading: Icon(Icons.picture_as_pdf,
-                        color: const Color(0xFFEF5350)),
+                        color: context.sahara.chartRed),
                     title: Text('تصدير PDF',
                         style: GoogleFonts.cairo(color: Theme.of(context).colorScheme.onSurface)),
                     onTap: () {
@@ -1164,11 +1164,11 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text('جاري تصدير PDF...',
                               style: GoogleFonts.cairo()),
-                          backgroundColor: const Color(0xFFEF5350)));
+                          backgroundColor: context.sahara.chartRed));
                     }),
                 ListTile(
                     leading:
-                        Icon(Icons.table_chart, color: const Color(0xFF4CAF50)),
+                        Icon(Icons.table_chart, color: context.sahara.chartGreen),
                     title: Text('تصدير Excel',
                         style: GoogleFonts.cairo(color: Theme.of(context).colorScheme.onSurface)),
                     onTap: () {
@@ -1176,7 +1176,7 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text('جاري تصدير Excel...',
                               style: GoogleFonts.cairo()),
-                          backgroundColor: const Color(0xFF4CAF50)));
+                          backgroundColor: context.sahara.chartGreen));
                     }),
               ]),
             )));
@@ -1186,7 +1186,7 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('اختر ملف Excel لتحميل بيانات السيارات...',
             style: GoogleFonts.cairo()),
-        backgroundColor: const Color(0xFF8B5CF6),
+        backgroundColor: context.sahara.chartPurple,
         duration: const Duration(seconds: 3)));
   }
 

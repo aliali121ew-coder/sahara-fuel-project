@@ -52,7 +52,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
                   decoration: BoxDecoration(
                     color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                     border: Border(
-                        left: BorderSide(color: Colors.grey[800]!, width: 1)),
+                        left: BorderSide(color: Theme.of(context).colorScheme.onSurface!, width: 1)),
                   ),
                   child: Column(
                     children: [
@@ -99,9 +99,9 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
                                 decoration: InputDecoration(
                                   hintText: 'بحث عن محطة أو مزرعة...',
                                   hintStyle: GoogleFonts.cairo(
-                                      color: Colors.grey[600], fontSize: 12),
+                                      color: context.sahara.hintText, fontSize: 12),
                                   prefixIcon: Icon(Icons.search,
-                                      color: Colors.grey[600], size: 18),
+                                      color: context.sahara.hintText, size: 18),
                                   border: InputBorder.none,
                                   contentPadding:
                                       const EdgeInsets.symmetric(vertical: 10),
@@ -133,7 +133,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
                         decoration: BoxDecoration(
                             color: Theme.of(context).colorScheme.surfaceContainerHighest,
                             border: Border(
-                                top: BorderSide(color: Colors.grey[800]!))),
+                                top: BorderSide(color: Theme.of(context).colorScheme.onSurface!))),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
@@ -170,7 +170,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
                                       'إجمالي الرصيد: ${formatter.format(provider.saharaBalance)} لتر',
                                       style: GoogleFonts.cairo(
                                           fontSize: 14,
-                                          color: Colors.grey[500])),
+                                          color: context.sahara.hintText)),
                                 ]),
                             Container(
                               padding: const EdgeInsets.symmetric(
@@ -258,9 +258,9 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
                 fontWeight: FontWeight.w600)),
         subtitle: Text(
             '${station.farms.length + (station.subStations?.fold(0, (s, sub) => s! + sub.farms.length) ?? 0)} موقع',
-            style: GoogleFonts.cairo(color: Colors.grey[600], fontSize: 10)),
-        iconColor: Colors.grey[500],
-        collapsedIconColor: Colors.grey[600],
+            style: GoogleFonts.cairo(color: context.sahara.hintText, fontSize: 10)),
+        iconColor: context.sahara.hintText,
+        collapsedIconColor: context.sahara.hintText,
         onExpansionChanged: (expanded) {
           if (expanded) setState(() => selectedStation = station.name);
         },
@@ -290,7 +290,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
         width: 6,
         height: 6,
         decoration: BoxDecoration(
-            color: isSelected ? color : Colors.grey[600],
+            color: isSelected ? color : context.sahara.hintText,
             shape: BoxShape.circle),
       ),
       title: Text(farmName,
@@ -340,8 +340,8 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                 decoration: BoxDecoration(
                     color: (station.change >= 0
-                            ? const Color(0xFF4CAF50)
-                            : const Color(0xFFEF5350))
+                            ? context.sahara.chartGreen
+                            : context.sahara.chartRed)
                         .withOpacity(0.15),
                     borderRadius: BorderRadius.circular(12)),
                 child: Row(mainAxisSize: MainAxisSize.min, children: [
@@ -350,15 +350,15 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
                           ? Icons.trending_up
                           : Icons.trending_down,
                       color: station.change >= 0
-                          ? const Color(0xFF4CAF50)
-                          : const Color(0xFFEF5350),
+                          ? context.sahara.chartGreen
+                          : context.sahara.chartRed,
                       size: 12),
                   const SizedBox(width: 3),
                   Text('${station.change >= 0 ? "+" : ""}${station.change}%',
                       style: TextStyle(
                           color: station.change >= 0
-                              ? const Color(0xFF4CAF50)
-                              : const Color(0xFFEF5350),
+                              ? context.sahara.chartGreen
+                              : context.sahara.chartRed,
                           fontSize: 11,
                           fontWeight: FontWeight.bold)),
                 ]),
@@ -374,7 +374,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
                 overflow: TextOverflow.ellipsis),
             Text(station.name,
                 style:
-                    GoogleFonts.cairo(fontSize: 12, color: Colors.grey[500])),
+                    GoogleFonts.cairo(fontSize: 12, color: context.sahara.hintText)),
           ]),
         ),
       ),
@@ -410,15 +410,15 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
             runSpacing: 16,
             children: [
               _detailCard('ساعات المولدة', '120 ساعة', Icons.electric_bolt,
-                  const Color(0xFFFFA726)),
+                  context.sahara.chartOrange),
               _detailCard('ساعات الهيتر', '80 ساعة', Icons.thermostat,
-                  const Color(0xFFEF5350)),
+                  context.sahara.chartRed),
               _detailCard('رصيد سابق', '50,000 لتر', Icons.history,
-                  const Color(0xFF42A5F5)),
+                  context.sahara.chartBlue),
               _detailCard('رصيد حالي', '45,000 لتر',
                   Icons.account_balance_wallet, Theme.of(context).colorScheme.primary),
               _detailCard('كثافة الكاز', '0.85', Icons.science,
-                  const Color(0xFFAB47BC)),
+                  context.sahara.cardPurple),
             ],
           ),
           const SizedBox(height: 28),
@@ -435,7 +435,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
                   show: true,
                   drawVerticalLine: false,
                   getDrawingHorizontalLine: (v) =>
-                      FlLine(color: Colors.grey[800]!, strokeWidth: 0.5)),
+                      FlLine(color: Theme.of(context).colorScheme.onSurface!, strokeWidth: 0.5)),
               titlesData: FlTitlesData(
                 bottomTitles: AxisTitles(
                     sideTitles: SideTitles(
@@ -452,7 +452,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
                           ];
                           return Text(days[v.toInt() % 7],
                               style: GoogleFonts.cairo(
-                                  color: Colors.grey[600], fontSize: 10));
+                                  color: context.sahara.hintText, fontSize: 10));
                         })),
                 leftTitles: AxisTitles(
                     sideTitles: SideTitles(
@@ -461,7 +461,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
                         getTitlesWidget: (v, _) => Text(
                             '${(v / 1000).toStringAsFixed(0)}K',
                             style: TextStyle(
-                                color: Colors.grey[600], fontSize: 9)))),
+                                color: context.sahara.hintText, fontSize: 9)))),
                 topTitles:
                     const AxisTitles(sideTitles: SideTitles(showTitles: false)),
                 rightTitles:
@@ -489,9 +489,9 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
           const SizedBox(height: 20),
           Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
             _infoChip('وارد من', 'محطة الطاقة', Icons.arrow_downward,
-                const Color(0xFF4CAF50)),
+                context.sahara.chartGreen),
             _infoChip('تصدير إلى', 'محطة البوادي', Icons.arrow_upward,
-                const Color(0xFFEF5350)),
+                context.sahara.chartRed),
           ]),
         ]),
       ),
@@ -528,7 +528,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
                   Text(
                       'عدد المزارع: ${station.farms.length + (station.subStations?.fold(0, (s, sub) => s! + sub.farms.length) ?? 0)}',
                       style: GoogleFonts.cairo(
-                          fontSize: 13, color: Colors.grey[500])),
+                          fontSize: 13, color: context.sahara.hintText)),
                 ])),
           ]),
           const SizedBox(height: 24),
@@ -542,16 +542,16 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
                   Icons.account_balance_wallet,
                   station.color),
               _detailCard('ساعات المولدة', '${station.generatorHours} ساعة',
-                  Icons.electric_bolt, const Color(0xFFFFA726)),
+                  Icons.electric_bolt, context.sahara.chartOrange),
               _detailCard('ساعات الهيتر', '${station.heaterHours} ساعة',
-                  Icons.thermostat, const Color(0xFFEF5350)),
+                  Icons.thermostat, context.sahara.chartRed),
               _detailCard(
                   'التغيير',
                   '${station.change >= 0 ? "+" : ""}${station.change}%',
                   station.change >= 0 ? Icons.trending_up : Icons.trending_down,
                   station.change >= 0
-                      ? const Color(0xFF4CAF50)
-                      : const Color(0xFFEF5350)),
+                      ? context.sahara.chartGreen
+                      : context.sahara.chartRed),
             ],
           ),
           const SizedBox(height: 24),
@@ -568,7 +568,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
                   show: true,
                   drawVerticalLine: false,
                   getDrawingHorizontalLine: (v) =>
-                      FlLine(color: Colors.grey[800]!, strokeWidth: 0.5)),
+                      FlLine(color: Theme.of(context).colorScheme.onSurface!, strokeWidth: 0.5)),
               titlesData: const FlTitlesData(show: false),
               borderData: FlBorderData(show: false),
               lineBarsData: [
@@ -609,13 +609,13 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
       child: Padding(
         padding: const EdgeInsets.all(40),
         child: Column(children: [
-          Icon(Icons.touch_app, color: Colors.grey[700], size: 60),
+          Icon(Icons.touch_app, color: Theme.of(context).colorScheme.onSurfaceVariant, size: 60),
           const SizedBox(height: 16),
           Text('اختر محطة أو مزرعة لعرض التفاصيل',
-              style: GoogleFonts.cairo(fontSize: 18, color: Colors.grey[500])),
+              style: GoogleFonts.cairo(fontSize: 18, color: context.sahara.hintText)),
           const SizedBox(height: 8),
           Text('انقر على أي بطاقة أعلاه أو اختر من القائمة الجانبية',
-              style: GoogleFonts.cairo(fontSize: 13, color: Colors.grey[700])),
+              style: GoogleFonts.cairo(fontSize: 13, color: Theme.of(context).colorScheme.onSurfaceVariant)),
         ]),
       ),
     );
@@ -637,7 +637,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
                 fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center),
         Text(label,
-            style: GoogleFonts.cairo(color: Colors.grey[500], fontSize: 11)),
+            style: GoogleFonts.cairo(color: context.sahara.hintText, fontSize: 11)),
       ]),
     );
   }
@@ -654,7 +654,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
         const SizedBox(width: 8),
         Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(label,
-              style: GoogleFonts.cairo(fontSize: 11, color: Colors.grey[500])),
+              style: GoogleFonts.cairo(fontSize: 11, color: context.sahara.hintText)),
           Text(value,
               style: GoogleFonts.cairo(
                   fontSize: 14,
@@ -671,7 +671,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
           style: GoogleFonts.cairo(
               fontSize: 18, color: color, fontWeight: FontWeight.bold)),
       Text(label,
-          style: GoogleFonts.cairo(fontSize: 11, color: Colors.grey[600])),
+          style: GoogleFonts.cairo(fontSize: 11, color: context.sahara.hintText)),
     ]);
   }
 }
