@@ -1,5 +1,8 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:crypto/crypto.dart';
 import '../models/user_model.dart';
+import '../core/config/env_config.dart';
 import 'database_service.dart';
 import 'license_service.dart';
 
@@ -8,6 +11,13 @@ export '../models/user_model.dart';
 /// خدمة المصادقة وإدارة الصلاحيات
 class AuthService extends ChangeNotifier {
   final DatabaseService _db = DatabaseService();
+
+  /// تشفير كلمة المرور بـ SHA-256
+  static String _hashPw(String pw) => sha256.convert(utf8.encode(pw)).toString();
+
+  static void _log(String msg) {
+    if (EnvConfig.debugMode) debugPrint(msg);
+  }
   bool _dbReady = false;
 
   // ===== المستخدم الحالي =====
@@ -68,11 +78,11 @@ class AuthService extends ChangeNotifier {
     // تذكّر آخر مستخدم
     final lastEmail = _db.loadLastUser();
     if (lastEmail != null) {
-      debugPrint('📌 آخر مستخدم: $lastEmail');
+      _log('📌 آخر مستخدم: $lastEmail');
     }
 
     _dbReady = true;
-    debugPrint('✅ تم تحميل بيانات المصادقة');
+    _log('✅ تم تحميل بيانات المصادقة');
     notifyListeners();
   }
 
@@ -104,7 +114,7 @@ class AuthService extends ChangeNotifier {
               })
           .toList());
     } catch (e) {
-      debugPrint('⚠️ خطأ حفظ المصادقة: $e');
+      _log('⚠️ خطأ حفظ المصادقة: $e');
     }
   }
 
@@ -183,15 +193,16 @@ class AuthService extends ChangeNotifier {
         lastLogin: DateTime.now()),
   ];
 
+  // كلمات المرور مُشفرة بـ SHA-256 (لا تُخزن بشكل نصي)
   final Map<String, String> _passwords = {
-    'admin@sahara.com': 'admin123',
-    'manager@sahara.com': 'manager123',
-    'user@sahara.com': 'user123',
-    'auditor@sahara.com': 'auditor123',
-    '1': '1',
-    'admin@sahara-fuel.com': 'admin123',
-    'manager@sahara-fuel.com': 'manager123',
-    'operator@sahara-fuel.com': 'operator123',
+    'admin@sahara.com': _hashPw('admin123'),
+    'manager@sahara.com': _hashPw('manager123'),
+    'user@sahara.com': _hashPw('user123'),
+    'auditor@sahara.com': _hashPw('auditor123'),
+    '1': _hashPw('1'), // حساب تجريبي - تطوير فقط
+    'admin@sahara-fuel.com': _hashPw('admin123'),
+    'manager@sahara-fuel.com': _hashPw('manager123'),
+    'operator@sahara-fuel.com': _hashPw('operator123'),
   };
 
   List<AppUser> get allUsers => List.unmodifiable(_users);
@@ -201,7 +212,7 @@ class AuthService extends ChangeNotifier {
     final trimEmail = email.trim();
     final trimPass = password.trim();
     if (_passwords.containsKey(trimEmail) &&
-        _passwords[trimEmail] == trimPass) {
+        _passwords[trimEmail] == _hashPw(trimPass)) {
       final userIdx = _users.indexWhere((u) => u.email == trimEmail);
       if (userIdx != -1 && _users[userIdx].isActive) {
         _currentUser = _users[userIdx];
@@ -307,11 +318,6 @@ class AuthService extends ChangeNotifier {
         icon: Icons.settings_rounded,
         index: 11),
     PagePermission(
-        key: 'settings',
-        label: 'الإعدادات',
-        icon: Icons.settings_rounded,
-        index: 11),
-    PagePermission(
         key: 'gas_balance',
         label: 'رصيد الغاز',
         icon: Icons.local_fire_department_rounded,
@@ -347,7 +353,7 @@ class AuthService extends ChangeNotifier {
 
   void addUser(AppUser user, String password) {
     _users.add(user);
-    _passwords[user.email] = password;
+    _passwords[user.email] = _hashPw(password);
     notifyListeners();
   }
 

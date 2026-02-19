@@ -1,4 +1,3 @@
-import '../constants/app_colors.dart';
 import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
@@ -8,6 +7,8 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:crypto/crypto.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import '../core/config/env_config.dart';
+import '../core/theme/color_schemes.dart';
 
 // ============================================================
 // نموذج الترخيص
@@ -78,9 +79,15 @@ class LicenseInfo {
 // خدمة الترخيص - التحقق والتفعيل
 // ============================================================
 class LicenseService {
-  // المفتاح السري للتشفير (في الإنتاج يكون مخزن بأمان)
-  static const String _secretKey = 'SaharaFuel2026!@#KarbalaIQ';
-  static const String _salt = 'SF_KARBALA_2026';
+  // المفتاح السري: يُأخذ من EnvConfig (--dart-define) في الإنتاج
+  static String get _secretKey =>
+      EnvConfig.licenseSecret.isNotEmpty ? EnvConfig.licenseSecret : 'SaharaFuel2026_DEV_ONLY';
+  static String get _salt =>
+      EnvConfig.licenseSalt.isNotEmpty ? EnvConfig.licenseSalt : 'SF_KARBALA_DEV';
+
+  static void _log(String msg) {
+    if (EnvConfig.debugMode) debugPrint(msg);
+  }
 
   // ===== حفظ واسترجاع الترخيص من Hive =====
   static Future<void> saveLicense(LicenseInfo license) async {
@@ -88,9 +95,9 @@ class LicenseService {
       final box = await Hive.openBox('license_data');
       await box.put('active_license', license.toJson());
       await box.put('license_key_hash', sha256.convert(utf8.encode(license.clientId + license.deviceHash)).toString());
-      debugPrint('✅ تم حفظ الترخيص: ${license.clientName} - ${license.typeArabic}');
+      _log('✅ تم حفظ الترخيص: ${license.clientName} - ${license.typeArabic}');
     } catch (e) {
-      debugPrint('⚠️ خطأ حفظ الترخيص: $e');
+      _log('⚠️ خطأ حفظ الترخيص: $e');
     }
   }
 
@@ -100,11 +107,11 @@ class LicenseService {
       final data = box.get('active_license');
       if (data != null) {
         final license = LicenseInfo.fromJson(Map<String, dynamic>.from(data));
-        debugPrint('📋 ترخيص محفوظ: ${license.clientName} - صالح حتى ${license.expiryDate.toString().substring(0, 10)}');
+        _log('📋 ترخيص محفوظ: ${license.clientName} - صالح حتى ${license.expiryDate.toString().substring(0, 10)}');
         return license;
       }
     } catch (e) {
-      debugPrint('⚠️ خطأ تحميل الترخيص: $e');
+      _log('⚠️ خطأ تحميل الترخيص: $e');
     }
     return null;
   }
@@ -159,7 +166,7 @@ class LicenseService {
       await box.put('device_hash', hash);
       return hash;
     } catch (e) {
-      debugPrint('⚠️ خطأ في توليد بصمة الجهاز: $e');
+      _log('⚠️ خطأ في توليد بصمة الجهاز: $e');
       // Fallback نهائي آمن
       try {
         final random = Random.secure();
@@ -383,7 +390,7 @@ class LicenseService {
         throw Exception(validation.error ?? 'فشل في حفظ الترخيص');
       }
     } catch (e) {
-      debugPrint('⚠️ خطأ في حفظ مفتاح الترخيص: $e');
+      _log('⚠️ خطأ في حفظ مفتاح الترخيص: $e');
       rethrow;
     }
   }
@@ -509,7 +516,7 @@ class _LicenseActivationScreenState extends State<LicenseActivationScreen>
                 width: 600,
                 padding: const EdgeInsets.all(40),
                 decoration: BoxDecoration(
-                  color: AppColors.surface,
+                  color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                   borderRadius: BorderRadius.circular(24),
                   border: Border.all(color: const Color(0xFF2D3748)),
                   boxShadow: [
@@ -763,7 +770,7 @@ class LicenseExpiredScreen extends StatelessWidget {
               width: 500,
               padding: const EdgeInsets.all(40),
               decoration: BoxDecoration(
-                color: AppColors.surface,
+                color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                 borderRadius: BorderRadius.circular(24),
                 border: Border.all(color: const Color(0xFFEF5350).withOpacity(0.3)),
               ),
@@ -851,7 +858,7 @@ class _LicenseGeneratorToolState extends State<LicenseGeneratorTool> {
         backgroundColor: const Color(0xFF0D1B2A),
         appBar: AppBar(
           title: Text('مولّد التراخيص', style: GoogleFonts.cairo(fontWeight: FontWeight.bold)),
-          backgroundColor: AppColors.surface,
+          backgroundColor: Theme.of(context).extension<SaharaColors>()!.sidebar,
           centerTitle: true,
         ),
         body: Center(
@@ -891,7 +898,7 @@ class _LicenseGeneratorToolState extends State<LicenseGeneratorTool> {
                   Container(
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                      color: AppColors.surface,
+                      color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(color: const Color(0xFF00D9A3).withOpacity(0.3)),
                     ),
@@ -934,7 +941,7 @@ class _LicenseGeneratorToolState extends State<LicenseGeneratorTool> {
         labelText: label, hintText: hint,
         labelStyle: GoogleFonts.cairo(color: Colors.grey[500]),
         hintStyle: GoogleFonts.cairo(color: Colors.grey[700]),
-        filled: true, fillColor: AppColors.surface,
+        filled: true, fillColor: Theme.of(context).extension<SaharaColors>()!.sidebar,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
         focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFF00D9A3))),
       ),
@@ -944,11 +951,11 @@ class _LicenseGeneratorToolState extends State<LicenseGeneratorTool> {
   Widget _buildDropdown() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12),
-      decoration: BoxDecoration(color: AppColors.surface, borderRadius: BorderRadius.circular(12)),
+      decoration: BoxDecoration(color: Theme.of(context).extension<SaharaColors>()!.sidebar, borderRadius: BorderRadius.circular(12)),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<LicenseType>(
           value: _selectedType,
-          dropdownColor: AppColors.surface,
+          dropdownColor: Theme.of(context).extension<SaharaColors>()!.sidebar,
           style: GoogleFonts.cairo(color: Colors.white, fontSize: 14),
           items: [
             DropdownMenuItem(value: LicenseType.trial, child: Text('تجريبي (30 يوم)', style: GoogleFonts.cairo())),
@@ -964,7 +971,7 @@ class _LicenseGeneratorToolState extends State<LicenseGeneratorTool> {
   Widget _buildNumberField(String label, int value, Function(int) onChanged) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(color: AppColors.surface, borderRadius: BorderRadius.circular(12)),
+      decoration: BoxDecoration(color: Theme.of(context).extension<SaharaColors>()!.sidebar, borderRadius: BorderRadius.circular(12)),
       child: Row(
         children: [
           Text(label, style: GoogleFonts.cairo(color: Colors.grey[500], fontSize: 12)),

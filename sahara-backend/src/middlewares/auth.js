@@ -7,6 +7,19 @@ const { cacheGet, cacheSet } = require('../config/redis');
 const logger = require('../config/logger');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'default_secret';
+const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || 'refresh_secret';
+
+// ===== Production security checks =====
+if (process.env.NODE_ENV === 'production') {
+    if (!process.env.JWT_SECRET || process.env.JWT_SECRET.length < 32) {
+        logger.error('🚨 SECURITY: JWT_SECRET is missing or too short for production!');
+        process.exit(1);
+    }
+    if (!process.env.JWT_REFRESH_SECRET || process.env.JWT_REFRESH_SECRET.length < 32) {
+        logger.error('🚨 SECURITY: JWT_REFRESH_SECRET is missing or too short for production!');
+        process.exit(1);
+    }
+}
 
 function authenticate(req, res, next) {
     try {
@@ -105,7 +118,7 @@ function generateTokens(user) {
     );
     const refreshToken = jwt.sign(
         { id: user.id, type: 'refresh' },
-        process.env.JWT_REFRESH_SECRET || 'refresh_secret',
+        JWT_REFRESH_SECRET,
         { expiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '7d' }
     );
     return { accessToken, refreshToken };
