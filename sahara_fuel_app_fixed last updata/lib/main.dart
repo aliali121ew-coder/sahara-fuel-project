@@ -1,15 +1,17 @@
-import '../constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
+import 'constants/app_colors.dart';
+import 'core/theme/app_theme.dart';
+import 'core/theme/color_schemes.dart';
 import 'main_screen.dart';
 import 'providers/fuel_provider.dart';
+import 'providers/theme_provider.dart';
 import 'services/license_service.dart';
 import 'services/auth_service.dart';
 import 'services/database_service.dart';
 import 'services/api_service.dart';
 import 'pages/activation_page.dart';
-import 'providers/theme_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -59,11 +61,9 @@ class MyApp extends StatelessWidget {
             Locale('ar'),
             Locale('en'),
           ],
-          theme: ThemeData(
-            brightness:
-                themeProvider.isDark ? Brightness.dark : Brightness.light,
-            scaffoldBackgroundColor: Colors.transparent,
-          ),
+          theme: AppTheme.lightTheme(),
+          darkTheme: AppTheme.darkTheme(),
+          themeMode: themeProvider.themeMode,
           home: const LicenseCheckWrapper(),
           debugShowCheckedModeBanner: false,
         );
@@ -112,29 +112,29 @@ class _LicenseCheckWrapperState extends State<LicenseCheckWrapper> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
-      backgroundColor: const Color(0xFF0D1B2A),
+      backgroundColor: colorScheme.surface,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Logo placeholder
             Container(
               width: 100,
               height: 100,
               decoration: BoxDecoration(
-                color: Color(0xFF00D9A3),
+                color: colorScheme.primary,
                 shape: BoxShape.circle,
               ),
-              child: const Icon(Icons.local_gas_station,
-                  size: 50, color: Colors.white),
+              child: Icon(Icons.local_gas_station,
+                  size: 50, color: colorScheme.onPrimary),
             ),
             const SizedBox(height: 24),
-            const CircularProgressIndicator(color: Color(0xFF00D9A3)),
+            CircularProgressIndicator(color: colorScheme.primary),
             const SizedBox(height: 16),
-            const Text(
+            Text(
               'جاري التحقق من الترخيص...',
-              style: TextStyle(color: Colors.white70),
+              style: TextStyle(color: colorScheme.onSurfaceVariant),
             ),
           ],
         ),
@@ -265,6 +265,8 @@ class _LoginPageState extends State<LoginPage>
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final colorScheme = Theme.of(context).colorScheme;
+    final sahara = Theme.of(context).extension<SaharaColors>()!;
     return Scaffold(
       body: Stack(
         children: [
@@ -273,7 +275,7 @@ class _LoginPageState extends State<LoginPage>
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: AppColors.pageGradient,
+                colors: sahara.pageGradient,
               ),
             ),
             child: CustomPaint(size: size, painter: ModernBackgroundPainter()),
@@ -304,9 +306,9 @@ class _LoginPageState extends State<LoginPage>
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                             colors: [
-                              Color(0xFF1F4D6D),
-                              Color(0xFF0D2847),
-                              Color(0xFF1A3A52),
+                              sahara.gradientStart,
+                              sahara.gradientMiddle,
+                              sahara.gradientEnd,
                             ],
                           ),
                         ),
@@ -322,9 +324,9 @@ class _LoginPageState extends State<LoginPage>
                             ),
                             const SizedBox(height: 40),
                             RichText(
-                              text: const TextSpan(
+                              text: TextSpan(
                                 children: [
-                                  TextSpan(
+                                  const TextSpan(
                                     text: 'JOIN THE\nLARGEST ',
                                     style: TextStyle(
                                       fontSize: 40,
@@ -338,7 +340,7 @@ class _LoginPageState extends State<LoginPage>
                                     style: TextStyle(
                                       fontSize: 40,
                                       fontWeight: FontWeight.bold,
-                                      color: Color(0xFF00D9A3),
+                                      color: colorScheme.primary,
                                       height: 1.2,
                                     ),
                                   ),
@@ -397,7 +399,7 @@ class _LoginPageState extends State<LoginPage>
                     // === الجانب الأيمن - نموذج الدخول ===
                     Expanded(
                       child: Container(
-                        color: Colors.white,
+                        color: colorScheme.surfaceContainerHighest,
                         padding: const EdgeInsets.all(45),
                         child: Stack(
                           children: [
@@ -408,7 +410,7 @@ class _LoginPageState extends State<LoginPage>
                                 width: 100,
                                 height: 100,
                                 decoration: BoxDecoration(
-                                  color: Color(0xFF00D9A3),
+                                  color: colorScheme.primary,
                                   shape: BoxShape.circle,
                                 ),
                               ),
@@ -428,24 +430,24 @@ class _LoginPageState extends State<LoginPage>
                                           width: 45,
                                           height: 45,
                                           decoration: BoxDecoration(
-                                            color: Color(0xFF00D9A3),
+                                            color: colorScheme.primary,
                                             shape: BoxShape.circle,
                                           ),
-                                          child: const Icon(
+                                          child: Icon(
                                             Icons.close,
-                                            color: Colors.white,
+                                            color: colorScheme.onPrimary,
                                             size: 24,
                                           ),
                                         ),
                                       ),
                                     ),
                                     const SizedBox(height: 15),
-                                    const Text(
+                                    Text(
                                       'Log In',
                                       style: TextStyle(
                                         fontSize: 38,
                                         fontWeight: FontWeight.bold,
-                                        color: Colors.black,
+                                        color: colorScheme.onSurface,
                                       ),
                                     ),
                                     RichText(
@@ -455,14 +457,14 @@ class _LoginPageState extends State<LoginPage>
                                             text: 'Become a Manager . ',
                                             style: TextStyle(
                                               fontSize: 14,
-                                              color: Colors.grey[600],
+                                              color: colorScheme.onSurfaceVariant,
                                             ),
                                           ),
-                                          const TextSpan(
+                                          TextSpan(
                                             text: 'Join',
                                             style: TextStyle(
                                               fontSize: 14,
-                                              color: Color(0xFF00D9A3),
+                                              color: colorScheme.primary,
                                               fontWeight: FontWeight.w600,
                                             ),
                                           ),
@@ -503,26 +505,23 @@ class _LoginPageState extends State<LoginPage>
                                                         horizontal: 16,
                                                         vertical: 12),
                                                 decoration: BoxDecoration(
-                                                  color: Colors.red.shade50,
+                                                  color: colorScheme.error.withOpacity(0.1),
                                                   borderRadius:
                                                       BorderRadius.circular(12),
                                                   border: Border.all(
-                                                      color:
-                                                          Colors.red.shade200),
+                                                      color: colorScheme.error.withOpacity(0.3)),
                                                 ),
                                                 child: Row(
                                                   children: [
                                                     Icon(Icons.error_outline,
-                                                        color:
-                                                            Colors.red.shade400,
+                                                        color: colorScheme.error,
                                                         size: 20),
                                                     const SizedBox(width: 10),
                                                     Expanded(
                                                       child: Text(
                                                         _errorMessage!,
                                                         style: TextStyle(
-                                                            color: Colors
-                                                                .red.shade700,
+                                                            color: colorScheme.error,
                                                             fontSize: 13),
                                                       ),
                                                     ),
@@ -531,8 +530,7 @@ class _LoginPageState extends State<LoginPage>
                                                           () => _errorMessage =
                                                               null),
                                                       child: Icon(Icons.close,
-                                                          color: Colors
-                                                              .red.shade300,
+                                                          color: colorScheme.error.withOpacity(0.5),
                                                           size: 18),
                                                     ),
                                                   ],
@@ -546,6 +544,7 @@ class _LoginPageState extends State<LoginPage>
                                     TextFormField(
                                       controller: emailController,
                                       keyboardType: TextInputType.emailAddress,
+                                      style: TextStyle(color: colorScheme.onSurface),
                                       validator: (value) {
                                         if (value == null ||
                                             value.trim().isEmpty) {
@@ -557,27 +556,27 @@ class _LoginPageState extends State<LoginPage>
                                       decoration: InputDecoration(
                                         prefixIcon: Icon(
                                           Icons.person_outline,
-                                          color: Colors.grey[400],
+                                          color: sahara.hintText,
                                           size: 20,
                                         ),
                                         hintText: 'Email Address',
                                         hintStyle: TextStyle(
-                                          color: Colors.grey[400],
+                                          color: sahara.hintText,
                                           fontSize: 14,
                                         ),
                                         border: UnderlineInputBorder(
                                           borderSide: BorderSide(
-                                              color: Colors.grey[300]!),
+                                              color: colorScheme.outline),
                                         ),
                                         focusedBorder:
-                                            const UnderlineInputBorder(
+                                            UnderlineInputBorder(
                                           borderSide: BorderSide(
-                                              color: Color(0xFF00D9A3),
+                                              color: colorScheme.primary,
                                               width: 2),
                                         ),
                                         errorBorder: UnderlineInputBorder(
                                           borderSide: BorderSide(
-                                              color: Colors.red.shade300),
+                                              color: colorScheme.error),
                                         ),
                                       ),
                                     ),
@@ -587,6 +586,7 @@ class _LoginPageState extends State<LoginPage>
                                     TextFormField(
                                       controller: passwordController,
                                       obscureText: _obscurePassword,
+                                      style: TextStyle(color: colorScheme.onSurface),
                                       validator: (value) {
                                         if (value == null ||
                                             value.trim().isEmpty) {
@@ -598,16 +598,15 @@ class _LoginPageState extends State<LoginPage>
                                       decoration: InputDecoration(
                                         prefixIcon: Icon(
                                           Icons.lock_outline,
-                                          color: Colors.grey[400],
+                                          color: sahara.hintText,
                                           size: 20,
                                         ),
-                                        // زر إظهار/إخفاء كلمة المرور
                                         suffixIcon: IconButton(
                                           icon: Icon(
                                             _obscurePassword
                                                 ? Icons.visibility_off_outlined
                                                 : Icons.visibility_outlined,
-                                            color: Colors.grey[400],
+                                            color: sahara.hintText,
                                             size: 20,
                                           ),
                                           onPressed: () => setState(() =>
@@ -616,22 +615,22 @@ class _LoginPageState extends State<LoginPage>
                                         ),
                                         hintText: 'Password',
                                         hintStyle: TextStyle(
-                                          color: Colors.grey[400],
+                                          color: sahara.hintText,
                                           fontSize: 14,
                                         ),
                                         border: UnderlineInputBorder(
                                           borderSide: BorderSide(
-                                              color: Colors.grey[300]!),
+                                              color: colorScheme.outline),
                                         ),
                                         focusedBorder:
-                                            const UnderlineInputBorder(
+                                            UnderlineInputBorder(
                                           borderSide: BorderSide(
-                                              color: Color(0xFF00D9A3),
+                                              color: colorScheme.primary,
                                               width: 2),
                                         ),
                                         errorBorder: UnderlineInputBorder(
                                           borderSide: BorderSide(
-                                              color: Colors.red.shade300),
+                                              color: colorScheme.error),
                                         ),
                                       ),
                                     ),
@@ -644,16 +643,16 @@ class _LoginPageState extends State<LoginPage>
                                           value: keepLogged,
                                           onChanged: (val) => setState(
                                               () => keepLogged = val ?? true),
-                                          activeColor: const Color(0xFF00D9A3),
+                                          activeColor: colorScheme.primary,
                                           side: BorderSide(
-                                              color: Colors.grey[400]!),
+                                              color: colorScheme.outline),
                                         ),
                                         Expanded(
                                           child: Text(
                                             'Keep me logged in',
                                             style: TextStyle(
                                                 fontSize: 14,
-                                                color: Colors.grey[700]),
+                                                color: colorScheme.onSurfaceVariant),
                                           ),
                                         ),
                                       ],
@@ -668,10 +667,9 @@ class _LoginPageState extends State<LoginPage>
                                         onPressed:
                                             _isLoading ? null : _handleLogin,
                                         style: ElevatedButton.styleFrom(
-                                          backgroundColor:
-                                              const Color(0xFF00D9A3),
+                                          backgroundColor: colorScheme.primary,
                                           disabledBackgroundColor:
-                                              const Color(0xFF00D9A3)
+                                              colorScheme.primary
                                                   .withOpacity(0.6),
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
@@ -679,21 +677,21 @@ class _LoginPageState extends State<LoginPage>
                                           ),
                                         ),
                                         child: _isLoading
-                                            ? const SizedBox(
+                                            ? SizedBox(
                                                 width: 22,
                                                 height: 22,
                                                 child:
                                                     CircularProgressIndicator(
-                                                  color: Colors.white,
+                                                  color: colorScheme.onPrimary,
                                                   strokeWidth: 2.5,
                                                 ),
                                               )
-                                            : const Text(
+                                            : Text(
                                                 'LOG IN',
                                                 style: TextStyle(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.bold,
-                                                  color: Colors.white,
+                                                  color: colorScheme.onPrimary,
                                                   letterSpacing: 1,
                                                 ),
                                               ),
@@ -705,7 +703,7 @@ class _LoginPageState extends State<LoginPage>
                                         'Forgot your username or password?',
                                         style: TextStyle(
                                             fontSize: 12,
-                                            color: Colors.grey[600]),
+                                            color: colorScheme.onSurfaceVariant),
                                       ),
                                     ),
                                     const SizedBox(height: 14),
@@ -719,14 +717,14 @@ class _LoginPageState extends State<LoginPage>
                                                   'By clicking Log In, I confirm that I have read and agree to the ',
                                               style: TextStyle(
                                                   fontSize: 11,
-                                                  color: Colors.grey[600]),
+                                                  color: colorScheme.onSurfaceVariant),
                                             ),
-                                            const TextSpan(
+                                            TextSpan(
                                               text:
                                                   'Terms of Service, Privacy Policy',
                                               style: TextStyle(
                                                 fontSize: 11,
-                                                color: Color(0xFF00D9A3),
+                                                color: colorScheme.primary,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
@@ -734,7 +732,7 @@ class _LoginPageState extends State<LoginPage>
                                               text: '.',
                                               style: TextStyle(
                                                   fontSize: 11,
-                                                  color: Colors.grey[600]),
+                                                  color: colorScheme.onSurfaceVariant),
                                             ),
                                           ],
                                         ),
@@ -759,6 +757,7 @@ class _LoginPageState extends State<LoginPage>
   }
 
   Widget _accountHint(String role, String email, String password) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Padding(
       padding: const EdgeInsets.only(bottom: 4),
       child: GestureDetector(
@@ -775,7 +774,7 @@ class _LoginPageState extends State<LoginPage>
               width: 6,
               height: 6,
               decoration: BoxDecoration(
-                color: Color(0xFF00D9A3),
+                color: colorScheme.primary,
                 shape: BoxShape.circle,
               ),
             ),

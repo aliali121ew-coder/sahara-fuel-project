@@ -3,7 +3,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-import '../constants/app_colors.dart';
+import '../core/theme/color_schemes.dart';
 import '../providers/fuel_provider.dart';
 import '../providers/theme_provider.dart';
 import '../services/auth_service.dart';
@@ -15,6 +15,9 @@ class DashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final sahara = context.sahara;
+
     return Consumer2<FuelProvider, ThemeProvider>(
       builder: (context, provider, themeProvider, _) {
         final formatter = NumberFormat('#,###', 'ar');
@@ -25,7 +28,7 @@ class DashboardPage extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: AppColors.getPageGradient(context),
+                colors: sahara.pageGradient,
               ),
             ),
             child: SingleChildScrollView(
@@ -45,14 +48,14 @@ class DashboardPage extends StatelessWidget {
                             style: GoogleFonts.cairo(
                               fontSize: 28,
                               fontWeight: FontWeight.bold,
-                              color: AppColors.getTextPrimary(context),
+                              color: colorScheme.onSurface,
                             ),
                           ),
                           const SizedBox(height: 4),
                           Text(
                             'مرحباً ${Provider.of<AuthService>(context).userName.isNotEmpty ? Provider.of<AuthService>(context).userName : "بك"} - ${DateFormat('EEEE d MMMM yyyy', 'ar').format(DateTime.now())}',
                             style: GoogleFonts.cairo(
-                                fontSize: 14, color: AppColors.getSubtleText(context)),
+                                fontSize: 14, color: sahara.subtleText),
                           ),
                         ],
                       ),
@@ -61,10 +64,10 @@ class DashboardPage extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 12),
                         decoration: BoxDecoration(
-                          color: AppColors.getCardBg(context),
+                          color: sahara.sidebar,
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(
-                              color: AppColors.getAccent(context).withOpacity(0.2)),
+                              color: colorScheme.primary.withOpacity(0.2)),
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -78,18 +81,18 @@ class DashboardPage extends StatelessWidget {
                                   CircularProgressIndicator(
                                     value: provider.overallFillPercentage / 100,
                                     strokeWidth: 4,
-                                    backgroundColor: AppColors.getInputBg(context),
+                                    backgroundColor: sahara.inputBg,
                                     valueColor: AlwaysStoppedAnimation<Color>(
                                       provider.overallFillPercentage > 50
-                                          ? AppColors.getAccent(context)
-                                          : AppColors.getWarning(context),
+                                          ? colorScheme.primary
+                                          : sahara.chartOrange,
                                     ),
                                   ),
                                   Text(
                                     '${provider.overallFillPercentage.toStringAsFixed(0)}%',
                                     style: GoogleFonts.cairo(
                                         fontSize: 10,
-                                        color: Colors.white,
+                                        color: colorScheme.onSurface,
                                         fontWeight: FontWeight.bold),
                                   ),
                                 ],
@@ -101,10 +104,10 @@ class DashboardPage extends StatelessWidget {
                               children: [
                                 Text('نسبة الامتلاء',
                                     style: GoogleFonts.cairo(
-                                        fontSize: 11, color: Colors.grey[500])),
+                                        fontSize: 11, color: sahara.subtleText)),
                                 Text('الإجمالية',
                                     style: GoogleFonts.cairo(
-                                        fontSize: 11, color: Colors.grey[500])),
+                                        fontSize: 11, color: sahara.subtleText)),
                               ],
                             ),
                           ],
@@ -124,7 +127,7 @@ class DashboardPage extends StatelessWidget {
                               '${formatter.format(provider.saharaBalance)} لتر',
                           change:
                               '${provider.saharaChangePercent >= 0 ? "+" : ""}${provider.saharaChangePercent.toStringAsFixed(0)}%',
-                          color: AppColors.getCardGreen(context),
+                          color: sahara.cardGreen,
                           icon: Icons.account_balance_wallet_rounded,
                           isPositive: provider.saharaChangePercent >= 0,
                         ),
@@ -137,7 +140,7 @@ class DashboardPage extends StatelessWidget {
                               '${formatter.format(provider.unionBalance)} لتر',
                           change:
                               '${provider.unionChangePercent >= 0 ? "+" : ""}${provider.unionChangePercent.toStringAsFixed(0)}%',
-                          color: AppColors.getCardOrange(context),
+                          color: sahara.cardOrange,
                           icon: Icons.swap_horiz_rounded,
                           isPositive: provider.unionChangePercent >= 0,
                         ),
@@ -150,7 +153,7 @@ class DashboardPage extends StatelessWidget {
                               '${formatter.format(provider.stationsBalance)} لتر',
                           change:
                               '${provider.stationsChangePercent >= 0 ? "+" : ""}${provider.stationsChangePercent.toStringAsFixed(0)}%',
-                          color: AppColors.getCardPurple(context),
+                          color: sahara.cardPurple,
                           icon: Icons.location_on_rounded,
                           isPositive: provider.stationsChangePercent >= 0,
                         ),
@@ -168,7 +171,7 @@ class DashboardPage extends StatelessWidget {
                           value:
                               '${formatter.format(provider.todayIncoming)} لتر',
                           change: 'اليوم',
-                          color: const Color(0xFF4CAF50),
+                          color: sahara.chartGreen,
                           icon: Icons.arrow_downward_rounded,
                           isPositive: true,
                         ),
@@ -180,7 +183,7 @@ class DashboardPage extends StatelessWidget {
                           value:
                               '${formatter.format(provider.todayOutgoing)} لتر',
                           change: 'اليوم',
-                          color: const Color(0xFFEF5350),
+                          color: sahara.chartRed,
                           icon: Icons.arrow_upward_rounded,
                           isPositive: false,
                         ),
@@ -192,7 +195,7 @@ class DashboardPage extends StatelessWidget {
                           value:
                               '${provider.activeStations} / ${provider.totalStations}',
                           change: 'محطة',
-                          color: const Color(0xFF42A5F5),
+                          color: sahara.chartBlue,
                           icon: Icons.ev_station_rounded,
                           isPositive: true,
                         ),
@@ -248,9 +251,12 @@ class DashboardPage extends StatelessWidget {
 
   // ===== رسم بياني الاستهلاك =====
   Widget _buildConsumptionChart(BuildContext context, FuelProvider provider) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final sahara = context.sahara;
     final data = provider.dailyConsumption;
+
     return Card(
-      color: AppColors.getCardBg(context),
+      color: sahara.sidebar,
       elevation: 8,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Padding(
@@ -264,19 +270,19 @@ class DashboardPage extends StatelessWidget {
                 Text('الاستهلاك اليومي - آخر 30 يوم',
                     style: GoogleFonts.cairo(
                         fontSize: 18,
-                        color: Colors.white,
+                        color: colorScheme.onSurface,
                         fontWeight: FontWeight.bold)),
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
-                    color: AppColors.getAccent(context).withOpacity(0.1),
+                    color: colorScheme.primary.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
                     'متوسط: ${NumberFormat('#,###', 'ar').format(provider.averageDailyConsumption)} لتر/يوم',
                     style: GoogleFonts.cairo(
-                        fontSize: 12, color: AppColors.getAccent(context)),
+                        fontSize: 12, color: colorScheme.primary),
                   ),
                 ),
               ],
@@ -285,9 +291,9 @@ class DashboardPage extends StatelessWidget {
             // وسائل الإيضاح
             Row(
               children: [
-                _legendItem('الاستهلاك', AppColors.getCardGreen(context)),
+                _legendItem(context, 'الاستهلاك', sahara.cardGreen),
                 const SizedBox(width: 20),
-                _legendItem('الوارد', AppColors.getCardOrange(context)),
+                _legendItem(context, 'الوارد', sahara.cardOrange),
               ],
             ),
             const SizedBox(height: 20),
@@ -300,7 +306,8 @@ class DashboardPage extends StatelessWidget {
                     drawVerticalLine: false,
                     horizontalInterval: 20000,
                     getDrawingHorizontalLine: (value) {
-                      return FlLine(color: Colors.grey[800]!, strokeWidth: 0.5);
+                      return FlLine(
+                          color: colorScheme.outlineVariant, strokeWidth: 0.5);
                     },
                   ),
                   titlesData: FlTitlesData(
@@ -321,7 +328,7 @@ class DashboardPage extends StatelessWidget {
                               child: Text(
                                 '${data[value.toInt()].date.day}',
                                 style: TextStyle(
-                                    color: Colors.grey[600], fontSize: 10),
+                                    color: sahara.hintText, fontSize: 10),
                               ),
                             );
                           }
@@ -338,7 +345,7 @@ class DashboardPage extends StatelessWidget {
                           return Text(
                             '${(value / 1000).toStringAsFixed(0)}K',
                             style: TextStyle(
-                                color: Colors.grey[600], fontSize: 10),
+                                color: sahara.hintText, fontSize: 10),
                           );
                         },
                       ),
@@ -354,7 +361,7 @@ class DashboardPage extends StatelessWidget {
                       ),
                       isCurved: true,
                       gradient: LinearGradient(
-                        colors: [AppColors.getCardGreen(context), const Color(0xFF00B894)],
+                        colors: [sahara.cardGreen, sahara.chartGreen],
                       ),
                       barWidth: 3,
                       dotData: const FlDotData(show: false),
@@ -362,8 +369,8 @@ class DashboardPage extends StatelessWidget {
                         show: true,
                         gradient: LinearGradient(
                           colors: [
-                            AppColors.getCardGreen(context).withOpacity(0.3),
-                            AppColors.getCardGreen(context).withOpacity(0.0),
+                            sahara.cardGreen.withOpacity(0.3),
+                            sahara.cardGreen.withOpacity(0.0),
                           ],
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
@@ -378,7 +385,7 @@ class DashboardPage extends StatelessWidget {
                       ),
                       isCurved: true,
                       gradient: LinearGradient(
-                        colors: [AppColors.getCardOrange(context), const Color(0xFFFFB74D)],
+                        colors: [sahara.cardOrange, sahara.chartOrange],
                       ),
                       barWidth: 2,
                       dotData: const FlDotData(show: false),
@@ -394,8 +401,8 @@ class DashboardPage extends StatelessWidget {
                             '${isConsumption ? "استهلاك" : "وارد"}: ${NumberFormat('#,###', 'ar').format(spot.y)} لتر',
                             TextStyle(
                               color: isConsumption
-                                  ? AppColors.getCardGreen(context)
-                                  : AppColors.getCardOrange(context),
+                                  ? sahara.cardGreen
+                                  : sahara.cardOrange,
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
                             ),
@@ -413,7 +420,8 @@ class DashboardPage extends StatelessWidget {
     );
   }
 
-  Widget _legendItem(String label, Color color) {
+  Widget _legendItem(BuildContext context, String label, Color color) {
+    final sahara = context.sahara;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -424,15 +432,18 @@ class DashboardPage extends StatelessWidget {
                 color: color, borderRadius: BorderRadius.circular(2))),
         const SizedBox(width: 6),
         Text(label,
-            style: GoogleFonts.cairo(fontSize: 11, color: Colors.grey[500])),
+            style: GoogleFonts.cairo(fontSize: 11, color: sahara.subtleText)),
       ],
     );
   }
 
   // ===== ملخص حالة الخزانات =====
   Widget _buildTankStatusSummary(BuildContext context, FuelProvider provider) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final sahara = context.sahara;
+
     return Card(
-      color: AppColors.getCardBg(context),
+      color: sahara.sidebar,
       elevation: 8,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Padding(
@@ -443,7 +454,7 @@ class DashboardPage extends StatelessWidget {
             Text('حالة الخزانات',
                 style: GoogleFonts.cairo(
                     fontSize: 18,
-                    color: Colors.white,
+                    color: colorScheme.onSurface,
                     fontWeight: FontWeight.bold)),
             const SizedBox(height: 20),
             // رسم دائري
@@ -458,11 +469,11 @@ class DashboardPage extends StatelessWidget {
                       value: provider
                           .tanksWithStatus(TankStatus.excellent)
                           .toDouble(),
-                      color: const Color(0xFF4CAF50),
+                      color: sahara.chartGreen,
                       title:
                           '${provider.tanksWithStatus(TankStatus.excellent)}',
                       titleStyle: TextStyle(
-                          color: Colors.white,
+                          color: colorScheme.onSurface,
                           fontSize: 12,
                           fontWeight: FontWeight.bold),
                       radius: 40,
@@ -470,10 +481,10 @@ class DashboardPage extends StatelessWidget {
                     PieChartSectionData(
                       value:
                           provider.tanksWithStatus(TankStatus.good).toDouble(),
-                      color: AppColors.getAccent(context),
+                      color: colorScheme.primary,
                       title: '${provider.tanksWithStatus(TankStatus.good)}',
                       titleStyle: TextStyle(
-                          color: Colors.white,
+                          color: colorScheme.onSurface,
                           fontSize: 12,
                           fontWeight: FontWeight.bold),
                       radius: 40,
@@ -482,10 +493,10 @@ class DashboardPage extends StatelessWidget {
                       value: provider
                           .tanksWithStatus(TankStatus.medium)
                           .toDouble(),
-                      color: AppColors.getCardOrange(context),
+                      color: sahara.cardOrange,
                       title: '${provider.tanksWithStatus(TankStatus.medium)}',
                       titleStyle: TextStyle(
-                          color: Colors.white,
+                          color: colorScheme.onSurface,
                           fontSize: 12,
                           fontWeight: FontWeight.bold),
                       radius: 40,
@@ -493,10 +504,10 @@ class DashboardPage extends StatelessWidget {
                     PieChartSectionData(
                       value:
                           provider.tanksWithStatus(TankStatus.low).toDouble(),
-                      color: AppColors.getError(context),
+                      color: colorScheme.error,
                       title: '${provider.tanksWithStatus(TankStatus.low)}',
                       titleStyle: TextStyle(
-                          color: Colors.white,
+                          color: colorScheme.onSurface,
                           fontSize: 12,
                           fontWeight: FontWeight.bold),
                       radius: 40,
@@ -507,23 +518,23 @@ class DashboardPage extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             // وسائل الإيضاح
-            _statusLegend('ممتاز', const Color(0xFF4CAF50),
+            _statusLegend(context, 'ممتاز', sahara.chartGreen,
                 provider.tanksWithStatus(TankStatus.excellent)),
             const SizedBox(height: 8),
-            _statusLegend('جيد', AppColors.getAccent(context),
+            _statusLegend(context, 'جيد', colorScheme.primary,
                 provider.tanksWithStatus(TankStatus.good)),
             const SizedBox(height: 8),
-            _statusLegend('متوسط', AppColors.getCardOrange(context),
+            _statusLegend(context, 'متوسط', sahara.cardOrange,
                 provider.tanksWithStatus(TankStatus.medium)),
             const SizedBox(height: 8),
-            _statusLegend('منخفض', AppColors.getError(context),
+            _statusLegend(context, 'منخفض', colorScheme.error,
                 provider.tanksWithStatus(TankStatus.low)),
             const SizedBox(height: 16),
             // شريط المخزون الإجمالي
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Colors.grey[900],
+                color: sahara.inputBg,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Column(
@@ -533,11 +544,11 @@ class DashboardPage extends StatelessWidget {
                     children: [
                       Text('المخزون الإجمالي',
                           style: GoogleFonts.cairo(
-                              fontSize: 11, color: Colors.grey[500])),
+                              fontSize: 11, color: sahara.subtleText)),
                       Text(
                         '${NumberFormat('#,###', 'ar').format(provider.totalCurrentStock)} / ${NumberFormat('#,###', 'ar').format(provider.totalTankCapacity)}',
                         style: GoogleFonts.cairo(
-                            fontSize: 11, color: Colors.white),
+                            fontSize: 11, color: colorScheme.onSurface),
                       ),
                     ],
                   ),
@@ -547,13 +558,13 @@ class DashboardPage extends StatelessWidget {
                     child: LinearProgressIndicator(
                       value: provider.overallFillPercentage / 100,
                       minHeight: 6,
-                      backgroundColor: Colors.grey[800],
+                      backgroundColor: colorScheme.outlineVariant,
                       valueColor: AlwaysStoppedAnimation<Color>(
                         provider.overallFillPercentage > 60
-                            ? AppColors.getAccent(context)
+                            ? colorScheme.primary
                             : provider.overallFillPercentage > 30
-                                ? AppColors.getCardOrange(context)
-                                : AppColors.getError(context),
+                                ? sahara.cardOrange
+                                : colorScheme.error,
                       ),
                     ),
                   ),
@@ -566,7 +577,11 @@ class DashboardPage extends StatelessWidget {
     );
   }
 
-  Widget _statusLegend(String label, Color color, int count) {
+  Widget _statusLegend(
+      BuildContext context, String label, Color color, int count) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final sahara = context.sahara;
+
     return Row(
       children: [
         Container(
@@ -576,12 +591,13 @@ class DashboardPage extends StatelessWidget {
                 color: color, borderRadius: BorderRadius.circular(3))),
         const SizedBox(width: 10),
         Text(label,
-            style: GoogleFonts.cairo(fontSize: 13, color: Colors.grey[400])),
+            style: GoogleFonts.cairo(
+                fontSize: 13, color: colorScheme.onSurfaceVariant)),
         const Spacer(),
         Text('$count خزان',
             style: GoogleFonts.cairo(
                 fontSize: 13,
-                color: Colors.white,
+                color: colorScheme.onSurface,
                 fontWeight: FontWeight.w600)),
       ],
     );
@@ -589,9 +605,12 @@ class DashboardPage extends StatelessWidget {
 
   // ===== آخر العمليات =====
   Widget _buildRecentActivities(BuildContext context, FuelProvider provider) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final sahara = context.sahara;
     final activities = provider.recentActivities.take(6).toList();
+
     return Card(
-      color: AppColors.getCardBg(context),
+      color: sahara.sidebar,
       elevation: 8,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Padding(
@@ -605,35 +624,38 @@ class DashboardPage extends StatelessWidget {
                 Text('آخر العمليات',
                     style: GoogleFonts.cairo(
                         fontSize: 18,
-                        color: Colors.white,
+                        color: colorScheme.onSurface,
                         fontWeight: FontWeight.bold)),
                 Text('اليوم',
                     style: GoogleFonts.cairo(
-                        fontSize: 12, color: Colors.grey[500])),
+                        fontSize: 12, color: sahara.subtleText)),
               ],
             ),
             const SizedBox(height: 16),
-            ...activities.map((activity) => _activityTile(activity)),
+            ...activities.map((activity) => _activityTile(context, activity)),
           ],
         ),
       ),
     );
   }
 
-  Widget _activityTile(RecentActivity activity) {
+  Widget _activityTile(BuildContext context, RecentActivity activity) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final sahara = context.sahara;
+
     Color iconColor;
     IconData icon;
     switch (activity.type) {
       case ActivityType.incoming:
-        iconColor = const Color(0xFF4CAF50);
+        iconColor = sahara.chartGreen;
         icon = Icons.arrow_downward_rounded;
         break;
       case ActivityType.outgoing:
-        iconColor = const Color(0xFFEF5350);
+        iconColor = sahara.chartRed;
         icon = Icons.arrow_upward_rounded;
         break;
       case ActivityType.transfer:
-        iconColor = const Color(0xFF42A5F5);
+        iconColor = sahara.chartBlue;
         icon = Icons.swap_horiz_rounded;
         break;
     }
@@ -644,7 +666,7 @@ class DashboardPage extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.grey[900]?.withOpacity(0.5),
+        color: sahara.inputBg.withOpacity(0.5),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -666,11 +688,11 @@ class DashboardPage extends StatelessWidget {
                 Text(activity.title,
                     style: GoogleFonts.cairo(
                         fontSize: 13,
-                        color: Colors.white,
+                        color: colorScheme.onSurface,
                         fontWeight: FontWeight.w600)),
                 Text(activity.description,
                     style: GoogleFonts.cairo(
-                        fontSize: 11, color: Colors.grey[500])),
+                        fontSize: 11, color: sahara.subtleText)),
               ],
             ),
           ),
@@ -682,16 +704,16 @@ class DashboardPage extends StatelessWidget {
                 style: GoogleFonts.cairo(
                   fontSize: 12,
                   color: activity.type == ActivityType.incoming
-                      ? const Color(0xFF4CAF50)
+                      ? sahara.chartGreen
                       : activity.type == ActivityType.outgoing
-                          ? const Color(0xFFEF5350)
-                          : const Color(0xFF42A5F5),
+                          ? sahara.chartRed
+                          : sahara.chartBlue,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(timeAgo,
                   style:
-                      GoogleFonts.cairo(fontSize: 10, color: Colors.grey[600])),
+                      GoogleFonts.cairo(fontSize: 10, color: sahara.hintText)),
             ],
           ),
         ],
@@ -701,9 +723,12 @@ class DashboardPage extends StatelessWidget {
 
   // ===== التنبيهات السريعة =====
   Widget _buildQuickAlerts(BuildContext context, FuelProvider provider) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final sahara = context.sahara;
     final alerts = provider.notifications.take(4).toList();
+
     return Card(
-      color: AppColors.getCardBg(context),
+      color: sahara.sidebar,
       elevation: 8,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Padding(
@@ -717,18 +742,18 @@ class DashboardPage extends StatelessWidget {
                 Text('آخر التنبيهات',
                     style: GoogleFonts.cairo(
                         fontSize: 18,
-                        color: Colors.white,
+                        color: colorScheme.onSurface,
                         fontWeight: FontWeight.bold)),
                 if (provider.unreadNotifications > 0)
                   Container(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     decoration: BoxDecoration(
-                        color: Colors.red.withOpacity(0.2),
+                        color: colorScheme.error.withOpacity(0.2),
                         borderRadius: BorderRadius.circular(12)),
                     child: Text('${provider.unreadNotifications} جديد',
-                        style:
-                            GoogleFonts.cairo(fontSize: 11, color: Colors.red)),
+                        style: GoogleFonts.cairo(
+                            fontSize: 11, color: colorScheme.error)),
                   ),
               ],
             ),
@@ -741,23 +766,26 @@ class DashboardPage extends StatelessWidget {
   }
 
   Widget _alertTile(BuildContext context, AppNotification alert) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final sahara = context.sahara;
+
     Color color;
     IconData icon;
     switch (alert.type) {
       case NotificationType.success:
-        color = const Color(0xFF4CAF50);
+        color = sahara.chartGreen;
         icon = Icons.check_circle_outline;
         break;
       case NotificationType.warning:
-        color = AppColors.getCardOrange(context);
+        color = sahara.cardOrange;
         icon = Icons.warning_amber_rounded;
         break;
       case NotificationType.error:
-        color = const Color(0xFFEF5350);
+        color = colorScheme.error;
         icon = Icons.error_outline;
         break;
       case NotificationType.info:
-        color = const Color(0xFF42A5F5);
+        color = sahara.chartBlue;
         icon = Icons.info_outline;
         break;
     }
@@ -767,7 +795,7 @@ class DashboardPage extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: alert.isRead
-            ? Colors.grey[900]?.withOpacity(0.3)
+            ? sahara.inputBg.withOpacity(0.3)
             : color.withOpacity(0.08),
         borderRadius: BorderRadius.circular(12),
         border: alert.isRead ? null : Border.all(color: color.withOpacity(0.2)),
@@ -787,7 +815,7 @@ class DashboardPage extends StatelessWidget {
                       child: Text(alert.title,
                           style: GoogleFonts.cairo(
                               fontSize: 12,
-                              color: Colors.white,
+                              color: colorScheme.onSurface,
                               fontWeight: alert.isRead
                                   ? FontWeight.w500
                                   : FontWeight.bold)),
@@ -803,7 +831,7 @@ class DashboardPage extends StatelessWidget {
                 ),
                 Text(alert.message,
                     style: GoogleFonts.cairo(
-                        fontSize: 11, color: Colors.grey[500]),
+                        fontSize: 11, color: sahara.subtleText),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis),
               ],
@@ -842,8 +870,14 @@ class _StatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final sahara = context.sahara;
+
+    final positiveColor = sahara.chartGreen;
+    final negativeColor = sahara.chartRed;
+
     return Card(
-      color: AppColors.getCardBg(context),
+      color: sahara.sidebar,
       elevation: 8,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Container(
@@ -875,9 +909,7 @@ class _StatCard extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   decoration: BoxDecoration(
-                    color: (isPositive
-                            ? const Color(0xFF4CAF50)
-                            : const Color(0xFFEF5350))
+                    color: (isPositive ? positiveColor : negativeColor)
                         .withOpacity(0.15),
                     borderRadius: BorderRadius.circular(20),
                   ),
@@ -886,18 +918,14 @@ class _StatCard extends StatelessWidget {
                     children: [
                       Icon(
                         isPositive ? Icons.trending_up : Icons.trending_down,
-                        color: isPositive
-                            ? const Color(0xFF4CAF50)
-                            : const Color(0xFFEF5350),
+                        color: isPositive ? positiveColor : negativeColor,
                         size: 14,
                       ),
                       const SizedBox(width: 4),
                       Text(
                         change,
                         style: TextStyle(
-                          color: isPositive
-                              ? const Color(0xFF4CAF50)
-                              : const Color(0xFFEF5350),
+                          color: isPositive ? positiveColor : negativeColor,
                           fontWeight: FontWeight.bold,
                           fontSize: 12,
                         ),
@@ -913,14 +941,14 @@ class _StatCard extends StatelessWidget {
               style: GoogleFonts.cairo(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white),
+                  color: colorScheme.onSurface),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
             const SizedBox(height: 2),
             Text(title,
                 style:
-                    GoogleFonts.cairo(fontSize: 13, color: Colors.grey[500])),
+                    GoogleFonts.cairo(fontSize: 13, color: sahara.subtleText)),
           ],
         ),
       ),

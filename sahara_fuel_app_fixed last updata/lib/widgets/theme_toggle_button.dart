@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/theme_provider.dart';
-import '../constants/app_colors.dart';
 
 class ThemeToggleButton extends StatelessWidget {
   final bool useSmallSize;
@@ -13,12 +12,11 @@ class ThemeToggleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Consumer<ThemeProvider>(
       builder: (context, themeProvider, _) {
         return IconButton(
-          onPressed: () {
-            themeProvider.toggleTheme();
-          },
+          onPressed: () => themeProvider.toggleTheme(),
           icon: AnimatedSwitcher(
             duration: const Duration(milliseconds: 300),
             transitionBuilder: (child, animation) {
@@ -30,7 +28,7 @@ class ThemeToggleButton extends StatelessWidget {
               size: useSmallSize ? 20 : 24,
             ),
           ),
-          color: AppColors.textPrimary,
+          color: colorScheme.onSurface,
           tooltip: themeProvider.isDark ? 'الوضع النهاري' : 'الوضع الليلي',
         );
       },

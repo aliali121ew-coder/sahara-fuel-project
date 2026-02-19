@@ -4,9 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'dart:ui' as ui;
-import '../constants/app_colors.dart';
+import '../core/theme/color_schemes.dart';
 import '../providers/fuel_provider.dart';
-import '../providers/theme_provider.dart';
 
 /// صفحة خزانات الوقود - النسخة المطورة
 class TanksPage extends StatefulWidget {
@@ -38,8 +37,11 @@ class _TanksPageState extends State<TanksPage>
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<FuelProvider, ThemeProvider>(
-        builder: (context, provider, themeProvider, _) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final sahara = context.sahara;
+
+    return Consumer<FuelProvider>(
+        builder: (context, provider, _) {
       final tanks = provider.tanks;
       final filteredTanks = _filterStatus == 'الكل'
           ? tanks
@@ -55,7 +57,7 @@ class _TanksPageState extends State<TanksPage>
               gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: AppColors.getPageGradient(context))),
+                  colors: sahara.pageGradient)),
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(24),
             child:
@@ -67,27 +69,27 @@ class _TanksPageState extends State<TanksPage>
                       style: GoogleFonts.cairo(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white)),
+                          color: colorScheme.onSurface)),
                   Text('مراقبة مستويات الخزانات في جميع المحطات',
                       style: GoogleFonts.cairo(
-                          fontSize: 14, color: Colors.grey[500])),
+                          fontSize: 14, color: sahara.subtleText)),
                 ]),
                 if (lowTanks > 0)
                   Container(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     decoration: BoxDecoration(
-                        color: AppColors.getError(context).withOpacity(0.12),
+                        color: colorScheme.error.withOpacity(0.12),
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
-                            color: AppColors.getError(context).withOpacity(0.3))),
+                            color: colorScheme.error.withOpacity(0.3))),
                     child: Row(children: [
                       Icon(Icons.warning_amber,
-                          color: AppColors.getError(context), size: 18),
+                          color: colorScheme.error, size: 18),
                       const SizedBox(width: 8),
                       Text('$lowTanks خزان بمستوى منخفض',
                           style: GoogleFonts.cairo(
-                              color: AppColors.getError(context),
+                              color: colorScheme.error,
                               fontSize: 13,
                               fontWeight: FontWeight.bold)),
                     ]),
@@ -98,25 +100,25 @@ class _TanksPageState extends State<TanksPage>
               // ===== ملخص سريع =====
               Row(children: [
                 _summaryCard('إجمالي الخزانات', '${tanks.length}',
-                    Icons.storage, AppColors.getAccent(context)),
+                    Icons.storage, sahara.accent),
                 const SizedBox(width: 16),
                 _summaryCard(
                     'خزانات ممتازة',
                     '${tanks.where((t) => t.status == TankStatus.excellent).length}',
                     Icons.verified,
-                    const Color(0xFF10B981)),
+                    sahara.chartGreen),
                 const SizedBox(width: 16),
                 _summaryCard('خزانات متوسطة', '$medTanks', Icons.info_outline,
-                    AppColors.getWarning(context)),
+                    sahara.chartOrange),
                 const SizedBox(width: 16),
                 _summaryCard('خزانات منخفضة', '$lowTanks', Icons.error_outline,
-                    AppColors.getError(context)),
+                    colorScheme.error),
                 const SizedBox(width: 16),
                 _summaryCard(
                     'إجمالي السعة',
                     '${fmt.format(provider.totalTankCapacity)} لتر',
                     Icons.water,
-                    const Color(0xFF8B5CF6)),
+                    sahara.chartPurple),
               ]),
               const SizedBox(height: 24),
 
@@ -124,7 +126,7 @@ class _TanksPageState extends State<TanksPage>
               Row(children: [
                 Text('فلتر الحالة:',
                     style: GoogleFonts.cairo(
-                        color: Colors.grey[500], fontSize: 13)),
+                        color: sahara.subtleText, fontSize: 13)),
                 const SizedBox(width: 12),
                 ...['الكل', 'ممتاز', 'جيد', 'متوسط', 'منخفض']
                     .map((s) => Padding(
@@ -142,13 +144,13 @@ class _TanksPageState extends State<TanksPage>
                                 border: Border.all(
                                     color: _filterStatus == s
                                         ? _statusColor(s)
-                                        : Colors.grey[700]!),
+                                        : sahara.sidebarBorder),
                               ),
                               child: Text(s,
                                   style: GoogleFonts.cairo(
                                       color: _filterStatus == s
                                           ? _statusColor(s)
-                                          : Colors.grey[500],
+                                          : sahara.subtleText,
                                       fontSize: 12,
                                       fontWeight: _filterStatus == s
                                           ? FontWeight.bold
@@ -163,9 +165,9 @@ class _TanksPageState extends State<TanksPage>
               Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                    color: AppColors.getSurface(context),
+                    color: sahara.sidebar,
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: const Color(0xFF2D3748))),
+                    border: Border.all(color: sahara.statBorder)),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -176,7 +178,7 @@ class _TanksPageState extends State<TanksPage>
                                 style: GoogleFonts.cairo(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.white)),
+                                    color: colorScheme.onSurface)),
                             Text(
                                 '${provider.overallFillPercentage.toStringAsFixed(1)}%',
                                 style: GoogleFonts.cairo(
@@ -196,7 +198,7 @@ class _TanksPageState extends State<TanksPage>
                                   _animController.value;
                               return Stack(children: [
                                 Container(
-                                    height: 16, color: const Color(0xFF2D3748)),
+                                    height: 16, color: sahara.statBorder),
                                 FractionallySizedBox(
                                     widthFactor: pct.clamp(0, 1),
                                     child: Container(
@@ -219,11 +221,12 @@ class _TanksPageState extends State<TanksPage>
                             Text(
                                 '${fmt.format(provider.totalCurrentStock)} لتر',
                                 style: GoogleFonts.cairo(
-                                    color: Colors.grey[400], fontSize: 12)),
+                                    color: colorScheme.onSurfaceVariant,
+                                    fontSize: 12)),
                             Text(
                                 'من ${fmt.format(provider.totalTankCapacity)} لتر',
                                 style: GoogleFonts.cairo(
-                                    color: Colors.grey[600], fontSize: 12)),
+                                    color: sahara.hintText, fontSize: 12)),
                           ]),
                     ]),
               ),
@@ -259,11 +262,14 @@ class _TanksPageState extends State<TanksPage>
   }
 
   Widget _summaryCard(String title, String value, IconData icon, Color color) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final sahara = context.sahara;
+
     return Expanded(
         child: Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-          color: AppColors.getSurface(context),
+          color: sahara.sidebar,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(color: color.withOpacity(0.15))),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -277,16 +283,21 @@ class _TanksPageState extends State<TanksPage>
         const SizedBox(height: 10),
         Text(value,
             style: GoogleFonts.cairo(
-                fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: colorScheme.onSurface),
             maxLines: 1,
             overflow: TextOverflow.ellipsis),
         Text(title,
-            style: GoogleFonts.cairo(fontSize: 11, color: Colors.grey[500])),
+            style: GoogleFonts.cairo(fontSize: 11, color: sahara.subtleText)),
       ]),
     ));
   }
 
   Widget _tankCard(Tank tank, NumberFormat fmt) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final sahara = context.sahara;
+
     final pct = (tank.current / tank.capacity * 100);
     final color = _getTankColor(tank.status);
     final isSelected = _selectedTank?.name == tank.name;
@@ -296,10 +307,10 @@ class _TanksPageState extends State<TanksPage>
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         decoration: BoxDecoration(
-          color: AppColors.getSurface(context),
+          color: sahara.sidebar,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-              color: isSelected ? color : const Color(0xFF2D3748),
+              color: isSelected ? color : sahara.statBorder,
               width: isSelected ? 2 : 1),
           boxShadow: isSelected
               ? [BoxShadow(color: color.withOpacity(0.2), blurRadius: 16)]
@@ -336,21 +347,21 @@ class _TanksPageState extends State<TanksPage>
                 style: GoogleFonts.cairo(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white),
+                    color: colorScheme.onSurface),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis),
             Text(tank.fuelType,
                 style:
-                    GoogleFonts.cairo(fontSize: 11, color: Colors.grey[600])),
+                    GoogleFonts.cairo(fontSize: 11, color: sahara.hintText)),
             const Spacer(),
 
             // مؤشر الخزان البصري
             Container(
               height: 50,
               decoration: BoxDecoration(
-                  color: const Color(0xFF0D1B2A),
+                  color: colorScheme.surface,
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: const Color(0xFF2D3748))),
+                  border: Border.all(color: sahara.statBorder)),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(9),
                 child: Stack(children: [
@@ -370,7 +381,7 @@ class _TanksPageState extends State<TanksPage>
                   Center(
                       child: Text('${pct.round()}%',
                           style: GoogleFonts.cairo(
-                              color: Colors.white,
+                              color: colorScheme.onSurface,
                               fontSize: 16,
                               fontWeight: FontWeight.bold))),
                 ]),
@@ -381,12 +392,12 @@ class _TanksPageState extends State<TanksPage>
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               Flexible(
                   child: Text('${fmt.format(tank.current)} لتر',
-                      style:
-                          GoogleFonts.cairo(color: Colors.white, fontSize: 12),
+                      style: GoogleFonts.cairo(
+                          color: colorScheme.onSurface, fontSize: 12),
                       overflow: TextOverflow.ellipsis)),
               Text('/ ${fmt.format(tank.capacity)}',
                   style:
-                      GoogleFonts.cairo(color: Colors.grey[600], fontSize: 10)),
+                      GoogleFonts.cairo(color: sahara.hintText, fontSize: 10)),
             ]),
           ]),
         ),
@@ -395,6 +406,9 @@ class _TanksPageState extends State<TanksPage>
   }
 
   Widget _tankDetails(Tank tank, NumberFormat fmt) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final sahara = context.sahara;
+
     final pct = (tank.current / tank.capacity * 100);
     final color = _getTankColor(tank.status);
     final remaining = tank.capacity - tank.current;
@@ -402,7 +416,7 @@ class _TanksPageState extends State<TanksPage>
     return Container(
       padding: const EdgeInsets.all(28),
       decoration: BoxDecoration(
-          color: AppColors.getSurface(context),
+          color: sahara.sidebar,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(color: color.withOpacity(0.3))),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -423,25 +437,25 @@ class _TanksPageState extends State<TanksPage>
                     style: GoogleFonts.cairo(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white)),
+                        color: colorScheme.onSurface)),
                 Text('${tank.fuelType} • ${tank.status.arabicName}',
                     style: GoogleFonts.cairo(
-                        fontSize: 13, color: Colors.grey[500])),
+                        fontSize: 13, color: sahara.subtleText)),
               ])),
           IconButton(
-              icon: Icon(Icons.close, color: Colors.grey[600]),
+              icon: Icon(Icons.close, color: sahara.hintText),
               onPressed: () => setState(() => _selectedTank = null)),
         ]),
         const SizedBox(height: 24),
         Row(children: [
           _detailStat('السعة الكلية', '${fmt.format(tank.capacity)} لتر',
-              Icons.storage, const Color(0xFF8B5CF6)),
+              Icons.storage, sahara.chartPurple),
           const SizedBox(width: 16),
           _detailStat('المستوى الحالي', '${fmt.format(tank.current)} لتر',
               Icons.water_drop, color),
           const SizedBox(width: 16),
           _detailStat('المتبقي للامتلاء', '${fmt.format(remaining)} لتر',
-              Icons.add_circle_outline, const Color(0xFF3B82F6)),
+              Icons.add_circle_outline, sahara.chartBlue),
           const SizedBox(width: 16),
           _detailStat('نسبة الامتلاء', '${pct.toStringAsFixed(1)}%',
               Icons.pie_chart, color),
@@ -451,7 +465,7 @@ class _TanksPageState extends State<TanksPage>
             style: GoogleFonts.cairo(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
-                color: Colors.white)),
+                color: colorScheme.onSurface)),
         const SizedBox(height: 16),
         SizedBox(
             height: 180,
@@ -460,7 +474,7 @@ class _TanksPageState extends State<TanksPage>
                   show: true,
                   drawVerticalLine: false,
                   getDrawingHorizontalLine: (v) =>
-                      FlLine(color: const Color(0xFF2D3748), strokeWidth: 0.5)),
+                      FlLine(color: sahara.statBorder, strokeWidth: 0.5)),
               titlesData: const FlTitlesData(show: false),
               borderData: FlBorderData(show: false),
               lineBarsData: [
@@ -487,17 +501,17 @@ class _TanksPageState extends State<TanksPage>
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-                color: AppColors.getError(context).withOpacity(0.08),
+                color: colorScheme.error.withOpacity(0.08),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.getError(context).withOpacity(0.2))),
+                border: Border.all(color: colorScheme.error.withOpacity(0.2))),
             child: Row(children: [
-              Icon(Icons.warning_amber, color: AppColors.getError(context), size: 20),
+              Icon(Icons.warning_amber, color: colorScheme.error, size: 20),
               const SizedBox(width: 12),
               Expanded(
                   child: Text(
                       'تحذير: مستوى الخزان منخفض. يُنصح بإعادة التعبئة في أقرب وقت.',
                       style: GoogleFonts.cairo(
-                          color: AppColors.getError(context), fontSize: 13))),
+                          color: colorScheme.error, fontSize: 13))),
             ]),
           ),
         ],
@@ -506,6 +520,9 @@ class _TanksPageState extends State<TanksPage>
   }
 
   Widget _detailStat(String label, String value, IconData icon, Color color) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final sahara = context.sahara;
+
     return Expanded(
         child: Container(
       padding: const EdgeInsets.all(16),
@@ -518,47 +535,60 @@ class _TanksPageState extends State<TanksPage>
         const SizedBox(height: 8),
         Text(value,
             style: GoogleFonts.cairo(
-                color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+                color: colorScheme.onSurface,
+                fontSize: 14,
+                fontWeight: FontWeight.bold),
             textAlign: TextAlign.center),
         Text(label,
-            style: GoogleFonts.cairo(color: Colors.grey[500], fontSize: 11)),
+            style: GoogleFonts.cairo(color: sahara.subtleText, fontSize: 11)),
       ]),
     ));
   }
 
   Color _getTankColor(TankStatus status) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final sahara = context.sahara;
+
     switch (status) {
       case TankStatus.excellent:
-        return const Color(0xFF10B981);
+        return sahara.chartGreen;
       case TankStatus.good:
-        return AppColors.getAccent(context);
+        return colorScheme.primary;
       case TankStatus.medium:
-        return AppColors.getWarning(context);
+        return sahara.chartOrange;
       case TankStatus.low:
-        return AppColors.getError(context);
+        return colorScheme.error;
     }
   }
 
   Color _statusColor(String s) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final sahara = context.sahara;
+
     switch (s) {
       case 'ممتاز':
-        return const Color(0xFF10B981);
+        return sahara.chartGreen;
       case 'جيد':
-        return AppColors.getAccent(context);
+        return colorScheme.primary;
       case 'متوسط':
-        return AppColors.getWarning(context);
+        return sahara.chartOrange;
       case 'منخفض':
-        return AppColors.getError(context);
+        return colorScheme.error;
       default:
-        return Colors.grey;
+        return sahara.hintText;
     }
   }
 
-  Color _getOverallColor(double pct) => pct > 70
-      ? const Color(0xFF10B981)
-      : pct > 40
-          ? AppColors.getWarning(context)
-          : AppColors.getError(context);
+  Color _getOverallColor(double pct) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final sahara = context.sahara;
+
+    return pct > 70
+        ? sahara.chartGreen
+        : pct > 40
+            ? sahara.chartOrange
+            : colorScheme.error;
+  }
 }
 
 class AnimatedBuilder extends AnimatedWidget {
