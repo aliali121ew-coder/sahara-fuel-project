@@ -475,7 +475,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                               children: [
                                 Text(t.name,
                                     style: GoogleFonts.cairo(
-                                        color: Colors.white,
+                                        color: Theme.of(context).colorScheme.onSurface,
                                         fontWeight: FontWeight.w600,
                                         fontSize: 13)),
                                 Text(t.location,
@@ -1002,7 +1002,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                       Expanded(
                           child: Text(r.supplier,
                               style: GoogleFonts.cairo(
-                                  color: Colors.white, fontSize: 10),
+                                  color: Theme.of(context).colorScheme.onSurface, fontSize: 10),
                               textAlign: TextAlign.center)),
                       Expanded(
                           child: Text(r.fuelType,
@@ -1091,7 +1091,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
           .map((e) => PopupMenuItem(
               value: e,
               child: Text(e,
-                  style: GoogleFonts.cairo(color: Colors.white, fontSize: 12))))
+                  style: GoogleFonts.cairo(color: Theme.of(context).colorScheme.onSurface, fontSize: 12))))
           .toList());
 
   Widget _chartTypeButton() => PopupMenuButton<String>(
@@ -1120,7 +1120,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
           .map((e) => PopupMenuItem(
               value: e,
               child: Text(e,
-                  style: GoogleFonts.cairo(color: Colors.white, fontSize: 12))))
+                  style: GoogleFonts.cairo(color: Theme.of(context).colorScheme.onSurface, fontSize: 12))))
           .toList());
 
   Widget _miniStat(String label, String value, IconData icon, Color color,
@@ -1150,7 +1150,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                               color: context.sahara.hintText, fontSize: 9)),
                       Text(value,
                           style: GoogleFonts.cairo(
-                              color: Colors.white,
+                              color: Theme.of(context).colorScheme.onSurface,
                               fontWeight: FontWeight.bold,
                               fontSize: 11)),
                     ])),
@@ -1173,7 +1173,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text(title,
             style: GoogleFonts.cairo(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.onSurface,
                 fontWeight: FontWeight.bold,
                 fontSize: 14)),
         const SizedBox(height: 16),
@@ -1205,7 +1205,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
             const SizedBox(height: 10),
             Text(value,
                 style: GoogleFonts.cairo(
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.onSurface,
                     fontWeight: FontWeight.bold,
                     fontSize: 18)),
             Text(title,

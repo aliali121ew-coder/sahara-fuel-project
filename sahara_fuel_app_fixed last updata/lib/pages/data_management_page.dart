@@ -856,7 +856,7 @@ class _DataManagementPageState extends State<DataManagementPage>
           gradient: LinearGradient(
               colors: _loading
                   ? [Theme.of(context).extension<SaharaColors>()!.subtleText, Theme.of(context).extension<SaharaColors>()!.subtleText]
-                  : [Theme.of(context).colorScheme.primary, const Color(0xFFF59E0B)]),
+                  : [Theme.of(context).colorScheme.primary, context.sahara.chartOrange]),
           borderRadius: BorderRadius.circular(12),
           boxShadow: _loading
               ? []
@@ -869,17 +869,17 @@ class _DataManagementPageState extends State<DataManagementPage>
         ),
         child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           if (_loading)
-            const SizedBox(
+            SizedBox(
                 width: 18,
                 height: 18,
                 child: CircularProgressIndicator(
-                    strokeWidth: 2, color: Colors.white))
+                    strokeWidth: 2, color: Theme.of(context).colorScheme.onSurface))
           else
-            Icon(icon, color: Colors.white, size: 20),
+            Icon(icon, color: Theme.of(context).colorScheme.onSurface, size: 20),
           const SizedBox(width: 10),
           Text(label,
               style: GoogleFonts.cairo(
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.onSurface,
                   fontSize: 14,
                   fontWeight: FontWeight.bold)),
         ]),

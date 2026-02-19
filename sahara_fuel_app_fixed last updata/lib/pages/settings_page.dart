@@ -88,7 +88,7 @@ class _SettingsPageState extends State<SettingsPage>
                                   style: GoogleFonts.cairo(
                                       fontSize: 28,
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.white)),
+                                      color: Theme.of(context).colorScheme.onSurface)),
                               Text('إدارة النظام والمستخدمين والصلاحيات',
                                   style: GoogleFonts.cairo(
                                       fontSize: 14, color: context.sahara.hintText)),
@@ -188,7 +188,7 @@ class _SettingsPageState extends State<SettingsPage>
                       const SizedBox(width: 8),
                       Text('إضافة مستخدم',
                           style: GoogleFonts.cairo(
-                              color: Colors.white,
+                              color: Theme.of(context).colorScheme.onSurface,
                               fontWeight: FontWeight.bold,
                               fontSize: 13))
                     ]))),
@@ -247,7 +247,7 @@ class _SettingsPageState extends State<SettingsPage>
                                 Row(children: [
                                   Text(u.name,
                                       style: GoogleFonts.cairo(
-                                          color: Colors.white,
+                                          color: Theme.of(context).colorScheme.onSurface,
                                           fontWeight: FontWeight.w600,
                                           fontSize: 13)),
                                   if (isCurrent)
@@ -380,7 +380,7 @@ class _SettingsPageState extends State<SettingsPage>
                   style: GoogleFonts.cairo(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white)),
+                      color: Theme.of(context).colorScheme.onSurface)),
               Text(
                   'تحكم بصلاحيات كل مستخدم لكل تبويب - التغييرات تُطبق فوراً وتُحفظ',
                   style:
@@ -472,7 +472,7 @@ class _SettingsPageState extends State<SettingsPage>
                               children: [
                                 Text(u.name.split(' ').take(2).join(' '),
                                     style: GoogleFonts.cairo(
-                                        color: Colors.white,
+                                        color: Theme.of(context).colorScheme.onSurface,
                                         fontSize: 12,
                                         fontWeight: FontWeight.w600)),
                                 Row(children: [
@@ -533,7 +533,7 @@ class _SettingsPageState extends State<SettingsPage>
               style: GoogleFonts.cairo(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white)),
+                  color: Theme.of(context).colorScheme.onSurface)),
           const SizedBox(height: 12),
           Row(
               children: UserRole.values
@@ -623,7 +623,7 @@ class _SettingsPageState extends State<SettingsPage>
                           children: [
                         Text(r.userName,
                             style: GoogleFonts.cairo(
-                                color: Colors.white,
+                                color: Theme.of(context).colorScheme.onSurface,
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600)),
                         Text(r.email,
@@ -826,7 +826,7 @@ class _SettingsPageState extends State<SettingsPage>
                                       children: [
                                     Text(b['date'] as String,
                                         style: GoogleFonts.cairo(
-                                            color: Colors.white,
+                                            color: Theme.of(context).colorScheme.onSurface,
                                             fontSize: 12,
                                             fontWeight: FontWeight.w600)),
                                     Text('الحجم: ${b['size']}',
@@ -870,7 +870,7 @@ class _SettingsPageState extends State<SettingsPage>
                 const SizedBox(width: 10),
                 Text('إعادة ضبط المصنع',
                     style: GoogleFonts.cairo(
-                        color: Colors.white, fontWeight: FontWeight.bold))
+                        color: Theme.of(context).colorScheme.onSurface, fontWeight: FontWeight.bold))
               ]),
               content: Text(
                   'سيتم مسح جميع البيانات المحلية بما في ذلك الأرصدة والسجلات والإشعارات. هل أنت متأكد؟',
@@ -997,7 +997,7 @@ class _SettingsPageState extends State<SettingsPage>
                                   const SizedBox(height: 4),
                                   Text(license.clientName,
                                       style: GoogleFonts.cairo(
-                                          color: Colors.white,
+                                          color: Theme.of(context).colorScheme.onSurface,
                                           fontSize: 22,
                                           fontWeight: FontWeight.bold)),
                                   Text(
@@ -1141,7 +1141,7 @@ class _SettingsPageState extends State<SettingsPage>
                         color: context.sahara.hintText, fontSize: 12))),
             SelectableText(value,
                 style: GoogleFonts.cairo(
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.onSurface,
                     fontWeight: FontWeight.w600,
                     fontSize: 13)),
           ]));
@@ -1178,7 +1178,7 @@ class _SettingsPageState extends State<SettingsPage>
                 style: GoogleFonts.cairo(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white)),
+                    color: Theme.of(context).colorScheme.onSurface)),
             Text('Sahara Karbala Fuel Management',
                 style:
                     GoogleFonts.cairo(fontSize: 13, color: context.sahara.hintText)),
@@ -1251,7 +1251,7 @@ class _SettingsPageState extends State<SettingsPage>
                                       style: GoogleFonts.cairo(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
-                                          color: Colors.white)),
+                                          color: Theme.of(context).colorScheme.onSurface)),
                                   Row(children: [
                                     Text(u.name,
                                         style: GoogleFonts.cairo(
@@ -1391,7 +1391,7 @@ class _SettingsPageState extends State<SettingsPage>
                                   title: Text(label,
                                       style: GoogleFonts.cairo(
                                           color: isOn
-                                              ? Colors.white
+                                              ? Theme.of(context).colorScheme.onSurface
                                               : context.sahara.hintText,
                                           fontSize: 13,
                                           fontWeight: isOn
@@ -1835,7 +1835,7 @@ class _SettingsPageState extends State<SettingsPage>
                                           style: GoogleFonts.cairo(
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold,
-                                              color: Colors.white)),
+                                              color: Theme.of(context).colorScheme.onSurface)),
                                       Text(u.email,
                                           style: GoogleFonts.cairo(
                                               fontSize: 11,
@@ -2207,7 +2207,7 @@ class _SettingsPageState extends State<SettingsPage>
                     children: [
                   Text(t,
                       style: GoogleFonts.cairo(
-                          color: isDanger ? Theme.of(context).colorScheme.error : Colors.white,
+                          color: isDanger ? Theme.of(context).colorScheme.error : Theme.of(context).colorScheme.onSurface,
                           fontSize: 13,
                           fontWeight: FontWeight.w600)),
                   if (sub != null)
@@ -2234,7 +2234,7 @@ class _SettingsPageState extends State<SettingsPage>
               child: DropdownButton<String>(
                   value: v,
                   dropdownColor: context.sahara.inputBg,
-                  style: GoogleFonts.cairo(color: Colors.white, fontSize: 12),
+                  style: GoogleFonts.cairo(color: Theme.of(context).colorScheme.onSurface, fontSize: 12),
                   items: items
                       .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                       .toList(),
@@ -2282,7 +2282,7 @@ class _SettingsPageState extends State<SettingsPage>
       TextField(
           controller: c,
           obscureText: obs,
-          style: GoogleFonts.cairo(color: Colors.white, fontSize: 14),
+          style: GoogleFonts.cairo(color: Theme.of(context).colorScheme.onSurface, fontSize: 14),
           decoration: InputDecoration(
               labelText: l,
               labelStyle:
@@ -2313,7 +2313,7 @@ class _SettingsPageState extends State<SettingsPage>
             style: GoogleFonts.cairo(color: context.sahara.hintText, fontSize: 11)),
         Text(v,
             style: GoogleFonts.cairo(
-                color: Colors.white, fontSize: 12, fontWeight: FontWeight.w600))
+                color: Theme.of(context).colorScheme.onSurface, fontSize: 12, fontWeight: FontWeight.w600))
       ]);
   void _snack(String m, Color c) =>
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -2487,7 +2487,7 @@ class _SettingsPageState extends State<SettingsPage>
                                 children: [
                               Text(rule.name,
                                   style: GoogleFonts.cairo(
-                                      color: Colors.white,
+                                      color: Theme.of(context).colorScheme.onSurface,
                                       fontWeight: FontWeight.w600,
                                       fontSize: 12)),
                               Text(rule.description,
@@ -2570,7 +2570,7 @@ class _SettingsPageState extends State<SettingsPage>
                                   children: [
                                 Text(a.title,
                                     style: GoogleFonts.cairo(
-                                        color: Colors.white,
+                                        color: Theme.of(context).colorScheme.onSurface,
                                         fontSize: 11,
                                         fontWeight: FontWeight.w600)),
                                 Text(a.message,

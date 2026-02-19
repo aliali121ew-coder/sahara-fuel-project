@@ -27,7 +27,7 @@ class _DesertEyePageState extends State<DesertEyePage> {
   static const Color navyMedium = Color(0xFF2A5080);
   static const Color teal = Color(0xFF2DD4BF);
   static const Color gasGreen = Color(0xFF10B981);
-  static const Color benzenBlue = Color(0xFF3B82F6);
+  static const Color benzenBlue = Color(0xFF42A5F5);
   static const Color dezelOrange = Color(0xFFFFA726);
 
   // الألوان الليلية
@@ -50,7 +50,7 @@ class _DesertEyePageState extends State<DesertEyePage> {
 
   Color _getCardColor(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    return isDark ? darkSurfaceLight : Colors.white;
+    return isDark ? darkSurfaceLight : Theme.of(context).colorScheme.onSurface;
   }
 
   Color _getTextColor(BuildContext context) {
@@ -93,7 +93,7 @@ class _DesertEyePageState extends State<DesertEyePage> {
     Transaction('تعبئة', 'Isloor', 590, 'GL 05:99h', Icons.local_gas_station,
         benzenBlue),
     Transaction('تحويل', 'Enabled Stallonen', 166, '3A 60:23h',
-        Icons.swap_horiz, Color(0xFF8B5CF6)),
+        Icons.swap_horiz, const Color(0xFF8B5CF6)),
   ];
 
   @override
@@ -188,7 +188,7 @@ class _DesertEyePageState extends State<DesertEyePage> {
                     ],
                   ),
                   child: Icon(Icons.local_gas_station,
-                      color: isDark ? Colors.white : navyDark, size: 32),
+                      color: isDark ? Theme.of(context).colorScheme.onSurface : navyDark, size: 32),
                 ),
                 SizedBox(height: 12),
                 Text(
@@ -289,7 +289,7 @@ class _DesertEyePageState extends State<DesertEyePage> {
       child: Container(
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: Colors.white12,
+          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.12),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Row(
@@ -306,7 +306,7 @@ class _DesertEyePageState extends State<DesertEyePage> {
             Expanded(
               child: Text(
                 station.name,
-                style: GoogleFonts.cairo(color: Colors.white70, fontSize: 10),
+                style: GoogleFonts.cairo(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7), fontSize: 10),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
               ),
@@ -841,7 +841,7 @@ class _DesertEyePageState extends State<DesertEyePage> {
                         radius: 4,
                         color: color,
                         strokeWidth: 2,
-                        strokeColor: Colors.white,
+                        strokeColor: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                   ),
@@ -958,7 +958,7 @@ class MapPainter extends CustomPainter {
 
     // رسم خط الطريق الخلفي (ظل)
     final shadowPaint = Paint()
-      ..color = Color(0xFF2D3748).withOpacity(0.6)
+      ..color = const Color(0xFF2D3748).withOpacity(0.6)
       ..strokeWidth = 12
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
@@ -974,7 +974,7 @@ class MapPainter extends CustomPainter {
 
     // رسم خطوط وسط الطريق المتقطعة
     final dashPaint = Paint()
-      ..color = Color(0xFFFFA726).withOpacity(0.5)
+      ..color = const Color(0xFFFFA726).withOpacity(0.5)
       ..strokeWidth = 1.5
       ..style = PaintingStyle.stroke;
 
@@ -1070,7 +1070,7 @@ class MapPainter extends CustomPainter {
 
       // السيارة
       final carPaint = Paint()
-        ..color = Color(0xFF3B82F6).withOpacity(0.8)
+        ..color = const Color(0xFF42A5F5).withOpacity(0.8)
         ..style = PaintingStyle.fill;
       canvas.drawRRect(
         RRect.fromRectAndRadius(
@@ -1128,7 +1128,7 @@ class MapPainter extends CustomPainter {
       text: TextSpan(
         text: '${station.name}\n${station.fuelType}',
         style: TextStyle(
-          color: Colors.white,
+          color: const Color(0xFFE5E7EB),
           fontSize: 11,
           fontWeight: FontWeight.bold,
         ),

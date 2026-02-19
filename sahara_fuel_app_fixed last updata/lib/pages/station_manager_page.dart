@@ -69,7 +69,7 @@ class _StationManagerPageState extends State<StationManagerPage>
                                 style: GoogleFonts.cairo(
                                     fontSize: 26,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.white)),
+                                    color: Theme.of(context).colorScheme.onSurface)),
                             Text('مراقبة وإدارة جميع المحطات',
                                 style: GoogleFonts.cairo(
                                     fontSize: 13, color: context.sahara.hintText)),
@@ -89,7 +89,7 @@ class _StationManagerPageState extends State<StationManagerPage>
                             value: _selectedStation,
                             dropdownColor: Theme.of(context).extension<SaharaColors>()!.sidebar,
                             style: GoogleFonts.cairo(
-                                color: Colors.white, fontSize: 12),
+                                color: Theme.of(context).colorScheme.onSurface, fontSize: 12),
                             hint: Text('جميع المحطات',
                                 style: GoogleFonts.cairo(
                                     color: Theme.of(context).colorScheme.primary, fontSize: 12)),
@@ -243,7 +243,7 @@ class _StationManagerPageState extends State<StationManagerPage>
                     children: [
                   Text(s.name,
                       style: GoogleFonts.cairo(
-                          color: Colors.white,
+                          color: Theme.of(context).colorScheme.onSurface,
                           fontWeight: FontWeight.bold,
                           fontSize: 15)),
                   Row(children: [
@@ -358,7 +358,7 @@ class _StationManagerPageState extends State<StationManagerPage>
                   children: [
                     Text('مقارنة الأداء بين المحطات',
                         style: GoogleFonts.cairo(
-                            color: Colors.white,
+                            color: Theme.of(context).colorScheme.onSurface,
                             fontWeight: FontWeight.bold,
                             fontSize: 14)),
                     const SizedBox(height: 20),
@@ -495,7 +495,7 @@ class _StationManagerPageState extends State<StationManagerPage>
                             Flexible(
                                 child: Text(s.name.replaceAll('محطة ', ''),
                                     style: GoogleFonts.cairo(
-                                        color: Colors.white, fontSize: 10),
+                                        color: Theme.of(context).colorScheme.onSurface, fontSize: 10),
                                     overflow: TextOverflow.ellipsis))
                           ])),
                       Expanded(
@@ -593,7 +593,7 @@ class _StationManagerPageState extends State<StationManagerPage>
                   children: [
                     Text('ساعات التشغيل لكل محطة',
                         style: GoogleFonts.cairo(
-                            color: Colors.white,
+                            color: Theme.of(context).colorScheme.onSurface,
                             fontWeight: FontWeight.bold,
                             fontSize: 14)),
                     const SizedBox(height: 20),
@@ -677,7 +677,7 @@ class _StationManagerPageState extends State<StationManagerPage>
                   children: [
                     Text('مقارنة شاملة بين المحطات',
                         style: GoogleFonts.cairo(
-                            color: Colors.white,
+                            color: Theme.of(context).colorScheme.onSurface,
                             fontWeight: FontWeight.bold,
                             fontSize: 14)),
                     Text('ترتيب المحطات حسب الأداء والكفاءة',
@@ -787,7 +787,7 @@ class _StationManagerPageState extends State<StationManagerPage>
                           width: 120,
                           child: Text(s.name,
                               style: GoogleFonts.cairo(
-                                  color: Colors.white,
+                                  color: Theme.of(context).colorScheme.onSurface,
                                   fontSize: 12,
                                   fontWeight: FontWeight.w600))),
                       const SizedBox(width: 12),
@@ -841,7 +841,7 @@ class _StationManagerPageState extends State<StationManagerPage>
                               color: context.sahara.hintText, fontSize: 9)),
                       Text(value,
                           style: GoogleFonts.cairo(
-                              color: Colors.white,
+                              color: Theme.of(context).colorScheme.onSurface,
                               fontWeight: FontWeight.bold,
                               fontSize: 11)),
                     ]))

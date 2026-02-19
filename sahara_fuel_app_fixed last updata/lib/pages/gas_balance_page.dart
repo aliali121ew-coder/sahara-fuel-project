@@ -515,21 +515,21 @@ class _GasBalancePageState extends State<GasBalancePage> {
                     color: sahara.chartRed,
                     title: '${inPct.toStringAsFixed(0)}%',
                     titleStyle: GoogleFonts.cairo(
-                        fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
+                        fontSize: 13, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onSurface),
                     radius: 35),
                 PieChartSectionData(
                     value: outPct,
                     color: sahara.chartOrange,
                     title: '${outPct.toStringAsFixed(0)}%',
                     titleStyle: GoogleFonts.cairo(
-                        fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
+                        fontSize: 13, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onSurface),
                     radius: 35),
                 PieChartSectionData(
                     value: 12,
                     color: sahara.chartPurple,
                     title: '12%',
                     titleStyle: GoogleFonts.cairo(
-                        fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
+                        fontSize: 13, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onSurface),
                     radius: 35),
               ],
             )),

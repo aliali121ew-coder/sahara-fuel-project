@@ -95,7 +95,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
                                 onChanged: (v) =>
                                     setState(() => _searchQuery = v),
                                 style: GoogleFonts.cairo(
-                                    color: Colors.white, fontSize: 13),
+                                    color: Theme.of(context).colorScheme.onSurface, fontSize: 13),
                                 decoration: InputDecoration(
                                   hintText: 'بحث عن محطة أو مزرعة...',
                                   hintStyle: GoogleFonts.cairo(
@@ -165,7 +165,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
                                       style: GoogleFonts.cairo(
                                           fontSize: 28,
                                           fontWeight: FontWeight.bold,
-                                          color: Colors.white)),
+                                          color: Theme.of(context).colorScheme.onSurface)),
                                   Text(
                                       'إجمالي الرصيد: ${formatter.format(provider.saharaBalance)} لتر',
                                       style: GoogleFonts.cairo(
@@ -270,7 +270,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
             ...station.subStations!.map((sub) => ExpansionTile(
                   title: Text(sub.name,
                       style: GoogleFonts.cairo(
-                          color: Colors.white70, fontSize: 12)),
+                          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7), fontSize: 12)),
                   childrenPadding: const EdgeInsets.only(right: 16),
                   children: sub.farms
                       .map((f) => _farmTile(f, station.color))
@@ -295,7 +295,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
       ),
       title: Text(farmName,
           style: GoogleFonts.cairo(
-              color: isSelected ? color : Colors.white60,
+              color: isSelected ? color : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
               fontSize: 12,
               fontWeight: isSelected ? FontWeight.bold : FontWeight.normal)),
       onTap: () => setState(() => selectedFarm = farmName),
@@ -369,7 +369,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
                 style: GoogleFonts.cairo(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white),
+                    color: Theme.of(context).colorScheme.onSurface),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis),
             Text(station.name,
@@ -425,7 +425,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
           Text('الاستهلاك الأسبوعي',
               style: GoogleFonts.cairo(
                   fontSize: 18,
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.onSurface,
                   fontWeight: FontWeight.bold)),
           const SizedBox(height: 16),
           SizedBox(
@@ -523,7 +523,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
                   Text(station.name,
                       style: GoogleFonts.cairo(
                           fontSize: 22,
-                          color: Colors.white,
+                          color: Theme.of(context).colorScheme.onSurface,
                           fontWeight: FontWeight.bold)),
                   Text(
                       'عدد المزارع: ${station.farms.length + (station.subStations?.fold(0, (s, sub) => s! + sub.farms.length) ?? 0)}',
@@ -558,7 +558,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
           Text('الاستهلاك الشهري',
               style: GoogleFonts.cairo(
                   fontSize: 18,
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.onSurface,
                   fontWeight: FontWeight.bold)),
           const SizedBox(height: 16),
           SizedBox(
@@ -658,7 +658,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
           Text(value,
               style: GoogleFonts.cairo(
                   fontSize: 14,
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.onSurface,
                   fontWeight: FontWeight.bold)),
         ]),
       ]),

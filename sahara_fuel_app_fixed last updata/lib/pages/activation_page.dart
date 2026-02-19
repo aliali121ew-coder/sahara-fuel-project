@@ -94,11 +94,11 @@ class _ActivationPageState extends State<ActivationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0D1B2A),
+      backgroundColor: context.sahara.sidebar,
       body: Center(
         child: Container(
           width: 500,
-          padding: const EdgeInsets.all(32),
+          padding: EdgeInsets.all(32),
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.surfaceContainerHighest,
             borderRadius: BorderRadius.circular(24),
@@ -126,21 +126,21 @@ class _ActivationPageState extends State<ActivationPage> {
                     MaterialPageRoute(builder: (_) => const AdminLicensePage()),
                   );
                 },
-                child: const Text(
+                child: Text(
                   'تفعيل النسخة',
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
               ),
               const SizedBox(height: 8),
-              const Text(
+              Text(
                 'يرجى إرسال معرف الجهاز إلى المسؤول للحصول على كود التفعيل',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.white70,
+                  color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
                   fontSize: 14,
                 ),
               ),
@@ -148,11 +148,11 @@ class _ActivationPageState extends State<ActivationPage> {
 
               // Device ID Box
               Container(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: Colors.black26,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.white10),
+                  border: Border.all(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.1)),
                 ),
                 child: Row(
                   children: [
@@ -168,11 +168,11 @@ class _ActivationPageState extends State<ActivationPage> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          const SizedBox(height: 4),
+                          SizedBox(height: 4),
                           SelectableText(
                             _deviceId,
                             style: TextStyle(
-                              color: Colors.white,
+                              color: Theme.of(context).colorScheme.onSurface,
                               fontFamily: 'monospace',
                               letterSpacing: 1,
                             ),
@@ -199,7 +199,7 @@ class _ActivationPageState extends State<ActivationPage> {
               // Key Input
               TextField(
                 controller: _keyController,
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
                 decoration: InputDecoration(
                   labelText: 'كود التفعيل',
                   labelStyle:

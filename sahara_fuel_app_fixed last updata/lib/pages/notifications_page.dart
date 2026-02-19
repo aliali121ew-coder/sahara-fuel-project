@@ -82,7 +82,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                         style: GoogleFonts.cairo(
                             fontSize: 28,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white)),
+                            color: Theme.of(context).colorScheme.onSurface)),
                     if (unreadCount > 0) ...[
                       const SizedBox(width: 12),
                       Container(
@@ -252,7 +252,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
               style: GoogleFonts.cairo(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white)),
+                  color: Theme.of(context).colorScheme.onSurface)),
           Text(label,
               style: GoogleFonts.cairo(fontSize: 11, color: context.sahara.hintText)),
         ]),
@@ -301,7 +301,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                       Expanded(
                           child: Text(n.title,
                               style: GoogleFonts.cairo(
-                                  color: Colors.white,
+                                  color: Theme.of(context).colorScheme.onSurface,
                                   fontWeight: n.isRead
                                       ? FontWeight.normal
                                       : FontWeight.bold,

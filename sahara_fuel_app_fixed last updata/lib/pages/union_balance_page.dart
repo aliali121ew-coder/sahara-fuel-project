@@ -88,7 +88,7 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
               style: GoogleFonts.cairo(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white)),
+                  color: Theme.of(context).colorScheme.onSurface)),
           Text('إدارة ومتابعة التحويلات',
               style: GoogleFonts.cairo(fontSize: 14, color: context.sahara.hintText)),
         ]),
@@ -128,12 +128,12 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
                 '${provider.unionChangePercent >= 0 ? "+" : ""}${provider.unionChangePercent}%'),
             const SizedBox(width: 12),
             _card('المستلم هذا الشهر', fmt.format(totalIn), 'لتر',
-                const Color(0xFF3B82F6), Icons.arrow_downward, '+12%'),
+                context.sahara.chartBlue, Icons.arrow_downward, '+12%'),
           ]),
           const SizedBox(height: 12),
           Row(children: [
             _card('المحول للمحطات', fmt.format(totalOut), 'لتر',
-                const Color(0xFFF59E0B), Icons.arrow_upward, '+8%'),
+                context.sahara.chartOrange, Icons.arrow_upward, '+8%'),
             const SizedBox(width: 12),
             _card('صافي الحركة', fmt.format(totalIn - totalOut), 'لتر',
                 context.sahara.chartPurple, Icons.swap_vert, ''),
@@ -151,10 +151,10 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
             '${provider.unionChangePercent >= 0 ? "+" : ""}${provider.unionChangePercent}%'),
         const SizedBox(width: 16),
         _card('المستلم هذا الشهر', fmt.format(totalIn), 'لتر',
-            const Color(0xFF3B82F6), Icons.arrow_downward, '+12%'),
+            context.sahara.chartBlue, Icons.arrow_downward, '+12%'),
         const SizedBox(width: 16),
         _card('المحول للمحطات', fmt.format(totalOut), 'لتر',
-            const Color(0xFFF59E0B), Icons.arrow_upward, '+8%'),
+            context.sahara.chartOrange, Icons.arrow_upward, '+8%'),
         const SizedBox(width: 16),
         _card('صافي الحركة', fmt.format(totalIn - totalOut), 'لتر',
             context.sahara.chartPurple, Icons.swap_vert, ''),
@@ -170,9 +170,9 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
           _chartContainer(
               'حركة الرصيد',
               [
-                _legendDot('المستلم', const Color(0xFF3B82F6)),
+                _legendDot('المستلم', context.sahara.chartBlue),
                 const SizedBox(width: 16),
-                _legendDot('المحول', const Color(0xFFF59E0B)),
+                _legendDot('المحول', context.sahara.chartOrange),
               ],
               _buildBarChart(provider)),
           const SizedBox(height: 16),
@@ -185,9 +185,9 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
             child: _chartContainer(
                 'حركة الرصيد',
                 [
-                  _legendDot('المستلم', const Color(0xFF3B82F6)),
+                  _legendDot('المستلم', context.sahara.chartBlue),
                   const SizedBox(width: 16),
-                  _legendDot('المحول', const Color(0xFFF59E0B)),
+                  _legendDot('المحول', context.sahara.chartOrange),
                 ],
                 _buildBarChart(provider))),
         const SizedBox(width: 16),
@@ -248,7 +248,7 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
                 style: GoogleFonts.cairo(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white)),
+                    color: Theme.of(context).colorScheme.onSurface)),
             const SizedBox(width: 6),
             Padding(
                 padding: const EdgeInsets.only(bottom: 3),
@@ -276,7 +276,7 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
               style: GoogleFonts.cairo(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white)),
+                  color: Theme.of(context).colorScheme.onSurface)),
           if (legend.isNotEmpty) Row(children: legend),
         ]),
         const SizedBox(height: 20),
@@ -354,24 +354,24 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
           (i) => BarChartGroupData(x: i, barsSpace: 6, barRods: [
                 BarChartRodData(
                     toY: received[i],
-                    color: const Color(0xFF3B82F6),
+                    color: context.sahara.chartBlue,
                     width: 16,
                     borderRadius:
                         const BorderRadius.vertical(top: Radius.circular(6)),
                     backDrawRodData: BackgroundBarChartRodData(
                         show: true,
                         toY: chartMax,
-                        color: const Color(0xFF3B82F6).withOpacity(0.04))),
+                        color: context.sahara.chartBlue.withOpacity(0.04))),
                 BarChartRodData(
                     toY: transferred[i],
-                    color: const Color(0xFFF59E0B),
+                    color: context.sahara.chartOrange,
                     width: 16,
                     borderRadius:
                         const BorderRadius.vertical(top: Radius.circular(6)),
                     backDrawRodData: BackgroundBarChartRodData(
                         show: true,
                         toY: chartMax,
-                        color: const Color(0xFFF59E0B).withOpacity(0.04))),
+                        color: context.sahara.chartOrange.withOpacity(0.04))),
               ])),
     ));
   }
@@ -385,10 +385,10 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
     final total = dist.values.fold<double>(0, (s, v) => s + v);
     final colors = [
       Theme.of(context).colorScheme.primary,
-      const Color(0xFFF59E0B),
+      context.sahara.chartOrange,
       context.sahara.chartPurple,
-      const Color(0xFF3B82F6),
-      const Color(0xFFEC4899),
+      context.sahara.chartBlue,
+      context.sahara.chartRed,
       const Color(0xFFFF7043)
     ];
     final entries = dist.entries.toList()
@@ -413,7 +413,7 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
                     title: '$pct%',
                     radius: 35,
                     titleStyle: GoogleFonts.cairo(
-                        color: Colors.white,
+                        color: Theme.of(context).colorScheme.onSurface,
                         fontSize: 10,
                         fontWeight: FontWeight.bold));
               }).toList()))),
@@ -459,7 +459,7 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
                   style: GoogleFonts.cairo(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white)),
+                      color: Theme.of(context).colorScheme.onSurface)),
               const Spacer(),
               ...['الكل', 'استلام', 'تحويل'].map((f) => Padding(
                     padding: const EdgeInsets.only(right: 8),
@@ -572,7 +572,7 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
 
   Widget _txRow(UnionTransaction t, int idx) {
     final isIn = t.type == 'استلام';
-    final tc = isIn ? context.sahara.chartGreen : const Color(0xFFF59E0B);
+    final tc = isIn ? context.sahara.chartGreen : context.sahara.chartOrange;
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
       color: idx % 2 == 0
@@ -610,7 +610,7 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
             flex: 2,
             child: Text(NumberFormat('#,###', 'ar').format(t.amount),
                 style: GoogleFonts.cairo(
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.onSurface,
                     fontSize: 13,
                     fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center)),
@@ -627,14 +627,14 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
               decoration: BoxDecoration(
                   color: (t.status == 'مكتمل'
                           ? Theme.of(context).extension<SaharaColors>()!.chartGreen
-                          : const Color(0xFFF59E0B))
+                          : context.sahara.chartOrange)
                       .withOpacity(0.12),
                   borderRadius: BorderRadius.circular(8)),
               child: Text(t.status,
                   style: GoogleFonts.cairo(
                       color: t.status == 'مكتمل'
                           ? Theme.of(context).extension<SaharaColors>()!.chartGreen
-                          : const Color(0xFFF59E0B),
+                          : context.sahara.chartOrange,
                       fontSize: 11)),
             ))),
       ]),
