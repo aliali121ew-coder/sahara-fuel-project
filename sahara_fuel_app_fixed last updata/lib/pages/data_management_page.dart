@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'dart:ui' as ui;
 import 'dart:convert';
 import '../constants/app_colors.dart';
+import '../core/theme/color_schemes.dart';
 import '../providers/fuel_provider.dart';
 import '../services/api_service.dart';
 
@@ -104,7 +105,7 @@ class _DataManagementPageState extends State<DataManagementPage>
                 gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
-                    colors: AppColors.getPageGradient(context))),
+                    colors: Theme.of(context).extension<SaharaColors>()!.pageGradient)),
             child: Column(children: [
               // ===== الهيدر =====
               Padding(
@@ -115,10 +116,10 @@ class _DataManagementPageState extends State<DataManagementPage>
                           style: GoogleFonts.cairo(
                               fontSize: 26,
                               fontWeight: FontWeight.bold,
-                              color: AppColors.getTextPrimary(context))),
+                              color: Theme.of(context).colorScheme.onSurface)),
                       Text('إدخال يدوي • رفع ملفات • بيانات تجريبية',
                           style: GoogleFonts.cairo(
-                              fontSize: 13, color: AppColors.getSubtleText(context))),
+                              fontSize: 13, color: Theme.of(context).extension<SaharaColors>()!.subtleText)),
                     ]),
                     const Spacer(),
                     // زر الاتصال بالسيرفر
@@ -191,7 +192,7 @@ class _DataManagementPageState extends State<DataManagementPage>
                 Expanded(
                     child: Text(_resultMessage!,
                         style: GoogleFonts.cairo(
-                            color: AppColors.getTextPrimary(context), fontSize: 13))),
+                            color: Theme.of(context).colorScheme.onSurface, fontSize: 13))),
                 GestureDetector(
                     onTap: () => setState(() => _resultMessage = null),
                     child:
@@ -206,7 +207,7 @@ class _DataManagementPageState extends State<DataManagementPage>
               child: Container(
                 height: 44,
                 decoration: BoxDecoration(
-                    color: AppColors.getSurface(context),
+                    color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                     borderRadius: BorderRadius.circular(14),
                     border: Border.all(color: const Color(0xFF2D3748))),
                 child: TabBar(
@@ -214,12 +215,12 @@ class _DataManagementPageState extends State<DataManagementPage>
                     isScrollable: false,
                     dividerHeight: 0,
                     indicator: BoxDecoration(
-                        color: AppColors.getAccent(context).withOpacity(0.15),
+                        color: Theme.of(context).colorScheme.primary.withOpacity(0.15),
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
-                            color: AppColors.getAccent(context).withOpacity(0.4))),
-                    labelColor: AppColors.getAccent(context),
-                    unselectedLabelColor: AppColors.getSubtleText(context),
+                            color: Theme.of(context).colorScheme.primary.withOpacity(0.4))),
+                    labelColor: Theme.of(context).colorScheme.primary,
+                    unselectedLabelColor: Theme.of(context).extension<SaharaColors>()!.subtleText,
                     labelStyle: GoogleFonts.cairo(
                         fontWeight: FontWeight.bold, fontSize: 11),
                     unselectedLabelStyle: GoogleFonts.cairo(fontSize: 10),
@@ -458,11 +459,11 @@ class _DataManagementPageState extends State<DataManagementPage>
                     children: [
                       Row(children: [
                         Icon(Icons.info_outline,
-                            color: AppColors.getAccent(context), size: 16),
+                            color: Theme.of(context).colorScheme.primary, size: 16),
                         const SizedBox(width: 8),
                         Text('تنسيق البيانات المطلوب:',
                             style: GoogleFonts.cairo(
-                                color: AppColors.getAccent(context),
+                                color: Theme.of(context).colorScheme.primary,
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold)),
                       ]),
@@ -471,7 +472,7 @@ class _DataManagementPageState extends State<DataManagementPage>
                         width: double.infinity,
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                            color: AppColors.getSurface(context),
+                            color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                             borderRadius: BorderRadius.circular(8)),
                         child: SelectableText(
                           '[\n'
@@ -487,14 +488,14 @@ class _DataManagementPageState extends State<DataManagementPage>
                           '  }\n'
                           ']',
                           style: GoogleFonts.firaCode(
-                              color: AppColors.getSubtleText(context), fontSize: 11),
+                              color: Theme.of(context).extension<SaharaColors>()!.subtleText, fontSize: 11),
                         ),
                       ),
                       const SizedBox(height: 8),
                       Text(
                           'الحقول المطلوبة: type (incoming/outgoing) • fuel_type (benzene/diesel/kerosene/gas) • quantity',
                           style: GoogleFonts.cairo(
-                              color: AppColors.getSubtleText(context), fontSize: 10)),
+                              color: Theme.of(context).extension<SaharaColors>()!.subtleText, fontSize: 10)),
                     ]),
               ),
               const SizedBox(height: 16),
@@ -508,12 +509,12 @@ class _DataManagementPageState extends State<DataManagementPage>
                   controller: _jsonCtrl,
                   maxLines: 10,
                   style:
-                      GoogleFonts.firaCode(color: AppColors.getTextPrimary(context), fontSize: 12),
+                      GoogleFonts.firaCode(color: Theme.of(context).colorScheme.onSurface, fontSize: 12),
                   decoration: InputDecoration(
                     hintText:
                         'الصق بيانات JSON هنا...\n\nأو استخدم التنسيق أعلاه',
                     hintStyle: GoogleFonts.cairo(
-                        color: AppColors.getSubtleText(context), fontSize: 12),
+                        color: Theme.of(context).extension<SaharaColors>()!.subtleText, fontSize: 12),
                     contentPadding: const EdgeInsets.all(16),
                     border: InputBorder.none,
                   ),
@@ -695,7 +696,7 @@ class _DataManagementPageState extends State<DataManagementPage>
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-          color: AppColors.getSurface(context),
+          color: Theme.of(context).extension<SaharaColors>()!.sidebar,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: const Color(0xFF2D3748))),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -704,19 +705,19 @@ class _DataManagementPageState extends State<DataManagementPage>
               width: 44,
               height: 44,
               decoration: BoxDecoration(
-                  color: AppColors.getAccent(context).withOpacity(0.12),
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.12),
                   borderRadius: BorderRadius.circular(12)),
-              child: Icon(icon, color: AppColors.getAccent(context), size: 22)),
+              child: Icon(icon, color: Theme.of(context).colorScheme.primary, size: 22)),
           const SizedBox(width: 14),
           Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(title,
                 style: GoogleFonts.cairo(
-                    color: AppColors.getTextPrimary(context),
+                    color: Theme.of(context).colorScheme.onSurface,
                     fontWeight: FontWeight.bold,
                     fontSize: 16)),
             Text(subtitle,
                 style:
-                    GoogleFonts.cairo(color: AppColors.getSubtleText(context), fontSize: 11)),
+                    GoogleFonts.cairo(color: Theme.of(context).extension<SaharaColors>()!.subtleText, fontSize: 11)),
           ]),
         ]),
         const SizedBox(height: 20),
@@ -732,7 +733,7 @@ class _DataManagementPageState extends State<DataManagementPage>
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(label,
           style: GoogleFonts.cairo(
-              color: AppColors.getSubtleText(context),
+              color: Theme.of(context).extension<SaharaColors>()!.subtleText,
               fontSize: 12,
               fontWeight: FontWeight.w600)),
       const SizedBox(height: 6),
@@ -747,11 +748,11 @@ class _DataManagementPageState extends State<DataManagementPage>
           keyboardType: isNumber
               ? const TextInputType.numberWithOptions(decimal: true)
               : TextInputType.text,
-          style: GoogleFonts.cairo(color: AppColors.getTextPrimary(context), fontSize: 13),
+          style: GoogleFonts.cairo(color: Theme.of(context).colorScheme.onSurface, fontSize: 13),
           decoration: InputDecoration(
-            prefixIcon: Icon(icon, color: AppColors.getSubtleText(context), size: 18),
+            prefixIcon: Icon(icon, color: Theme.of(context).extension<SaharaColors>()!.subtleText, size: 18),
             hintText: label,
-            hintStyle: GoogleFonts.cairo(color: AppColors.getSubtleText(context), fontSize: 12),
+            hintStyle: GoogleFonts.cairo(color: Theme.of(context).extension<SaharaColors>()!.subtleText, fontSize: 12),
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
             border: InputBorder.none,
@@ -766,7 +767,7 @@ class _DataManagementPageState extends State<DataManagementPage>
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(label,
           style: GoogleFonts.cairo(
-              color: AppColors.getSubtleText(context),
+              color: Theme.of(context).extension<SaharaColors>()!.subtleText,
               fontSize: 12,
               fontWeight: FontWeight.w600)),
       const SizedBox(height: 6),
@@ -780,14 +781,14 @@ class _DataManagementPageState extends State<DataManagementPage>
           child: DropdownButton<String>(
             value: value,
             isExpanded: true,
-            dropdownColor: AppColors.getSurfaceVariant(context),
-            style: GoogleFonts.cairo(color: AppColors.getTextPrimary(context), fontSize: 13),
+            dropdownColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+            style: GoogleFonts.cairo(color: Theme.of(context).colorScheme.onSurface, fontSize: 13),
             items: options.entries
                 .map((e) => DropdownMenuItem(
                     value: e.key,
                     child: Text(e.value,
                         style: GoogleFonts.cairo(
-                            color: AppColors.getTextPrimary(context), fontSize: 12))))
+                            color: Theme.of(context).colorScheme.onSurface, fontSize: 12))))
                 .toList(),
             onChanged: (v) {
               if (v != null) onChanged(v);
@@ -802,7 +803,7 @@ class _DataManagementPageState extends State<DataManagementPage>
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text('الخزان المستهدف',
           style: GoogleFonts.cairo(
-              color: AppColors.getSubtleText(context),
+              color: Theme.of(context).extension<SaharaColors>()!.subtleText,
               fontSize: 12,
               fontWeight: FontWeight.w600)),
       const SizedBox(height: 6),
@@ -819,22 +820,22 @@ class _DataManagementPageState extends State<DataManagementPage>
                 ? _selectedTank
                 : null,
             isExpanded: true,
-            dropdownColor: AppColors.getSurfaceVariant(context),
+            dropdownColor: Theme.of(context).colorScheme.surfaceContainerHighest,
             hint: Text('اختر خزان (اختياري)',
                 style:
-                    GoogleFonts.cairo(color: AppColors.getSubtleText(context), fontSize: 12)),
-            style: GoogleFonts.cairo(color: AppColors.getTextPrimary(context), fontSize: 13),
+                    GoogleFonts.cairo(color: Theme.of(context).extension<SaharaColors>()!.subtleText, fontSize: 12)),
+            style: GoogleFonts.cairo(color: Theme.of(context).colorScheme.onSurface, fontSize: 13),
             items: [
               DropdownMenuItem(
                   value: '',
                   child: Text('— بدون خزان —',
                       style: GoogleFonts.cairo(
-                          color: AppColors.getSubtleText(context), fontSize: 12))),
+                          color: Theme.of(context).extension<SaharaColors>()!.subtleText, fontSize: 12))),
               ..._availableTanks.map((t) => DropdownMenuItem(
                     value: t['id'] as String,
                     child: Text('${t['name']} (${t['fuel_type']})',
                         style: GoogleFonts.cairo(
-                            color: AppColors.getTextPrimary(context), fontSize: 12)),
+                            color: Theme.of(context).colorScheme.onSurface, fontSize: 12)),
                   )),
             ],
             onChanged: (v) => setState(() => _selectedTank = v ?? ''),
@@ -854,14 +855,14 @@ class _DataManagementPageState extends State<DataManagementPage>
         decoration: BoxDecoration(
           gradient: LinearGradient(
               colors: _loading
-                  ? [AppColors.getSubtleText(context), AppColors.getSubtleText(context)]
-                  : [AppColors.getAccent(context), const Color(0xFFF59E0B)]),
+                  ? [Theme.of(context).extension<SaharaColors>()!.subtleText, Theme.of(context).extension<SaharaColors>()!.subtleText]
+                  : [Theme.of(context).colorScheme.primary, const Color(0xFFF59E0B)]),
           borderRadius: BorderRadius.circular(12),
           boxShadow: _loading
               ? []
               : [
                   BoxShadow(
-                      color: AppColors.getAccent(context).withOpacity(0.3),
+                      color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
                       blurRadius: 12,
                       offset: const Offset(0, 4))
                 ],
@@ -920,20 +921,20 @@ class _DataManagementPageState extends State<DataManagementPage>
           width: 36,
           height: 36,
           decoration: BoxDecoration(
-              color: AppColors.getAccent(context).withOpacity(0.1),
+              color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
               borderRadius: BorderRadius.circular(10)),
-          child: Icon(icon, color: AppColors.getAccent(context), size: 18)),
+          child: Icon(icon, color: Theme.of(context).colorScheme.primary, size: 18)),
       const SizedBox(width: 12),
       Expanded(
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text(title,
             style: GoogleFonts.cairo(
-                color: AppColors.getTextPrimary(context),
+                color: Theme.of(context).colorScheme.onSurface,
                 fontWeight: FontWeight.bold,
                 fontSize: 13)),
         Text(desc,
-            style: GoogleFonts.cairo(color: AppColors.getSubtleText(context), fontSize: 11)),
+            style: GoogleFonts.cairo(color: Theme.of(context).extension<SaharaColors>()!.subtleText, fontSize: 11)),
       ])),
     ]);
   }
@@ -948,13 +949,13 @@ class _DataManagementPageState extends State<DataManagementPage>
             borderRadius: BorderRadius.circular(10),
             border: Border.all(color: const Color(0xFF2D3748))),
         child: Row(children: [
-          Icon(Icons.content_copy, color: AppColors.getAccent(context), size: 16),
+          Icon(Icons.content_copy, color: Theme.of(context).colorScheme.primary, size: 16),
           const SizedBox(width: 10),
           Text(title,
-              style: GoogleFonts.cairo(color: AppColors.getTextPrimary(context), fontSize: 12)),
+              style: GoogleFonts.cairo(color: Theme.of(context).colorScheme.onSurface, fontSize: 12)),
           const Spacer(),
           Text('انقر للنسخ',
-              style: GoogleFonts.cairo(color: AppColors.getAccent(context), fontSize: 10)),
+              style: GoogleFonts.cairo(color: Theme.of(context).colorScheme.primary, fontSize: 10)),
         ]),
       ),
     );

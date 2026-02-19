@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'dart:ui' as ui;
 import '../constants/app_colors.dart';
+import '../core/theme/color_schemes.dart';
 import '../providers/theme_provider.dart';
 import '../services/auth_service.dart';
 import '../services/database_service.dart';
@@ -73,7 +74,7 @@ class _SettingsPageState extends State<SettingsPage>
                 gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
-                    colors: AppColors.getPageGradient(context))),
+                    colors: Theme.of(context).extension<SaharaColors>()!.pageGradient)),
             child: Column(children: [
               Padding(
                   padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
@@ -94,7 +95,7 @@ class _SettingsPageState extends State<SettingsPage>
                             ]),
                         Row(children: [
                           _badge('${users.where((u) => u.isActive).length} نشط',
-                              Icons.people, AppColors.getAccent(context)),
+                              Icons.people, Theme.of(context).colorScheme.primary),
                           const SizedBox(width: 12),
                           _badge('v2.0.0', Icons.info_outline,
                               const Color(0xFF8B5CF6)),
@@ -106,7 +107,7 @@ class _SettingsPageState extends State<SettingsPage>
                   child: Container(
                     height: 48,
                     decoration: BoxDecoration(
-                        color: AppColors.getSurface(context),
+                        color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                         borderRadius: BorderRadius.circular(14),
                         border: Border.all(color: const Color(0xFF2D3748))),
                     child: TabBar(
@@ -115,11 +116,11 @@ class _SettingsPageState extends State<SettingsPage>
                         dividerHeight: 0,
                         splashBorderRadius: BorderRadius.circular(12),
                         indicator: BoxDecoration(
-                            color: AppColors.getAccent(context).withOpacity(0.15),
+                            color: Theme.of(context).colorScheme.primary.withOpacity(0.15),
                             borderRadius: BorderRadius.circular(12),
                             border: Border.all(
-                                color: AppColors.getAccent(context).withOpacity(0.4))),
-                        labelColor: AppColors.getAccent(context),
+                                color: Theme.of(context).colorScheme.primary.withOpacity(0.4))),
+                        labelColor: Theme.of(context).colorScheme.primary,
                         unselectedLabelColor: Colors.grey[500],
                         labelStyle: GoogleFonts.cairo(
                             fontWeight: FontWeight.bold, fontSize: 12),
@@ -163,10 +164,10 @@ class _SettingsPageState extends State<SettingsPage>
                 Icons.people),
             const SizedBox(width: 12),
             _stat('نشط', '${users.where((u) => u.isActive).length}',
-                AppColors.getAccent(context), Icons.check_circle),
+                Theme.of(context).colorScheme.primary, Icons.check_circle),
             const SizedBox(width: 12),
             _stat('معطّل', '${users.where((u) => !u.isActive).length}',
-                AppColors.getError(context), Icons.block),
+                Theme.of(context).colorScheme.error, Icons.block),
             const Spacer(),
             GestureDetector(
                 onTap: () => _addUserDialog(auth),
@@ -174,11 +175,11 @@ class _SettingsPageState extends State<SettingsPage>
                     padding: const EdgeInsets.symmetric(
                         horizontal: 18, vertical: 10),
                     decoration: BoxDecoration(
-                        color: AppColors.getAccent(context),
+                        color: Theme.of(context).colorScheme.primary,
                         borderRadius: BorderRadius.circular(12),
                         boxShadow: [
                           BoxShadow(
-                              color: AppColors.getAccent(context).withOpacity(0.3),
+                              color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
                               blurRadius: 8)
                         ]),
                     child: Row(children: [
@@ -195,7 +196,7 @@ class _SettingsPageState extends State<SettingsPage>
           const SizedBox(height: 20),
           Container(
             decoration: BoxDecoration(
-                color: AppColors.getSurface(context),
+                color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: const Color(0xFF2D3748))),
             child: Column(children: [
@@ -255,13 +256,13 @@ class _SettingsPageState extends State<SettingsPage>
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 6, vertical: 1),
                                         decoration: BoxDecoration(
-                                            color: AppColors.getAccent(context)
+                                            color: Theme.of(context).colorScheme.primary
                                                 .withOpacity(0.15),
                                             borderRadius:
                                                 BorderRadius.circular(6)),
                                         child: Text('أنت',
                                             style: GoogleFonts.cairo(
-                                                color: AppColors.getAccent(context),
+                                                color: Theme.of(context).colorScheme.primary,
                                                 fontSize: 9,
                                                 fontWeight: FontWeight.bold))),
                                 ]),
@@ -327,14 +328,14 @@ class _SettingsPageState extends State<SettingsPage>
                                 height: 10,
                                 decoration: BoxDecoration(
                                     color: u.isActive
-                                        ? AppColors.getAccent(context)
-                                        : AppColors.getError(context),
+                                        ? Theme.of(context).colorScheme.primary
+                                        : Theme.of(context).colorScheme.error,
                                     shape: BoxShape.circle,
                                     boxShadow: [
                                       BoxShadow(
                                           color: (u.isActive
-                                                  ? AppColors.getAccent(context)
-                                                  : AppColors.getError(context))
+                                                  ? Theme.of(context).colorScheme.primary
+                                                  : Theme.of(context).colorScheme.error)
                                               .withOpacity(0.4),
                                           blurRadius: 6)
                                     ])))),
@@ -346,7 +347,7 @@ class _SettingsPageState extends State<SettingsPage>
                               _iconBtn(Icons.vpn_key, const Color(0xFFFFA726),
                                   () => _permissionsDialog(auth, u)),
                               const SizedBox(width: 4),
-                              _iconBtn(Icons.edit, AppColors.getAccent(context),
+                              _iconBtn(Icons.edit, Theme.of(context).colorScheme.primary,
                                   () => _editUserDialog(auth, u)),
                               const SizedBox(width: 4),
                               if (!isCurrent)
@@ -355,8 +356,8 @@ class _SettingsPageState extends State<SettingsPage>
                                         ? Icons.block
                                         : Icons.check_circle,
                                     u.isActive
-                                        ? AppColors.getError(context)
-                                        : AppColors.getAccent(context),
+                                        ? Theme.of(context).colorScheme.error
+                                        : Theme.of(context).colorScheme.primary,
                                     () => auth.toggleUserActive(u.id)),
                             ])),
                   ]),
@@ -392,7 +393,7 @@ class _SettingsPageState extends State<SettingsPage>
                   width: 12,
                   height: 12,
                   decoration: BoxDecoration(
-                      color: AppColors.getAccent(context),
+                      color: Theme.of(context).colorScheme.primary,
                       borderRadius: BorderRadius.circular(3))),
               const SizedBox(width: 4),
               Text('مسموح',
@@ -414,7 +415,7 @@ class _SettingsPageState extends State<SettingsPage>
           const SizedBox(height: 20),
           Container(
               decoration: BoxDecoration(
-                  color: AppColors.getSurface(context),
+                  color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(color: const Color(0xFF2D3748))),
               child: SingleChildScrollView(
@@ -432,7 +433,7 @@ class _SettingsPageState extends State<SettingsPage>
                               width: 170,
                               child: Text('المستخدم',
                                   style: GoogleFonts.cairo(
-                                      color: AppColors.getAccent(context),
+                                      color: Theme.of(context).colorScheme.primary,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 13)))),
                       ..._pageLabels.entries.map((e) => DataColumn(
@@ -484,13 +485,13 @@ class _SettingsPageState extends State<SettingsPage>
                                           horizontal: 5, vertical: 1),
                                       decoration: BoxDecoration(
                                           color:
-                                              AppColors.getAccent(context).withOpacity(0.1),
+                                              Theme.of(context).colorScheme.primary.withOpacity(0.1),
                                           borderRadius:
                                               BorderRadius.circular(6)),
                                       child: Text(
                                           '$allowedCount/${_pageLabels.length}',
                                           style: GoogleFonts.cairo(
-                                              color: AppColors.getAccent(context),
+                                              color: Theme.of(context).colorScheme.primary,
                                               fontSize: 9,
                                               fontWeight: FontWeight.bold))),
                                 ]),
@@ -501,7 +502,7 @@ class _SettingsPageState extends State<SettingsPage>
                                 scale: 0.8,
                                 child: Switch(
                                   value: u.permissions[page] ?? false,
-                                  activeColor: AppColors.getAccent(context),
+                                  activeColor: Theme.of(context).colorScheme.primary,
                                   inactiveTrackColor: const Color(0xFF2D3748),
                                   trackOutlineColor: WidgetStateProperty.all(
                                       Colors.transparent),
@@ -573,7 +574,7 @@ class _SettingsPageState extends State<SettingsPage>
                 child: _group('الحساب', [
               _profileCard(auth),
               const SizedBox(height: 12),
-              _row('تغيير كلمة المرور', Icons.lock_outline, AppColors.getAccent(context),
+              _row('تغيير كلمة المرور', Icons.lock_outline, Theme.of(context).colorScheme.primary,
                   trailing: const Icon(Icons.chevron_right,
                       color: Colors.grey, size: 20)),
               _row('المصادقة الثنائية', Icons.security, const Color(0xFF8B5CF6),
@@ -582,23 +583,23 @@ class _SettingsPageState extends State<SettingsPage>
             const SizedBox(width: 20),
             Expanded(
                 child: _group('التطبيق', [
-              _row('الإشعارات', Icons.notifications_outlined, AppColors.getInfo(context),
+              _row('الإشعارات', Icons.notifications_outlined, Theme.of(context).extension<SaharaColors>()!.chartBlue,
                   trailing: _sw(_notif, (v) => setState(() => _notif = v))),
-              _row('أصوات التنبيه', Icons.volume_up, AppColors.getWarning(context),
+              _row('أصوات التنبيه', Icons.volume_up, Theme.of(context).extension<SaharaColors>()!.chartOrange,
                   trailing: _sw(
                       _soundAlerts, (v) => setState(() => _soundAlerts = v))),
               Consumer<ThemeProvider>(
                 builder: (context, theme, _) => _row(
                   'الوضع الداكن',
                   Icons.dark_mode_outlined,
-                  AppColors.getChartPurple(context),
+                  Theme.of(context).extension<SaharaColors>()!.chartPurple,
                   trailing: _sw(theme.isDark, (v) {
                     theme.setDark(v);
                     setState(() {});
                   }),
                 ),
               ),
-              _row('اللغة', Icons.language, AppColors.getChartBlue(context),
+              _row('اللغة', Icons.language, Theme.of(context).extension<SaharaColors>()!.chartBlue,
                   trailing: _dd(_lang, ['العربية', 'English'],
                       (v) => setState(() => _lang = v!))),
             ])),
@@ -613,7 +614,7 @@ class _SettingsPageState extends State<SettingsPage>
                     borderRadius: BorderRadius.circular(10)),
                 child: Row(children: [
                   Icon(r.success ? Icons.login : Icons.error_outline,
-                      color: r.success ? AppColors.getAccent(context) : AppColors.getError(context),
+                      color: r.success ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.error,
                       size: 18),
                   const SizedBox(width: 10),
                   Expanded(
@@ -638,14 +639,14 @@ class _SettingsPageState extends State<SettingsPage>
                           horizontal: 8, vertical: 2),
                       decoration: BoxDecoration(
                           color:
-                              (r.success ? AppColors.getAccent(context) : AppColors.getError(context))
+                              (r.success ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.error)
                                   .withOpacity(0.1),
                           borderRadius: BorderRadius.circular(6)),
                       child: Text(r.success ? 'نجح' : 'فشل',
                           style: GoogleFonts.cairo(
                               color: r.success
-                                  ? AppColors.getAccent(context)
-                                  : AppColors.getError(context),
+                                  ? Theme.of(context).colorScheme.primary
+                                  : Theme.of(context).colorScheme.error,
                               fontSize: 10,
                               fontWeight: FontWeight.bold))),
                 ]))),
@@ -686,10 +687,10 @@ class _SettingsPageState extends State<SettingsPage>
                         width: 44,
                         height: 44,
                         decoration: BoxDecoration(
-                            color: AppColors.getAccent(context).withOpacity(0.15),
+                            color: Theme.of(context).colorScheme.primary.withOpacity(0.15),
                             borderRadius: BorderRadius.circular(12)),
                         child: Icon(Icons.storage,
-                            color: AppColors.getAccent(context), size: 22)),
+                            color: Theme.of(context).colorScheme.primary, size: 22)),
                     const SizedBox(width: 14),
                     Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -721,7 +722,7 @@ class _SettingsPageState extends State<SettingsPage>
                                     children: [
                                       Text('${e.value}',
                                           style: GoogleFonts.cairo(
-                                              color: AppColors.getAccent(context),
+                                              color: Theme.of(context).colorScheme.primary,
                                               fontWeight: FontWeight.bold,
                                               fontSize: 14)),
                                       const SizedBox(width: 6),
@@ -741,13 +742,13 @@ class _SettingsPageState extends State<SettingsPage>
                       child: ElevatedButton.icon(
                           onPressed: () => _snack(
                               'البيانات تُحفظ تلقائياً مع كل تغيير',
-                              AppColors.getAccent(context)),
+                              Theme.of(context).colorScheme.primary),
                           icon: const Icon(Icons.save, size: 18),
                           label: Text('حفظ يدوي',
                               style: GoogleFonts.cairo(
                                   fontWeight: FontWeight.bold)),
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.getAccent(context),
+                              backgroundColor: Theme.of(context).colorScheme.primary,
                               foregroundColor: Colors.white,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12)))))),
@@ -762,7 +763,7 @@ class _SettingsPageState extends State<SettingsPage>
                               style: GoogleFonts.cairo(
                                   fontWeight: FontWeight.bold)),
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.getError(context),
+                              backgroundColor: Theme.of(context).colorScheme.error,
                               foregroundColor: Colors.white,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12)))))),
@@ -773,7 +774,7 @@ class _SettingsPageState extends State<SettingsPage>
             Expanded(
                 flex: 2,
                 child: _group('إعدادات النسخ', [
-                  _row('نسخ تلقائي', Icons.backup, AppColors.getAccent(context),
+                  _row('نسخ تلقائي', Icons.backup, Theme.of(context).colorScheme.primary,
                       trailing: _sw(
                           _autoBackup, (v) => setState(() => _autoBackup = v))),
                   _row('التكرار', Icons.repeat, const Color(0xFF42A5F5),
@@ -785,13 +786,13 @@ class _SettingsPageState extends State<SettingsPage>
                       height: 46,
                       child: ElevatedButton.icon(
                           onPressed: () => _snack(
-                              'جاري النسخ الاحتياطي...', AppColors.getAccent(context)),
+                              'جاري النسخ الاحتياطي...', Theme.of(context).colorScheme.primary),
                           icon: const Icon(Icons.cloud_upload, size: 18),
                           label: Text('نسخ الآن',
                               style: GoogleFonts.cairo(
                                   fontWeight: FontWeight.bold)),
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.getAccent(context),
+                              backgroundColor: Theme.of(context).colorScheme.primary,
                               foregroundColor: Colors.white,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12))))),
@@ -814,8 +815,8 @@ class _SettingsPageState extends State<SettingsPage>
                                       ? Icons.cloud_done
                                       : Icons.cloud_off,
                                   color: b['ok'] as bool
-                                      ? AppColors.getAccent(context)
-                                      : AppColors.getError(context),
+                                      ? Theme.of(context).colorScheme.primary
+                                      : Theme.of(context).colorScheme.error,
                                   size: 20),
                               const SizedBox(width: 12),
                               Expanded(
@@ -838,15 +839,15 @@ class _SettingsPageState extends State<SettingsPage>
                                       horizontal: 10, vertical: 3),
                                   decoration: BoxDecoration(
                                       color: (b['ok'] as bool
-                                              ? AppColors.getAccent(context)
-                                              : AppColors.getError(context))
+                                              ? Theme.of(context).colorScheme.primary
+                                              : Theme.of(context).colorScheme.error)
                                           .withOpacity(0.1),
                                       borderRadius: BorderRadius.circular(8)),
                                   child: Text(b['ok'] as bool ? 'مكتمل' : 'فشل',
                                       style: GoogleFonts.cairo(
                                           color: b['ok'] as bool
-                                              ? AppColors.getAccent(context)
-                                              : AppColors.getError(context),
+                                              ? Theme.of(context).colorScheme.primary
+                                              : Theme.of(context).colorScheme.error,
                                           fontSize: 11,
                                           fontWeight: FontWeight.bold))),
                             ])))
@@ -865,7 +866,7 @@ class _SettingsPageState extends State<SettingsPage>
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16)),
               title: Row(children: [
-                Icon(Icons.warning_amber, color: AppColors.getError(context), size: 28),
+                Icon(Icons.warning_amber, color: Theme.of(context).colorScheme.error, size: 28),
                 const SizedBox(width: 10),
                 Text('إعادة ضبط المصنع',
                     style: GoogleFonts.cairo(
@@ -884,10 +885,10 @@ class _SettingsPageState extends State<SettingsPage>
                       await db.clearAll();
                       Navigator.pop(ctx);
                       _snack('تم مسح جميع البيانات - أعد تشغيل التطبيق',
-                          AppColors.getError(context));
+                          Theme.of(context).colorScheme.error);
                     },
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.getError(context),
+                        backgroundColor: Theme.of(context).colorScheme.error,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8))),
                     child: Text('مسح الكل',
@@ -1154,7 +1155,7 @@ class _SettingsPageState extends State<SettingsPage>
           width: 600,
           padding: const EdgeInsets.all(36),
           decoration: BoxDecoration(
-              color: AppColors.getSurface(context),
+              color: Theme.of(context).extension<SaharaColors>()!.sidebar,
               borderRadius: BorderRadius.circular(20),
               border: Border.all(color: const Color(0xFF2D3748))),
           child: Column(children: [
@@ -1167,7 +1168,7 @@ class _SettingsPageState extends State<SettingsPage>
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
-                          color: AppColors.getAccent(context).withOpacity(0.3),
+                          color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
                           blurRadius: 20)
                     ]),
                 child: const Icon(Icons.local_gas_station,
@@ -1183,7 +1184,7 @@ class _SettingsPageState extends State<SettingsPage>
                     GoogleFonts.cairo(fontSize: 13, color: Colors.grey[500])),
             const SizedBox(height: 24),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              _chip('الإصدار', 'v2.0.0', AppColors.getAccent(context)),
+              _chip('الإصدار', 'v2.0.0', Theme.of(context).colorScheme.primary),
               const SizedBox(width: 16),
               _chip('الترخيص', 'سنوي', const Color(0xFF8B5CF6)),
               const SizedBox(width: 16),
@@ -1222,7 +1223,7 @@ class _SettingsPageState extends State<SettingsPage>
             builder: (ctx, ss) => Directionality(
                   textDirection: ui.TextDirection.rtl,
                   child: Dialog(
-                    backgroundColor: AppColors.getSurface(context),
+                    backgroundColor: Theme.of(context).extension<SaharaColors>()!.sidebar,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
                     child: Container(
@@ -1276,11 +1277,11 @@ class _SettingsPageState extends State<SettingsPage>
                             Container(
                                 padding: const EdgeInsets.all(10),
                                 decoration: BoxDecoration(
-                                    color: AppColors.getAccent(context).withOpacity(0.1),
+                                    color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                                     shape: BoxShape.circle),
                                 child: Text('${allowedCount()}',
                                     style: GoogleFonts.cairo(
-                                        color: AppColors.getAccent(context),
+                                        color: Theme.of(context).colorScheme.primary,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16))),
                           ]),
@@ -1317,7 +1318,7 @@ class _SettingsPageState extends State<SettingsPage>
                               _quickBtn(
                                   'تحديد الكل',
                                   Icons.select_all,
-                                  AppColors.getAccent(context),
+                                  Theme.of(context).colorScheme.primary,
                                   () => ss(() {
                                         for (var k in perms.keys)
                                           perms[k] = true;
@@ -1377,14 +1378,14 @@ class _SettingsPageState extends State<SettingsPage>
                                       height: 38,
                                       decoration: BoxDecoration(
                                           color: (isOn
-                                                  ? AppColors.getAccent(context)
+                                                  ? Theme.of(context).colorScheme.primary
                                                   : Colors.grey[700]!)
                                               .withOpacity(isOn ? 0.15 : 0.1),
                                           borderRadius:
                                               BorderRadius.circular(10)),
                                       child: Icon(icon,
                                           color: isOn
-                                              ? AppColors.getAccent(context)
+                                              ? Theme.of(context).colorScheme.primary
                                               : Colors.grey[600],
                                           size: 20)),
                                   title: Text(label,
@@ -1399,14 +1400,14 @@ class _SettingsPageState extends State<SettingsPage>
                                   subtitle: isDashboard
                                       ? Text('(إلزامي)',
                                           style: GoogleFonts.cairo(
-                                              color: AppColors.getAccent(context),
+                                              color: Theme.of(context).colorScheme.primary,
                                               fontSize: 10))
                                       : null,
                                   trailing: Transform.scale(
                                       scale: 0.85,
                                       child: Switch(
                                         value: isOn,
-                                        activeColor: AppColors.getAccent(context),
+                                        activeColor: Theme.of(context).colorScheme.primary,
                                         inactiveTrackColor:
                                             const Color(0xFF2D3748),
                                         trackOutlineColor:
@@ -1444,7 +1445,7 @@ class _SettingsPageState extends State<SettingsPage>
                                           Navigator.pop(ctx);
                                           _snack(
                                               'تم تحديث صلاحيات ${u.name} (${allowedCount()} صفحة)',
-                                              AppColors.getAccent(context));
+                                              Theme.of(context).colorScheme.primary);
                                         },
                                   icon: const Icon(Icons.save, size: 18),
                                   label: Text(
@@ -1452,7 +1453,7 @@ class _SettingsPageState extends State<SettingsPage>
                                       style: GoogleFonts.cairo(
                                           fontWeight: FontWeight.bold)),
                                   style: ElevatedButton.styleFrom(
-                                      backgroundColor: AppColors.getAccent(context),
+                                      backgroundColor: Theme.of(context).colorScheme.primary,
                                       foregroundColor: Colors.white,
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 14),
@@ -1514,7 +1515,7 @@ class _SettingsPageState extends State<SettingsPage>
             builder: (ctx, ss) => Directionality(
                 textDirection: ui.TextDirection.rtl,
                 child: Dialog(
-                    backgroundColor: AppColors.getSurface(context),
+                    backgroundColor: Theme.of(context).extension<SaharaColors>()!.sidebar,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
                     child: Container(
@@ -1530,11 +1531,11 @@ class _SettingsPageState extends State<SettingsPage>
                                     height: 44,
                                     decoration: BoxDecoration(
                                         color:
-                                            AppColors.getAccent(context).withOpacity(0.15),
+                                            Theme.of(context).colorScheme.primary.withOpacity(0.15),
                                         borderRadius:
                                             BorderRadius.circular(12)),
                                     child: Icon(Icons.person_add,
-                                        color: AppColors.getAccent(context), size: 22)),
+                                        color: Theme.of(context).colorScheme.primary, size: 22)),
                                 const SizedBox(width: 14),
                                 Text('إضافة مستخدم جديد',
                                     style: GoogleFonts.cairo(
@@ -1649,14 +1650,14 @@ class _SettingsPageState extends State<SettingsPage>
                                                       horizontal: 8,
                                                       vertical: 2),
                                               decoration: BoxDecoration(
-                                                  color: AppColors.getAccent(context)
+                                                  color: Theme.of(context).colorScheme.primary
                                                       .withOpacity(0.1),
                                                   borderRadius:
                                                       BorderRadius.circular(8)),
                                               child: Text(
                                                   '${perms.values.where((v) => v).length} / ${perms.length}',
                                                   style: GoogleFonts.cairo(
-                                                      color: AppColors.getAccent(context),
+                                                      color: Theme.of(context).colorScheme.primary,
                                                       fontSize: 11,
                                                       fontWeight:
                                                           FontWeight.bold))),
@@ -1684,7 +1685,7 @@ class _SettingsPageState extends State<SettingsPage>
                                                             vertical: 6),
                                                         decoration: BoxDecoration(
                                                             color: isOn
-                                                                ? AppColors.getAccent(context)
+                                                                ? Theme.of(context).colorScheme.primary
                                                                     .withOpacity(
                                                                         0.15)
                                                                 : Colors
@@ -1775,11 +1776,11 @@ class _SettingsPageState extends State<SettingsPage>
                                             Navigator.pop(ctx);
                                             _snack(
                                                 'تم إضافة ${nc.text} (${perms.values.where((v) => v).length} صفحة)',
-                                                AppColors.getAccent(context));
+                                                Theme.of(context).colorScheme.primary);
                                           }
                                         },
                                         style: ElevatedButton.styleFrom(
-                                            backgroundColor: AppColors.getAccent(context),
+                                            backgroundColor: Theme.of(context).colorScheme.primary,
                                             foregroundColor: Colors.white,
                                             padding: const EdgeInsets.symmetric(
                                                 vertical: 14),
@@ -1805,7 +1806,7 @@ class _SettingsPageState extends State<SettingsPage>
             builder: (ctx, ss) => Directionality(
                 textDirection: ui.TextDirection.rtl,
                 child: Dialog(
-                    backgroundColor: AppColors.getSurface(context),
+                    backgroundColor: Theme.of(context).extension<SaharaColors>()!.sidebar,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
                     child: Container(
@@ -1951,14 +1952,14 @@ class _SettingsPageState extends State<SettingsPage>
                                                       horizontal: 8,
                                                       vertical: 2),
                                               decoration: BoxDecoration(
-                                                  color: AppColors.getAccent(context)
+                                                  color: Theme.of(context).colorScheme.primary
                                                       .withOpacity(0.1),
                                                   borderRadius:
                                                       BorderRadius.circular(8)),
                                               child: Text(
                                                   '${perms.values.where((v) => v).length} / ${perms.length}',
                                                   style: GoogleFonts.cairo(
-                                                      color: AppColors.getAccent(context),
+                                                      color: Theme.of(context).colorScheme.primary,
                                                       fontSize: 11,
                                                       fontWeight:
                                                           FontWeight.bold))),
@@ -1969,7 +1970,7 @@ class _SettingsPageState extends State<SettingsPage>
                                           Row(children: [
                                             _miniBtn(
                                                 'الكل',
-                                                AppColors.getAccent(context),
+                                                Theme.of(context).colorScheme.primary,
                                                 () => ss(() {
                                                       for (var k in perms.keys)
                                                         perms[k] = true;
@@ -2020,7 +2021,7 @@ class _SettingsPageState extends State<SettingsPage>
                                                                 vertical: 6),
                                                         decoration: BoxDecoration(
                                                             color: isOn
-                                                                ? AppColors.getAccent(context)
+                                                                ? Theme.of(context).colorScheme.primary
                                                                     .withOpacity(
                                                                         0.15)
                                                                 : Colors
@@ -2030,7 +2031,7 @@ class _SettingsPageState extends State<SettingsPage>
                                                                     10),
                                                             border: Border.all(
                                                                 color: isOn
-                                                                    ? AppColors.getAccent(context).withOpacity(0.4)
+                                                                    ? Theme.of(context).colorScheme.primary.withOpacity(0.4)
                                                                     : Colors.grey[700]!)),
                                                         child: Row(mainAxisSize: MainAxisSize.min, children: [
                                                           Icon(
@@ -2103,14 +2104,14 @@ class _SettingsPageState extends State<SettingsPage>
                                         Navigator.pop(ctx);
                                         _snack(
                                             'تم تحديث ${nc.text} (${perms.values.where((v) => v).length} صفحة)',
-                                            AppColors.getAccent(context));
+                                            Theme.of(context).colorScheme.primary);
                                       },
                                       icon: const Icon(Icons.save, size: 18),
                                       label: Text('حفظ التعديلات',
                                           style: GoogleFonts.cairo(
                                               fontWeight: FontWeight.bold)),
                                       style: ElevatedButton.styleFrom(
-                                          backgroundColor: AppColors.getAccent(context),
+                                          backgroundColor: Theme.of(context).colorScheme.primary,
                                           foregroundColor: Colors.white,
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 14),
@@ -2155,7 +2156,7 @@ class _SettingsPageState extends State<SettingsPage>
       flex: f,
       child: Text(t,
           style: GoogleFonts.cairo(
-              color: AppColors.getAccent(context),
+              color: Theme.of(context).colorScheme.primary,
               fontWeight: FontWeight.bold,
               fontSize: 12),
           textAlign: TextAlign.center));
@@ -2171,7 +2172,7 @@ class _SettingsPageState extends State<SettingsPage>
   Widget _group(String t, List<Widget> ch) => Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-          color: AppColors.getSurface(context),
+          color: Theme.of(context).extension<SaharaColors>()!.sidebar,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: const Color(0xFF2D3748))),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -2179,7 +2180,7 @@ class _SettingsPageState extends State<SettingsPage>
             style: GoogleFonts.cairo(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
-                color: AppColors.getAccent(context))),
+                color: Theme.of(context).colorScheme.primary)),
         const SizedBox(height: 16),
         ...ch
       ]));
@@ -2206,7 +2207,7 @@ class _SettingsPageState extends State<SettingsPage>
                     children: [
                   Text(t,
                       style: GoogleFonts.cairo(
-                          color: isDanger ? AppColors.getError(context) : Colors.white,
+                          color: isDanger ? Theme.of(context).colorScheme.error : Colors.white,
                           fontSize: 13,
                           fontWeight: FontWeight.w600)),
                   if (sub != null)
@@ -2219,7 +2220,7 @@ class _SettingsPageState extends State<SettingsPage>
   Widget _sw(bool v, ValueChanged<bool> f) => Switch(
       value: v,
       onChanged: f,
-      activeColor: AppColors.getAccent(context),
+      activeColor: Theme.of(context).colorScheme.primary,
       inactiveTrackColor: const Color(0xFF2D3748),
       trackOutlineColor: WidgetStateProperty.all(Colors.transparent));
   Widget _dd(String v, List<String> items, ValueChanged<String?> f) =>
@@ -2286,7 +2287,7 @@ class _SettingsPageState extends State<SettingsPage>
               labelText: l,
               labelStyle:
                   GoogleFonts.cairo(color: Colors.grey[600], fontSize: 13),
-              prefixIcon: Icon(i, color: AppColors.getAccent(context), size: 20),
+              prefixIcon: Icon(i, color: Theme.of(context).colorScheme.primary, size: 20),
               filled: true,
               fillColor: const Color(0xFF252830),
               border: OutlineInputBorder(
@@ -2294,7 +2295,7 @@ class _SettingsPageState extends State<SettingsPage>
                   borderSide: BorderSide.none),
               focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: AppColors.getAccent(context)))));
+                  borderSide: BorderSide(color: Theme.of(context).colorScheme.primary))));
   Widget _chip(String l, String v, Color c) => Container(
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
       decoration: BoxDecoration(
@@ -2417,7 +2418,7 @@ class _SettingsPageState extends State<SettingsPage>
               // قواعد التنبيه
               Container(
                 decoration: BoxDecoration(
-                    color: AppColors.getSurface(context),
+                    color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(color: const Color(0xFF2D3748))),
                 child: Column(children: [
@@ -2524,7 +2525,7 @@ class _SettingsPageState extends State<SettingsPage>
               if (alert.activeAlerts.isNotEmpty)
                 Container(
                   decoration: BoxDecoration(
-                      color: AppColors.getSurface(context),
+                      color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(color: const Color(0xFF2D3748))),
                   child: Column(children: [

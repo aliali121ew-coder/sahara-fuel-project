@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'dart:ui' as ui;
 import '../constants/app_colors.dart';
+import '../core/theme/color_schemes.dart';
 import '../providers/fuel_provider.dart';
 import '../providers/theme_provider.dart';
 
@@ -68,7 +69,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
               gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: AppColors.getPageGradient(context))),
+                  colors: Theme.of(context).extension<SaharaColors>()!.pageGradient)),
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(24),
             child:
@@ -88,11 +89,11 @@ class _NotificationsPageState extends State<NotificationsPage> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 4),
                         decoration: BoxDecoration(
-                            color: AppColors.getAccent(context).withOpacity(0.15),
+                            color: Theme.of(context).colorScheme.primary.withOpacity(0.15),
                             borderRadius: BorderRadius.circular(12)),
                         child: Text('$unreadCount جديد',
                             style: GoogleFonts.cairo(
-                                color: AppColors.getAccent(context),
+                                color: Theme.of(context).colorScheme.primary,
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold)),
                       ),
@@ -107,7 +108,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                     _actionBtn(
                         'تحديد الكل كمقروء',
                         Icons.done_all,
-                        AppColors.getAccent(context),
+                        Theme.of(context).colorScheme.primary,
                         () => provider.markAllNotificationsAsRead()),
                   const SizedBox(width: 12),
                   _actionBtn('مسح المقروءة', Icons.delete_sweep,
@@ -125,25 +126,25 @@ class _NotificationsPageState extends State<NotificationsPage> {
                     'تنبيهات',
                     '${allNotifications.where((n) => n.type == NotificationType.warning).length}',
                     Icons.warning,
-                    AppColors.getWarning(context)),
+                    Theme.of(context).extension<SaharaColors>()!.chartOrange),
                 const SizedBox(width: 12),
                 _summaryCard(
                     'نجاح',
                     '${allNotifications.where((n) => n.type == NotificationType.success).length}',
                     Icons.check_circle,
-                    AppColors.getSuccess(context)),
+                    Theme.of(context).extension<SaharaColors>()!.chartGreen),
                 const SizedBox(width: 12),
                 _summaryCard(
                     'أخطاء',
                     '${allNotifications.where((n) => n.type == NotificationType.error).length}',
                     Icons.error,
-                    AppColors.getError(context)),
+                    Theme.of(context).colorScheme.error),
                 const SizedBox(width: 12),
                 _summaryCard(
                     'معلومات',
                     '${allNotifications.where((n) => n.type == NotificationType.info).length}',
                     Icons.info,
-                    AppColors.getInfo(context)),
+                    Theme.of(context).extension<SaharaColors>()!.chartBlue),
               ]),
               const SizedBox(height: 24),
 
@@ -238,7 +239,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: isActive ? color.withOpacity(0.1) : AppColors.getSurface(context),
+          color: isActive ? color.withOpacity(0.1) : Theme.of(context).extension<SaharaColors>()!.sidebar,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
               color:
@@ -271,7 +272,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
         },
         child: Container(
           decoration: BoxDecoration(
-            color: n.isRead ? AppColors.getSurface(context) : AppColors.getSurface(context),
+            color: n.isRead ? Theme.of(context).extension<SaharaColors>()!.sidebar : Theme.of(context).extension<SaharaColors>()!.sidebar,
             borderRadius: BorderRadius.circular(14),
             border: Border.all(
                 color: n.isRead
@@ -395,13 +396,13 @@ class _NotificationsPageState extends State<NotificationsPage> {
   Color _typeColor(NotificationType type) {
     switch (type) {
       case NotificationType.success:
-        return AppColors.getSuccess(context);
+        return Theme.of(context).extension<SaharaColors>()!.chartGreen;
       case NotificationType.warning:
-        return AppColors.getWarning(context);
+        return Theme.of(context).extension<SaharaColors>()!.chartOrange;
       case NotificationType.error:
-        return AppColors.getError(context);
+        return Theme.of(context).colorScheme.error;
       case NotificationType.info:
-        return AppColors.getInfo(context);
+        return Theme.of(context).extension<SaharaColors>()!.chartBlue;
     }
   }
 
@@ -434,15 +435,15 @@ class _NotificationsPageState extends State<NotificationsPage> {
   Color _filterColor(String f) {
     switch (f) {
       case 'تنبيهات':
-        return AppColors.getWarning(context);
+        return Theme.of(context).extension<SaharaColors>()!.chartOrange;
       case 'نجاح':
-        return AppColors.getSuccess(context);
+        return Theme.of(context).extension<SaharaColors>()!.chartGreen;
       case 'أخطاء':
-        return AppColors.getError(context);
+        return Theme.of(context).colorScheme.error;
       case 'معلومات':
-        return AppColors.getInfo(context);
+        return Theme.of(context).extension<SaharaColors>()!.chartBlue;
       default:
-        return AppColors.getAccent(context);
+        return Theme.of(context).colorScheme.primary;
     }
   }
 

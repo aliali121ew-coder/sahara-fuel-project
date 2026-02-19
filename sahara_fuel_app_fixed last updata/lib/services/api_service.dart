@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import '../core/config/env_config.dart';
 
 /// خدمة API للاتصال بالسيرفر
 /// تدير: التوكنات، الطلبات، التحديث التلقائي للجلسة
@@ -9,9 +10,12 @@ class ApiService {
   factory ApiService() => _instance;
   ApiService._();
 
+  static void _log(String msg) {
+    if (EnvConfig.debugMode) debugPrint(msg);
+  }
+
   // ===== الإعدادات =====
-  // في الإنتاج غيّر هذا للسيرفر الحقيقي
-  String _baseUrl = 'http://localhost:3000/api';
+  String _baseUrl = EnvConfig.apiBaseUrl;
   String? _accessToken;
   String? _refreshToken;
 
@@ -23,7 +27,7 @@ class ApiService {
   /// تعيين رابط السيرفر
   void setBaseUrl(String url) {
     _baseUrl = url.endsWith('/') ? url.substring(0, url.length - 1) : url;
-    debugPrint('🌐 API Base URL: $_baseUrl');
+    _log('🌐 API Base URL: $_baseUrl');
   }
 
   /// تعيين التوكنات بعد تسجيل الدخول
@@ -107,7 +111,7 @@ class ApiService {
         }
       }
     } catch (e) {
-      debugPrint('❌ فشل تجديد التوكن: $e');
+      _log('❌ فشل تجديد التوكن: $e');
     }
     return false;
   }

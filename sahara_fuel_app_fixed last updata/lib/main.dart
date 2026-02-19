@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'constants/app_colors.dart';
+import 'core/config/env_config.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/color_schemes.dart';
 import 'main_screen.dart';
@@ -19,11 +20,8 @@ void main() async {
   // تهيئة قاعدة البيانات المحلية
   await DatabaseService().init();
 
-  // إعداد API Service
-  // ملاحظة: غيّر الرابط حسب السيرفر الخاص بك
-  // للويب: http://localhost:3000/api
-  // للموبايل/إيميوليتر: http://10.0.2.2:3000/api (أندرويد) أو http://localhost:3000/api (iOS)
-  ApiService().setBaseUrl('http://localhost:3000/api');
+  // إعداد API Service من الإعدادات البيئية
+  ApiService().setBaseUrl(EnvConfig.apiBaseUrl);
 
   // إنشاء الخدمات مع تحميل البيانات
   final fuelProvider = FuelProvider();

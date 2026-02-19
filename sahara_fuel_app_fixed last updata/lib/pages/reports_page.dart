@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'dart:ui' as ui;
 import '../constants/app_colors.dart';
+import '../core/theme/color_schemes.dart';
 import '../providers/fuel_provider.dart';
 import '../providers/theme_provider.dart';
 import '../models/report_models.dart';
@@ -43,7 +44,7 @@ class _ReportsPageState extends State<ReportsPage> {
               gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: AppColors.getPageGradient(context))),
+                  colors: Theme.of(context).extension<SaharaColors>()!.pageGradient)),
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(24),
             child:
@@ -84,10 +85,10 @@ class _ReportsPageState extends State<ReportsPage> {
               // ===== بطاقات الملخص =====
               Row(children: [
                 _statCard('الرصيد الحالي', fmt.format(totalCurrent), 'لتر',
-                    AppColors.getAccent(context), Icons.account_balance_wallet),
+                    Theme.of(context).colorScheme.primary, Icons.account_balance_wallet),
                 const SizedBox(width: 16),
                 _statCard('إجمالي المصروف', fmt.format(totalExpense), 'لتر',
-                    AppColors.getError(context), Icons.trending_down),
+                    Theme.of(context).colorScheme.error, Icons.trending_down),
                 const SizedBox(width: 16),
                 _statCard('إجمالي المشتريات', fmt.format(totalPurchase), 'لتر',
                     const Color(0xFF3B82F6), Icons.shopping_cart),
@@ -100,7 +101,7 @@ class _ReportsPageState extends State<ReportsPage> {
               // ===== جدول مصروف الوقود =====
               Container(
                 decoration: BoxDecoration(
-                    color: AppColors.getSurface(context),
+                    color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(color: const Color(0xFF2D3748))),
                 child: Column(children: [
@@ -111,8 +112,8 @@ class _ReportsPageState extends State<ReportsPage> {
                         vertical: 20, horizontal: 24),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(colors: [
-                        AppColors.getOrange(context).withOpacity(0.9),
-                        AppColors.getOrange(context).withOpacity(0.7)
+                        Theme.of(context).extension<SaharaColors>()!.cardOrange.withOpacity(0.9),
+                        Theme.of(context).extension<SaharaColors>()!.cardOrange.withOpacity(0.7)
                       ]),
                       borderRadius:
                           const BorderRadius.vertical(top: Radius.circular(16)),
@@ -157,16 +158,16 @@ class _ReportsPageState extends State<ReportsPage> {
                     padding: const EdgeInsets.symmetric(
                         vertical: 14, horizontal: 16),
                     decoration: BoxDecoration(
-                        color: AppColors.getAccent(context).withOpacity(0.08),
+                        color: Theme.of(context).colorScheme.primary.withOpacity(0.08),
                         border: Border(
                             top: BorderSide(
-                                color: AppColors.getAccent(context).withOpacity(0.3)))),
+                                color: Theme.of(context).colorScheme.primary.withOpacity(0.3)))),
                     child: Row(children: [
                       Expanded(
                           flex: 1,
                           child: Text('الإجمالي',
                               style: GoogleFonts.cairo(
-                                  color: AppColors.getAccent(context),
+                                  color: Theme.of(context).colorScheme.primary,
                                   fontSize: 13,
                                   fontWeight: FontWeight.bold),
                               textAlign: TextAlign.center)),
@@ -184,7 +185,7 @@ class _ReportsPageState extends State<ReportsPage> {
                           flex: 2,
                           child: Text(fmt.format(totalExpense),
                               style: GoogleFonts.cairo(
-                                  color: AppColors.getError(context),
+                                  color: Theme.of(context).colorScheme.error,
                                   fontSize: 13,
                                   fontWeight: FontWeight.bold),
                               textAlign: TextAlign.center)),
@@ -208,7 +209,7 @@ class _ReportsPageState extends State<ReportsPage> {
                           flex: 2,
                           child: Text(fmt.format(totalCurrent),
                               style: GoogleFonts.cairo(
-                                  color: AppColors.getAccent(context),
+                                  color: Theme.of(context).colorScheme.primary,
                                   fontSize: 13,
                                   fontWeight: FontWeight.bold),
                               textAlign: TextAlign.center)),
@@ -228,7 +229,7 @@ class _ReportsPageState extends State<ReportsPage> {
                       height: 320,
                       padding: const EdgeInsets.all(24),
                       decoration: BoxDecoration(
-                          color: AppColors.getSurface(context),
+                          color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(color: const Color(0xFF2D3748))),
                       child: Column(
@@ -253,7 +254,7 @@ class _ReportsPageState extends State<ReportsPage> {
                       height: 320,
                       padding: const EdgeInsets.all(24),
                       decoration: BoxDecoration(
-                          color: AppColors.getSurface(context),
+                          color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(color: const Color(0xFF2D3748))),
                       child: Column(
@@ -276,7 +277,7 @@ class _ReportsPageState extends State<ReportsPage> {
               // ===== تقرير المحطات =====
               Container(
                 decoration: BoxDecoration(
-                    color: AppColors.getSurface(context),
+                    color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(color: const Color(0xFF2D3748))),
                 child: Column(children: [
@@ -350,7 +351,7 @@ class _ReportsPageState extends State<ReportsPage> {
         child: Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-          color: AppColors.getSurface(context),
+          color: Theme.of(context).extension<SaharaColors>()!.sidebar,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(color: color.withOpacity(0.15))),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -417,7 +418,7 @@ class _ReportsPageState extends State<ReportsPage> {
             flex: 2,
             child: Text(fmt.format(r.expense),
                 style: GoogleFonts.cairo(
-                    color: AppColors.getError(context),
+                    color: Theme.of(context).colorScheme.error,
                     fontSize: 13,
                     fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center)),
@@ -436,7 +437,7 @@ class _ReportsPageState extends State<ReportsPage> {
             flex: 2,
             child: Text(fmt.format(r.currentBalance),
                 style: GoogleFonts.cairo(
-                    color: AppColors.getAccent(context),
+                    color: Theme.of(context).colorScheme.primary,
                     fontSize: 13,
                     fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center)),
@@ -453,8 +454,8 @@ class _ReportsPageState extends State<ReportsPage> {
     final effColor = s.efficiency > 93
         ? const Color(0xFF10B981)
         : s.efficiency > 90
-            ? AppColors.getAccent(context)
-            : AppColors.getWarning(context);
+            ? Theme.of(context).colorScheme.primary
+            : Theme.of(context).extension<SaharaColors>()!.chartOrange;
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
       color: idx % 2 == 0
@@ -469,12 +470,12 @@ class _ReportsPageState extends State<ReportsPage> {
         Expanded(
             flex: 2,
             child: Text(fmt.format(s.consumed),
-                style: GoogleFonts.cairo(color: AppColors.getError(context), fontSize: 13),
+                style: GoogleFonts.cairo(color: Theme.of(context).colorScheme.error, fontSize: 13),
                 textAlign: TextAlign.center)),
         Expanded(
             flex: 3,
             child: Text(fmt.format(s.balance),
-                style: GoogleFonts.cairo(color: AppColors.getAccent(context), fontSize: 13),
+                style: GoogleFonts.cairo(color: Theme.of(context).colorScheme.primary, fontSize: 13),
                 textAlign: TextAlign.center)),
         Expanded(
             flex: 2,
@@ -496,7 +497,7 @@ class _ReportsPageState extends State<ReportsPage> {
 
   Widget _buildFuelTypeChart(NumberFormat fmt, List<ReportRow> expenses) {
     final colors = [
-      AppColors.getAccent(context),
+      Theme.of(context).colorScheme.primary,
       const Color(0xFFF59E0B),
       const Color(0xFF3B82F6),
       const Color(0xFF8B5CF6)
@@ -557,8 +558,8 @@ class _ReportsPageState extends State<ReportsPage> {
       final color = s.efficiency > 93
           ? const Color(0xFF10B981)
           : s.efficiency > 90
-              ? AppColors.getAccent(context)
-              : AppColors.getWarning(context);
+              ? Theme.of(context).colorScheme.primary
+              : Theme.of(context).extension<SaharaColors>()!.chartOrange;
       return Padding(
         padding: const EdgeInsets.only(bottom: 10),
         child: Row(children: [
@@ -594,7 +595,7 @@ class _ReportsPageState extends State<ReportsPage> {
   Widget _reportTypeSelector() => Container(
         padding: const EdgeInsets.all(4),
         decoration: BoxDecoration(
-            color: AppColors.getSurfaceVariant(context),
+            color: Theme.of(context).colorScheme.surfaceContainerHighest,
             borderRadius: BorderRadius.circular(10)),
         child: Row(
             children: ['يومي', 'أسبوعي', 'شهري']
@@ -605,13 +606,13 @@ class _ReportsPageState extends State<ReportsPage> {
                             horizontal: 14, vertical: 6),
                         decoration: BoxDecoration(
                             color: _selectedReportType == p
-                                ? AppColors.getAccent(context).withOpacity(0.15)
+                                ? Theme.of(context).colorScheme.primary.withOpacity(0.15)
                                 : Colors.transparent,
                             borderRadius: BorderRadius.circular(8)),
                         child: Text(p,
                             style: GoogleFonts.cairo(
                                 color: _selectedReportType == p
-                                    ? AppColors.getAccent(context)
+                                    ? Theme.of(context).colorScheme.primary
                                     : Colors.grey[500],
                                 fontSize: 11,
                                 fontWeight: _selectedReportType == p
@@ -625,7 +626,7 @@ class _ReportsPageState extends State<ReportsPage> {
   Color _fuelColor(String type) {
     switch (type) {
       case 'كاز':
-        return AppColors.getAccent(context);
+        return Theme.of(context).colorScheme.primary;
       case 'بنزين':
         return const Color(0xFFF59E0B);
       case 'ديزل':

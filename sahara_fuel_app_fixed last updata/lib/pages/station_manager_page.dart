@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'dart:ui' as ui;
 import 'dart:math';
 import '../constants/app_colors.dart';
+import '../core/theme/color_schemes.dart';
 import '../providers/fuel_provider.dart';
 import '../providers/theme_provider.dart';
 
@@ -53,7 +54,7 @@ class _StationManagerPageState extends State<StationManagerPage>
                 gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
-                    colors: AppColors.getPageGradient(context))),
+                    colors: Theme.of(context).extension<SaharaColors>()!.pageGradient)),
             child: Column(children: [
               // ===== الهيدر =====
               Padding(
@@ -78,19 +79,19 @@ class _StationManagerPageState extends State<StationManagerPage>
                           padding: const EdgeInsets.symmetric(
                               horizontal: 14, vertical: 0),
                           decoration: BoxDecoration(
-                              color: AppColors.getSurface(context),
+                              color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                               borderRadius: BorderRadius.circular(10),
                               border:
                                   Border.all(color: const Color(0xFF2D3748))),
                           child: DropdownButtonHideUnderline(
                               child: DropdownButton<String?>(
                             value: _selectedStation,
-                            dropdownColor: AppColors.getSurface(context),
+                            dropdownColor: Theme.of(context).extension<SaharaColors>()!.sidebar,
                             style: GoogleFonts.cairo(
                                 color: Colors.white, fontSize: 12),
                             hint: Text('جميع المحطات',
                                 style: GoogleFonts.cairo(
-                                    color: AppColors.getAccent(context), fontSize: 12)),
+                                    color: Theme.of(context).colorScheme.primary, fontSize: 12)),
                             items: [
                               DropdownMenuItem<String?>(
                                   value: null,
@@ -114,7 +115,7 @@ class _StationManagerPageState extends State<StationManagerPage>
                     // إحصائيات سريعة
                     Row(children: [
                       _quickStat('المحطات', '${stations.length}', Icons.store,
-                          AppColors.getAccent(context)),
+                          Theme.of(context).colorScheme.primary),
                       const SizedBox(width: 10),
                       _quickStat(
                           'الاستهلاك اليومي',
@@ -146,7 +147,7 @@ class _StationManagerPageState extends State<StationManagerPage>
                   child: Container(
                     height: 44,
                     decoration: BoxDecoration(
-                        color: AppColors.getSurface(context),
+                        color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                         borderRadius: BorderRadius.circular(14),
                         border: Border.all(color: const Color(0xFF2D3748))),
                     child: TabBar(
@@ -154,11 +155,11 @@ class _StationManagerPageState extends State<StationManagerPage>
                         isScrollable: false,
                         dividerHeight: 0,
                         indicator: BoxDecoration(
-                            color: AppColors.getAccent(context).withOpacity(0.15),
+                            color: Theme.of(context).colorScheme.primary.withOpacity(0.15),
                             borderRadius: BorderRadius.circular(12),
                             border: Border.all(
-                                color: AppColors.getAccent(context).withOpacity(0.4))),
-                        labelColor: AppColors.getAccent(context),
+                                color: Theme.of(context).colorScheme.primary.withOpacity(0.4))),
+                        labelColor: Theme.of(context).colorScheme.primary,
                         unselectedLabelColor: Colors.grey[500],
                         labelStyle: GoogleFonts.cairo(
                             fontWeight: FontWeight.bold, fontSize: 12),
@@ -218,7 +219,7 @@ class _StationManagerPageState extends State<StationManagerPage>
         width: 380,
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-            color: AppColors.getSurface(context),
+            color: Theme.of(context).extension<SaharaColors>()!.sidebar,
             borderRadius: BorderRadius.circular(18),
             border: Border.all(color: s.color.withOpacity(0.2)),
             boxShadow: [
@@ -348,7 +349,7 @@ class _StationManagerPageState extends State<StationManagerPage>
           Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                  color: AppColors.getSurface(context),
+                  color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(color: const Color(0xFF2D3748))),
               child: Column(
@@ -421,7 +422,7 @@ class _StationManagerPageState extends State<StationManagerPage>
                         ))),
                     const SizedBox(height: 12),
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      _legendDot('الاستهلاك الفعلي', AppColors.getAccent(context)),
+                      _legendDot('الاستهلاك الفعلي', Theme.of(context).colorScheme.primary),
                       const SizedBox(width: 20),
                       _legendDot('الهدف اليومي', Colors.grey),
                     ]),
@@ -431,7 +432,7 @@ class _StationManagerPageState extends State<StationManagerPage>
           // جدول الأداء
           Container(
             decoration: BoxDecoration(
-                color: AppColors.getSurface(context),
+                color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: const Color(0xFF2D3748))),
             child: Column(children: [
@@ -454,7 +455,7 @@ class _StationManagerPageState extends State<StationManagerPage>
                       Expanded(
                           child: Text(h,
                               style: GoogleFonts.cairo(
-                                  color: AppColors.getAccent(context),
+                                  color: Theme.of(context).colorScheme.primary,
                                   fontSize: 10,
                                   fontWeight: FontWeight.bold),
                               textAlign: TextAlign.center)),
@@ -583,7 +584,7 @@ class _StationManagerPageState extends State<StationManagerPage>
           Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                  color: AppColors.getSurface(context),
+                  color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(color: const Color(0xFF2D3748))),
               child: Column(
@@ -667,7 +668,7 @@ class _StationManagerPageState extends State<StationManagerPage>
           Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                  color: AppColors.getSurface(context),
+                  color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(color: const Color(0xFF2D3748))),
               child: Column(
@@ -718,7 +719,7 @@ class _StationManagerPageState extends State<StationManagerPage>
           // ترتيب المحطات
           Container(
             decoration: BoxDecoration(
-                color: AppColors.getSurface(context),
+                color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: const Color(0xFF2D3748))),
             child: Column(children: [
@@ -729,11 +730,11 @@ class _StationManagerPageState extends State<StationManagerPage>
                       borderRadius:
                           BorderRadius.vertical(top: Radius.circular(16))),
                   child: Row(children: [
-                    Icon(Icons.leaderboard, color: AppColors.getAccent(context), size: 18),
+                    Icon(Icons.leaderboard, color: Theme.of(context).colorScheme.primary, size: 18),
                     const SizedBox(width: 8),
                     Text('ترتيب المحطات حسب الاستهلاك',
                         style: GoogleFonts.cairo(
-                            color: AppColors.getAccent(context),
+                            color: Theme.of(context).colorScheme.primary,
                             fontWeight: FontWeight.bold,
                             fontSize: 13)),
                   ])),
@@ -818,7 +819,7 @@ class _StationManagerPageState extends State<StationManagerPage>
           child: Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                  color: AppColors.getSurface(context),
+                  color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: color.withOpacity(0.15))),
               child: Row(children: [
@@ -874,7 +875,7 @@ class _StationManagerPageState extends State<StationManagerPage>
       Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-              color: AppColors.getSurface(context),
+              color: Theme.of(context).extension<SaharaColors>()!.sidebar,
               borderRadius: BorderRadius.circular(14),
               border: Border.all(color: color.withOpacity(0.15))),
           child:

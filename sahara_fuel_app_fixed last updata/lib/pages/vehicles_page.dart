@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'dart:ui' as ui;
 import '../constants/app_colors.dart';
+import '../core/theme/color_schemes.dart';
 import '../providers/fuel_provider.dart';
 import '../providers/theme_provider.dart';
 
@@ -42,38 +43,38 @@ class _VehiclesPageState extends State<VehiclesPage>
                 gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
-                    colors: AppColors.getPageGradient(context))),
+                    colors: Theme.of(context).extension<SaharaColors>()!.pageGradient)),
             child: Column(children: [
               // الهيدر + التبويبات
               Padding(
                 padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
                 child: Row(children: [
-                  Icon(Icons.directions_car, color: AppColors.getAccent(context), size: 28),
+                  Icon(Icons.directions_car, color: Theme.of(context).colorScheme.primary, size: 28),
                   const SizedBox(width: 12),
                   Text('إدارة العربات',
                       style: GoogleFonts.cairo(
                           fontSize: 26,
                           fontWeight: FontWeight.bold,
-                          color: AppColors.getTextPrimary(context))),
+                          color: Theme.of(context).colorScheme.onSurface)),
                   const Spacer(),
                   Container(
                     height: 44,
                     decoration: BoxDecoration(
-                        color: AppColors.getSurface(context),
+                        color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: AppColors.getDivider(context))),
+                        border: Border.all(color: Theme.of(context).colorScheme.outline)),
                     child: TabBar(
                       controller: _tabCtrl,
                       isScrollable: true,
                       dividerHeight: 0,
                       splashBorderRadius: BorderRadius.circular(10),
                       indicator: BoxDecoration(
-                          color: AppColors.getAccent(context).withOpacity(0.15),
+                          color: Theme.of(context).colorScheme.primary.withOpacity(0.15),
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
-                              color: AppColors.getAccent(context).withOpacity(0.4))),
-                      labelColor: AppColors.getAccent(context),
-                      unselectedLabelColor: AppColors.getSubtleText(context),
+                              color: Theme.of(context).colorScheme.primary.withOpacity(0.4))),
+                      labelColor: Theme.of(context).colorScheme.primary,
+                      unselectedLabelColor: Theme.of(context).extension<SaharaColors>()!.subtleText,
                       labelStyle: GoogleFonts.cairo(
                           fontWeight: FontWeight.bold, fontSize: 13),
                       unselectedLabelStyle: GoogleFonts.cairo(fontSize: 12),
@@ -274,7 +275,7 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
             builder: (c, ch) => Theme(
                 data: ThemeData.dark().copyWith(
                     colorScheme: ColorScheme.dark(
-                        primary: fuelColor, surface: AppColors.getDialogBg(context))),
+                        primary: fuelColor, surface: Theme.of(context).extension<SaharaColors>()!.sidebar)),
                 child: ch!));
         if (d != null) setState(() => _selectedDate = d);
       }),
@@ -282,7 +283,7 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
       _actionBtn(Icons.local_gas_station, 'تفويل سيارة',
           const Color(0xFF4CAF50), () => _showRefuelDialog(provider)),
       // إضافة
-      _actionBtn(Icons.add, 'إضافة سيارة', AppColors.getAccent(context),
+      _actionBtn(Icons.add, 'إضافة سيارة', Theme.of(context).colorScheme.primary,
           () => _showAddVehicleDialog(provider)),
       // تحميل Excel
       _actionBtn(Icons.upload_file, 'تحميل Excel', const Color(0xFF8B5CF6),
@@ -295,17 +296,17 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
         width: 220,
         height: 40,
         decoration: BoxDecoration(
-            color: AppColors.getSurfaceVariant(context),
+            color: Theme.of(context).colorScheme.surfaceContainerHighest,
             borderRadius: BorderRadius.circular(10)),
         child: TextField(
           controller: _searchCtrl,
           onChanged: (v) => setState(() => _searchQuery = v),
-          style: GoogleFonts.cairo(color: AppColors.getTextPrimary(context), fontSize: 12),
+          style: GoogleFonts.cairo(color: Theme.of(context).colorScheme.onSurface, fontSize: 12),
           decoration: InputDecoration(
             hintText: 'بحث برقم السيارة أو السائق...',
             hintStyle:
-                GoogleFonts.cairo(color: AppColors.getHintText(context), fontSize: 11),
-            prefixIcon: Icon(Icons.search, color: AppColors.getHintText(context), size: 16),
+                GoogleFonts.cairo(color: Theme.of(context).extension<SaharaColors>()!.hintText, fontSize: 11),
+            prefixIcon: Icon(Icons.search, color: Theme.of(context).extension<SaharaColors>()!.hintText, size: 16),
             border: InputBorder.none,
             contentPadding: const EdgeInsets.symmetric(vertical: 11),
           ),
@@ -322,7 +323,7 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
       margin: const EdgeInsets.symmetric(horizontal: 6),
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: AppColors.getCardBg(context),
+        color: Theme.of(context).extension<SaharaColors>()!.sidebar,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: color.withOpacity(0.15)),
         boxShadow: [
@@ -347,13 +348,13 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(title,
               style:
-                  GoogleFonts.cairo(fontSize: 11, color: AppColors.getSubtleText(context))),
+                  GoogleFonts.cairo(fontSize: 11, color: Theme.of(context).extension<SaharaColors>()!.subtleText)),
           const SizedBox(height: 4),
           Text(value,
               style: GoogleFonts.cairo(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.getTextPrimary(context))),
+                  color: Theme.of(context).colorScheme.onSurface)),
           Text(sub, style: GoogleFonts.cairo(fontSize: 10, color: color)),
         ])),
       ]),
@@ -370,7 +371,7 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
             .clamp(100.0, double.infinity);
 
     return Card(
-      color: AppColors.getCardBg(context),
+      color: Theme.of(context).extension<SaharaColors>()!.sidebar,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       elevation: 8,
       child: Padding(
@@ -383,10 +384,10 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
                     style: GoogleFonts.cairo(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: AppColors.getTextPrimary(context))),
+                        color: Theme.of(context).colorScheme.onSurface)),
                 Text('استهلاك ${widget.fuelType} الأسبوعي',
                     style: GoogleFonts.cairo(
-                        fontSize: 12, color: AppColors.getSubtleText(context))),
+                        fontSize: 12, color: Theme.of(context).extension<SaharaColors>()!.subtleText)),
               ]),
               Container(
                 padding:
@@ -414,7 +415,7 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
                       show: true,
                       drawVerticalLine: false,
                       getDrawingHorizontalLine: (v) =>
-                          FlLine(color: AppColors.getDivider(context), strokeWidth: 0.5)),
+                          FlLine(color: Theme.of(context).colorScheme.outline, strokeWidth: 0.5)),
                   titlesData: FlTitlesData(
                     bottomTitles: AxisTitles(
                         sideTitles: SideTitles(
@@ -425,7 +426,7 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
                                     padding: const EdgeInsets.only(top: 8),
                                     child: Text(days[v.toInt()],
                                         style: GoogleFonts.cairo(
-                                            color: AppColors.getHintText(context),
+                                            color: Theme.of(context).extension<SaharaColors>()!.hintText,
                                             fontSize: 10)));
                               return const SizedBox();
                             })),
@@ -436,7 +437,7 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
                             getTitlesWidget: (v, _) => Text(
                                 '${(v / 1000).toStringAsFixed(0)}K',
                                 style: TextStyle(
-                                    color: AppColors.getHintText(context), fontSize: 9)))),
+                                    color: Theme.of(context).extension<SaharaColors>()!.hintText, fontSize: 9)))),
                     topTitles: const AxisTitles(
                         sideTitles: SideTitles(showTitles: false)),
                     rightTitles: const AxisTitles(
@@ -489,12 +490,12 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
       child: Column(children: [
         Text(label,
             style:
-                GoogleFonts.cairo(fontSize: 10, color: AppColors.getSubtleText(context))),
+                GoogleFonts.cairo(fontSize: 10, color: Theme.of(context).extension<SaharaColors>()!.subtleText)),
         Text(value,
             style: GoogleFonts.cairo(
                 fontSize: 13,
                 fontWeight: FontWeight.bold,
-                color: AppColors.getTextPrimary(context))),
+                color: Theme.of(context).colorScheme.onSurface)),
       ]),
     );
   }
@@ -502,7 +503,7 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
   // ===== Top 10 =====
   Widget _buildTop10(List<Vehicle> top10, NumberFormat fmt, Color fuelColor) {
     return Card(
-      color: AppColors.getCardBg(context),
+      color: Theme.of(context).extension<SaharaColors>()!.sidebar,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       elevation: 8,
       child: Padding(
@@ -517,23 +518,23 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
                   style: GoogleFonts.cairo(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.getTextPrimary(context))),
+                      color: Theme.of(context).colorScheme.onSurface)),
             ]),
             const SizedBox(height: 4),
             Text('اليوم ${DateFormat('d/M', 'ar').format(_selectedDate)}',
                 style: GoogleFonts.cairo(
-                    fontSize: 11, color: AppColors.getSubtleText(context))),
+                    fontSize: 11, color: Theme.of(context).extension<SaharaColors>()!.subtleText)),
             const SizedBox(height: 12),
             if (top10.isEmpty)
               Center(
                   child: Padding(
                       padding: const EdgeInsets.all(30),
                       child: Column(children: [
-                        Icon(Icons.inbox, color: AppColors.getHintText(context), size: 40),
+                        Icon(Icons.inbox, color: Theme.of(context).extension<SaharaColors>()!.hintText, size: 40),
                         const SizedBox(height: 8),
                         Text('لا توجد بيانات',
                             style: GoogleFonts.cairo(
-                                color: AppColors.getHintText(context), fontSize: 12)),
+                                color: Theme.of(context).extension<SaharaColors>()!.hintText, fontSize: 12)),
                       ])))
             else
               ...top10.asMap().entries.map((e) {
@@ -569,10 +570,10 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
                               style: GoogleFonts.cairo(
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
-                                  color: AppColors.getTextPrimary(context))),
+                                  color: Theme.of(context).colorScheme.onSurface)),
                           Text(v.driverName,
                               style: GoogleFonts.cairo(
-                                  fontSize: 10, color: AppColors.getSubtleText(context))),
+                                  fontSize: 10, color: Theme.of(context).extension<SaharaColors>()!.subtleText)),
                         ])),
                     Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -584,7 +585,7 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
                                   color: fuelColor)),
                           Text(v.vehicleType,
                               style: GoogleFonts.cairo(
-                                  fontSize: 9, color: AppColors.getHintText(context))),
+                                  fontSize: 9, color: Theme.of(context).extension<SaharaColors>()!.hintText)),
                         ]),
                   ]),
                 );
@@ -597,7 +598,7 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
   Widget _buildTypeFilter(List<String> types, List<Vehicle> allVehicles,
       Color fuelColor, NumberFormat fmt) {
     return Card(
-      color: AppColors.getCardBg(context),
+      color: Theme.of(context).extension<SaharaColors>()!.sidebar,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
           padding: const EdgeInsets.all(20),
@@ -607,7 +608,7 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
                 style: GoogleFonts.cairo(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.getTextPrimary(context))),
+                    color: Theme.of(context).colorScheme.onSurface)),
             const SizedBox(height: 12),
             Wrap(spacing: 10, runSpacing: 10, children: [
               _filterChip(
@@ -638,15 +639,15 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
           color:
-              isSelected ? color.withOpacity(0.15) : AppColors.getSurfaceVariant(context),
+              isSelected ? color.withOpacity(0.15) : Theme.of(context).colorScheme.surfaceContainerHighest,
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: isSelected ? color : AppColors.getDivider(context)),
+          border: Border.all(color: isSelected ? color : Theme.of(context).colorScheme.outline),
         ),
         child: Row(mainAxisSize: MainAxisSize.min, children: [
           Text(label,
               style: GoogleFonts.cairo(
                   fontSize: 12,
-                  color: isSelected ? color : AppColors.getTextPrimary(context),
+                  color: isSelected ? color : Theme.of(context).colorScheme.onSurface,
                   fontWeight:
                       isSelected ? FontWeight.bold : FontWeight.normal)),
           const SizedBox(width: 6),
@@ -655,12 +656,12 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
             decoration: BoxDecoration(
                 color: isSelected
                     ? color.withOpacity(0.2)
-                    : AppColors.getDivider(context).withOpacity(0.3),
+                    : Theme.of(context).colorScheme.outline.withOpacity(0.3),
                 borderRadius: BorderRadius.circular(10)),
             child: Text('$count',
                 style: TextStyle(
                     fontSize: 10,
-                    color: isSelected ? color : AppColors.getSubtleText(context),
+                    color: isSelected ? color : Theme.of(context).extension<SaharaColors>()!.subtleText,
                     fontWeight: FontWeight.bold)),
           ),
         ]),
@@ -672,7 +673,7 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
   Widget _buildDataTable(List<Vehicle> vehicles, NumberFormat fmt,
       Color fuelColor, FuelProvider provider) {
     return Card(
-      color: AppColors.getCardBg(context),
+      color: Theme.of(context).extension<SaharaColors>()!.sidebar,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       elevation: 8,
       child: Padding(
@@ -684,30 +685,30 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
                   style: GoogleFonts.cairo(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.getTextPrimary(context))),
+                      color: Theme.of(context).colorScheme.onSurface)),
               Text('${vehicles.length} سيارة',
                   style: GoogleFonts.cairo(
-                      fontSize: 12, color: AppColors.getSubtleText(context))),
+                      fontSize: 12, color: Theme.of(context).extension<SaharaColors>()!.subtleText)),
             ]),
             const SizedBox(height: 16),
             Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppColors.getDivider(context))),
+                  border: Border.all(color: Theme.of(context).colorScheme.outline)),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12),
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: DataTable(
                     headingRowColor:
-                        WidgetStateProperty.all(AppColors.getTableHeader(context)),
+                        WidgetStateProperty.all(Theme.of(context).extension<SaharaColors>()!.tableHeader),
                     dataRowColor: WidgetStateProperty.all(Colors.transparent),
                     headingTextStyle: GoogleFonts.cairo(
-                        color: AppColors.getTextPrimary(context),
+                        color: Theme.of(context).colorScheme.onSurface,
                         fontSize: 12,
                         fontWeight: FontWeight.bold),
                     dataTextStyle: GoogleFonts.cairo(
-                        color: AppColors.getTextSecondary(context), fontSize: 11),
+                        color: Theme.of(context).colorScheme.onSurfaceVariant, fontSize: 11),
                     columns: const [
                       DataColumn(label: Text('#')),
                       DataColumn(label: Text('رقم السيارة')),
@@ -833,7 +834,7 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
         builder: (ctx) => Directionality(
             textDirection: ui.TextDirection.rtl,
             child: AlertDialog(
-              backgroundColor: AppColors.getDialogBg(context),
+              backgroundColor: Theme.of(context).extension<SaharaColors>()!.sidebar,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20)),
               title: Row(children: [
@@ -848,7 +849,7 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
                 const SizedBox(width: 12),
                 Text('تفويل سيارة - ${widget.fuelType}',
                     style: GoogleFonts.cairo(
-                        color: AppColors.getTextPrimary(context),
+                        color: Theme.of(context).colorScheme.onSurface,
                         fontWeight: FontWeight.bold,
                         fontSize: 18)),
               ]),
@@ -868,7 +869,7 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
                 TextButton(
                     onPressed: () => Navigator.pop(ctx),
                     child: Text('إلغاء',
-                        style: GoogleFonts.cairo(color: AppColors.getSubtleText(context)))),
+                        style: GoogleFonts.cairo(color: Theme.of(context).extension<SaharaColors>()!.subtleText))),
                 ElevatedButton(
                   onPressed: () {
                     final qty = double.tryParse(qtyCtrl.text) ?? 0;
@@ -900,12 +901,12 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
         builder: (ctx) => Directionality(
             textDirection: ui.TextDirection.rtl,
             child: AlertDialog(
-              backgroundColor: AppColors.getDialogBg(context),
+              backgroundColor: Theme.of(context).extension<SaharaColors>()!.sidebar,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20)),
               title: Text('تفويل ${v.plateNumber}',
                   style: GoogleFonts.cairo(
-                      color: AppColors.getTextPrimary(context),
+                      color: Theme.of(context).colorScheme.onSurface,
                       fontWeight: FontWeight.bold)),
               content: _dialogField(
                   qtyCtrl, 'الكمية (لتر)', Icons.local_gas_station,
@@ -914,7 +915,7 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
                 TextButton(
                     onPressed: () => Navigator.pop(ctx),
                     child: Text('إلغاء',
-                        style: GoogleFonts.cairo(color: AppColors.getSubtleText(context)))),
+                        style: GoogleFonts.cairo(color: Theme.of(context).extension<SaharaColors>()!.subtleText))),
                 ElevatedButton(
                   onPressed: () {
                     final qty = double.tryParse(qtyCtrl.text) ?? 0;
@@ -950,7 +951,7 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
             builder: (ctx, ss) => Directionality(
                 textDirection: ui.TextDirection.rtl,
                 child: AlertDialog(
-                  backgroundColor: AppColors.getDialogBg(context),
+                  backgroundColor: Theme.of(context).extension<SaharaColors>()!.sidebar,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
                   title: Row(children: [
@@ -958,13 +959,13 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
                         width: 40,
                         height: 40,
                         decoration: BoxDecoration(
-                            color: AppColors.getAccent(context).withOpacity(0.15),
+                            color: Theme.of(context).colorScheme.primary.withOpacity(0.15),
                             borderRadius: BorderRadius.circular(12)),
-                        child: Icon(Icons.add, color: AppColors.getAccent(context))),
+                        child: Icon(Icons.add, color: Theme.of(context).colorScheme.primary)),
                     const SizedBox(width: 12),
                     Text('إضافة سيارة - ${widget.fuelType}',
                         style: GoogleFonts.cairo(
-                            color: AppColors.getTextPrimary(context),
+                            color: Theme.of(context).colorScheme.onSurface,
                             fontWeight: FontWeight.bold,
                             fontSize: 18)),
                   ]),
@@ -981,21 +982,21 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
                         const SizedBox(height: 12),
                         DropdownButtonFormField<String>(
                           value: vType,
-                          dropdownColor: AppColors.getDialogBg(context),
+                          dropdownColor: Theme.of(context).extension<SaharaColors>()!.sidebar,
                           style: GoogleFonts.cairo(
-                              color: AppColors.getTextPrimary(context), fontSize: 13),
+                              color: Theme.of(context).colorScheme.onSurface, fontSize: 13),
                           decoration: InputDecoration(
                             labelText: 'نوع السيارة',
                             labelStyle: GoogleFonts.cairo(
-                                color: AppColors.getSubtleText(context), fontSize: 12),
+                                color: Theme.of(context).extension<SaharaColors>()!.subtleText, fontSize: 12),
                             enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
                                 borderSide:
-                                    BorderSide(color: AppColors.getDivider(context))),
+                                    BorderSide(color: Theme.of(context).colorScheme.outline)),
                             focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
                                 borderSide:
-                                    BorderSide(color: AppColors.getAccent(context))),
+                                    BorderSide(color: Theme.of(context).colorScheme.primary)),
                           ),
                           items: [
                             'شاحنة',
@@ -1017,7 +1018,7 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
                         onPressed: () => Navigator.pop(ctx),
                         child: Text('إلغاء',
                             style: GoogleFonts.cairo(
-                                color: AppColors.getSubtleText(context)))),
+                                color: Theme.of(context).extension<SaharaColors>()!.subtleText))),
                     ElevatedButton(
                       onPressed: () {
                         if (plateCtrl.text.isEmpty) return;
@@ -1035,10 +1036,10 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text('تم إضافة السيارة',
                                 style: GoogleFonts.cairo()),
-                            backgroundColor: AppColors.getAccent(context)));
+                            backgroundColor: Theme.of(context).colorScheme.primary));
                       },
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.getAccent(context),
+                          backgroundColor: Theme.of(context).colorScheme.primary,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10))),
                       child: Text('إضافة',
@@ -1058,12 +1059,12 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
         builder: (ctx) => Directionality(
             textDirection: ui.TextDirection.rtl,
             child: AlertDialog(
-              backgroundColor: AppColors.getDialogBg(context),
+              backgroundColor: Theme.of(context).extension<SaharaColors>()!.sidebar,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20)),
               title: Text('تعديل ${v.plateNumber}',
                   style: GoogleFonts.cairo(
-                      color: AppColors.getTextPrimary(context),
+                      color: Theme.of(context).colorScheme.onSurface,
                       fontWeight: FontWeight.bold)),
               content: SizedBox(
                   width: 400,
@@ -1076,7 +1077,7 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
                 TextButton(
                     onPressed: () => Navigator.pop(ctx),
                     child: Text('إلغاء',
-                        style: GoogleFonts.cairo(color: AppColors.getSubtleText(context)))),
+                        style: GoogleFonts.cairo(color: Theme.of(context).extension<SaharaColors>()!.subtleText))),
                 ElevatedButton(
                   onPressed: () {
                     provider.updateVehicle(v.id,
@@ -1101,12 +1102,12 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
         builder: (ctx) => Directionality(
             textDirection: ui.TextDirection.rtl,
             child: AlertDialog(
-              backgroundColor: AppColors.getDialogBg(context),
+              backgroundColor: Theme.of(context).extension<SaharaColors>()!.sidebar,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20)),
               title: Text('سجل ${v.plateNumber}',
                   style: GoogleFonts.cairo(
-                      color: AppColors.getTextPrimary(context),
+                      color: Theme.of(context).colorScheme.onSurface,
                       fontWeight: FontWeight.bold)),
               content: SizedBox(
                   width: 400,
@@ -1115,18 +1116,18 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
                       children: v.history
                           .map((h) => ListTile(
                                 leading: Icon(Icons.local_gas_station,
-                                    color: AppColors.getAccent(context), size: 18),
+                                    color: Theme.of(context).colorScheme.primary, size: 18),
                                 title: Text(
                                     '${NumberFormat('#,###', 'ar').format(h.quantity)} لتر',
                                     style: GoogleFonts.cairo(
-                                        color: AppColors.getTextPrimary(context),
+                                        color: Theme.of(context).colorScheme.onSurface,
                                         fontSize: 13,
                                         fontWeight: FontWeight.bold)),
                                 subtitle: Text(
                                     DateFormat('d/M/yyyy - HH:mm', 'ar')
                                         .format(h.date),
                                     style: GoogleFonts.cairo(
-                                        color: AppColors.getSubtleText(context),
+                                        color: Theme.of(context).extension<SaharaColors>()!.subtleText,
                                         fontSize: 11)),
                               ))
                           .toList())),
@@ -1134,7 +1135,7 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
                 TextButton(
                     onPressed: () => Navigator.pop(ctx),
                     child: Text('إغلاق',
-                        style: GoogleFonts.cairo(color: AppColors.getSubtleText(context))))
+                        style: GoogleFonts.cairo(color: Theme.of(context).extension<SaharaColors>()!.subtleText)))
               ],
             )));
   }
@@ -1145,19 +1146,19 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
         builder: (ctx) => Directionality(
             textDirection: ui.TextDirection.rtl,
             child: AlertDialog(
-              backgroundColor: AppColors.getDialogBg(context),
+              backgroundColor: Theme.of(context).extension<SaharaColors>()!.sidebar,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20)),
               title: Text('تصدير البيانات',
                   style: GoogleFonts.cairo(
-                      color: AppColors.getTextPrimary(context),
+                      color: Theme.of(context).colorScheme.onSurface,
                       fontWeight: FontWeight.bold)),
               content: Column(mainAxisSize: MainAxisSize.min, children: [
                 ListTile(
                     leading: Icon(Icons.picture_as_pdf,
                         color: const Color(0xFFEF5350)),
                     title: Text('تصدير PDF',
-                        style: GoogleFonts.cairo(color: AppColors.getTextPrimary(context))),
+                        style: GoogleFonts.cairo(color: Theme.of(context).colorScheme.onSurface)),
                     onTap: () {
                       Navigator.pop(ctx);
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -1169,7 +1170,7 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
                     leading:
                         Icon(Icons.table_chart, color: const Color(0xFF4CAF50)),
                     title: Text('تصدير Excel',
-                        style: GoogleFonts.cairo(color: AppColors.getTextPrimary(context))),
+                        style: GoogleFonts.cairo(color: Theme.of(context).colorScheme.onSurface)),
                     onTap: () {
                       Navigator.pop(ctx);
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -1194,18 +1195,18 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
     return TextField(
       controller: ctrl,
       keyboardType: isNumber ? TextInputType.number : TextInputType.text,
-      style: GoogleFonts.cairo(color: AppColors.getTextPrimary(context), fontSize: 13),
+      style: GoogleFonts.cairo(color: Theme.of(context).colorScheme.onSurface, fontSize: 13),
       decoration: InputDecoration(
         labelText: label,
         labelStyle:
-            GoogleFonts.cairo(color: AppColors.getSubtleText(context), fontSize: 12),
-        prefixIcon: Icon(icon, color: AppColors.getHintText(context), size: 18),
+            GoogleFonts.cairo(color: Theme.of(context).extension<SaharaColors>()!.subtleText, fontSize: 12),
+        prefixIcon: Icon(icon, color: Theme.of(context).extension<SaharaColors>()!.hintText, size: 18),
         enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: AppColors.getDivider(context))),
+            borderSide: BorderSide(color: Theme.of(context).colorScheme.outline)),
         focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: AppColors.getAccent(context))),
+            borderSide: BorderSide(color: Theme.of(context).colorScheme.primary)),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import '../constants/app_colors.dart';
+import '../core/theme/color_schemes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../services/license_service.dart';
@@ -99,7 +100,7 @@ class _ActivationPageState extends State<ActivationPage> {
           width: 500,
           padding: const EdgeInsets.all(32),
           decoration: BoxDecoration(
-            color: AppColors.getSurfaceVariant(context),
+            color: Theme.of(context).colorScheme.surfaceContainerHighest,
             borderRadius: BorderRadius.circular(24),
             boxShadow: [
               BoxShadow(
@@ -202,7 +203,7 @@ class _ActivationPageState extends State<ActivationPage> {
                 decoration: InputDecoration(
                   labelText: 'كود التفعيل',
                   labelStyle:
-                      TextStyle(color: AppColors.getTextSecondary(context)),
+                      TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant),
                   filled: true,
                   fillColor: Colors.black12,
                   border: OutlineInputBorder(
@@ -242,7 +243,7 @@ class _ActivationPageState extends State<ActivationPage> {
                           width: 20,
                           height: 20,
                           child: CircularProgressIndicator(
-                            color: AppColors.getTextPrimary(context),
+                            color: Theme.of(context).colorScheme.onSurface,
                             strokeWidth: 2,
                           ),
                         )

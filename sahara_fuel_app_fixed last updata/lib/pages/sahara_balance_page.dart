@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'dart:ui' as ui;
 import '../constants/app_colors.dart';
+import '../core/theme/color_schemes.dart';
 import '../providers/fuel_provider.dart';
 import '../providers/theme_provider.dart';
 
@@ -40,7 +41,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: AppColors.getPageGradient(context),
+                colors: Theme.of(context).extension<SaharaColors>()!.pageGradient,
               ),
             ),
             child: Row(
@@ -49,7 +50,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
                 Container(
                   width: 320,
                   decoration: BoxDecoration(
-                    color: AppColors.getSurface(context),
+                    color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                     border: Border(
                         left: BorderSide(color: Colors.grey[800]!, width: 1)),
                   ),
@@ -61,7 +62,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
-                              AppColors.getAccent(context).withOpacity(0.15),
+                              Theme.of(context).colorScheme.primary.withOpacity(0.15),
                               Colors.transparent
                             ],
                             begin: Alignment.topCenter,
@@ -73,7 +74,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
                             Row(
                               children: [
                                 Icon(Icons.location_city,
-                                    color: AppColors.getAccent(context), size: 24),
+                                    color: Theme.of(context).colorScheme.primary, size: 24),
                                 const SizedBox(width: 10),
                                 Text('المواقع والمحطات',
                                     style: GoogleFonts.cairo(
@@ -87,7 +88,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
                             Container(
                               height: 40,
                               decoration: BoxDecoration(
-                                  color: AppColors.getSurfaceVariant(context),
+                                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
                                   borderRadius: BorderRadius.circular(10)),
                               child: TextField(
                                 controller: _searchController,
@@ -130,15 +131,15 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
                       Container(
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                            color: AppColors.getSurfaceVariant(context),
+                            color: Theme.of(context).colorScheme.surfaceContainerHighest,
                             border: Border(
                                 top: BorderSide(color: Colors.grey[800]!))),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             _miniStat('المحطات', '${provider.stations.length}',
-                                AppColors.getAccent(context)),
-                            _miniStat('المزارع', '102', AppColors.getCardOrange(context)),
+                                Theme.of(context).colorScheme.primary),
+                            _miniStat('المزارع', '102', Theme.of(context).extension<SaharaColors>()!.cardOrange),
                           ],
                         ),
                       ),
@@ -175,14 +176,14 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 16, vertical: 10),
                               decoration: BoxDecoration(
-                                  color: AppColors.getCardBg(context),
+                                  color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                                   borderRadius: BorderRadius.circular(12),
                                   border: Border.all(
                                       color:
-                                          AppColors.getAccent(context).withOpacity(0.2))),
+                                          Theme.of(context).colorScheme.primary.withOpacity(0.2))),
                               child: Row(children: [
                                 Icon(Icons.calendar_today,
-                                    color: AppColors.getAccent(context), size: 16),
+                                    color: Theme.of(context).colorScheme.primary, size: 16),
                                 const SizedBox(width: 8),
                                 Text(
                                     DateFormat('d MMMM yyyy', 'ar')
@@ -237,7 +238,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
       margin: const EdgeInsets.only(bottom: 4),
       decoration: BoxDecoration(
         color: isExpanded
-            ? AppColors.getAccent(context).withOpacity(0.08)
+            ? Theme.of(context).colorScheme.primary.withOpacity(0.08)
             : Colors.transparent,
         borderRadius: BorderRadius.circular(10),
       ),
@@ -309,7 +310,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
         selectedFarm = null;
       }),
       child: Card(
-        color: AppColors.getCardBg(context),
+        color: Theme.of(context).extension<SaharaColors>()!.sidebar,
         elevation: isSelected ? 12 : 6,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
@@ -384,7 +385,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
     final consumption =
         List.generate(7, (i) => 4000.0 + i * 500 + (i * 3 % 5) * 200);
     return Card(
-      color: AppColors.getCardBg(context),
+      color: Theme.of(context).extension<SaharaColors>()!.sidebar,
       elevation: 8,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Padding(
@@ -392,7 +393,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Row(children: [
             IconButton(
-                icon: Icon(Icons.arrow_back, color: AppColors.getAccent(context)),
+                icon: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.primary),
                 onPressed: () => setState(() => selectedFarm = null)),
             const SizedBox(width: 8),
             Expanded(
@@ -415,7 +416,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
               _detailCard('رصيد سابق', '50,000 لتر', Icons.history,
                   const Color(0xFF42A5F5)),
               _detailCard('رصيد حالي', '45,000 لتر',
-                  Icons.account_balance_wallet, AppColors.getAccent(context)),
+                  Icons.account_balance_wallet, Theme.of(context).colorScheme.primary),
               _detailCard('كثافة الكاز', '0.85', Icons.science,
                   const Color(0xFFAB47BC)),
             ],
@@ -474,8 +475,8 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
                             toY: consumption[i],
                             gradient: LinearGradient(
                                 colors: [
-                                  AppColors.getAccent(context),
-                                  AppColors.getAccent(context).withOpacity(0.6)
+                                  Theme.of(context).colorScheme.primary,
+                                  Theme.of(context).colorScheme.primary.withOpacity(0.6)
                                 ],
                                 begin: Alignment.bottomCenter,
                                 end: Alignment.topCenter),
@@ -500,7 +501,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
   Widget _buildStationOverview(String stationName, FuelProvider provider) {
     final station = provider.stations.firstWhere((s) => s.name == stationName);
     return Card(
-      color: AppColors.getCardBg(context),
+      color: Theme.of(context).extension<SaharaColors>()!.sidebar,
       elevation: 8,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Padding(
@@ -602,7 +603,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
 
   Widget _buildDefaultView(FuelProvider provider) {
     return Card(
-      color: AppColors.getCardBg(context),
+      color: Theme.of(context).extension<SaharaColors>()!.sidebar,
       elevation: 8,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Padding(

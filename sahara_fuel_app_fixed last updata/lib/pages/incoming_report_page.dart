@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:provider/provider.dart';
 import '../constants/app_colors.dart';
+import '../core/theme/color_schemes.dart';
 import '../providers/fuel_provider.dart';
 import '../providers/theme_provider.dart';
 
@@ -205,7 +206,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
         });
 
         return Container(
-          color: AppColors.scaffold,
+          color: Theme.of(context).colorScheme.surface,
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(24),
             child: Column(
@@ -222,11 +223,11 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                             style: GoogleFonts.cairo(
                                 fontSize: 26,
                                 fontWeight: FontWeight.bold,
-                                color: AppColors.getTextPrimary(context))),
+                                color: Theme.of(context).colorScheme.onSurface)),
                         const SizedBox(height: 4),
                         Text('إدارة ومتابعة شحنات الوقود الواردة',
                             style: GoogleFonts.cairo(
-                                fontSize: 13, color: AppColors.getTextSecondary(context))),
+                                fontSize: 13, color: Theme.of(context).colorScheme.onSurfaceVariant)),
                       ],
                     ),
                     Row(
@@ -236,26 +237,26 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 14, vertical: 8),
                           decoration: BoxDecoration(
-                            color: AppColors.getInputBg(context),
+                            color: Theme.of(context).extension<SaharaColors>()!.inputBg,
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(
-                                color: AppColors.getAccent(context).withValues(alpha: 0.5)),
+                                color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.5)),
                           ),
                           child: InkWell(
                             onTap: () => _showDatePicker(),
                             child: Row(
                               children: [
                                 Icon(Icons.calendar_today,
-                                    color: AppColors.getAccent(context), size: 18),
+                                    color: Theme.of(context).colorScheme.primary, size: 18),
                                 const SizedBox(width: 8),
                                 Text(_selectedDate,
                                     style: GoogleFonts.cairo(
-                                        color: AppColors.getTextPrimary(context),
+                                        color: Theme.of(context).colorScheme.onSurface,
                                         fontSize: 13,
                                         fontWeight: FontWeight.w600)),
                                 const SizedBox(width: 6),
                                 Icon(Icons.keyboard_arrow_down,
-                                    color: AppColors.getTextSecondary(context), size: 18),
+                                    color: Theme.of(context).colorScheme.onSurfaceVariant, size: 18),
                               ],
                             ),
                           ),
@@ -425,7 +426,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                           'إجمالي الكمية',
                           '${_formatNumber(dashTotalQty)} لتر',
                           Icons.water_drop,
-                          AppColors.getAccent(context),
+                          Theme.of(context).colorScheme.primary,
                           ''),
                       const SizedBox(width: 16),
                       _statCard(
@@ -470,7 +471,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                                         color: Colors.white)),
                                 Row(
                                   children: [
-                                    _legendItem('الكمية', AppColors.getAccent(context)),
+                                    _legendItem('الكمية', Theme.of(context).colorScheme.primary),
                                     const SizedBox(width: 16),
                                     _legendItem(
                                         'التكلفة', const Color(0xFFEC4899)),
@@ -671,8 +672,8 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     colors: [
-                                      AppColors.getAccent(context),
-                                      AppColors.getAccent(context).withValues(alpha: 0.8)
+                                      Theme.of(context).colorScheme.primary,
+                                      Theme.of(context).colorScheme.primary.withValues(alpha: 0.8)
                                     ],
                                   ),
                                   borderRadius: BorderRadius.circular(10),
@@ -815,7 +816,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                                           fontSize: 12)),
                                   Text('${_formatNumber(totalQuantity)} لتر',
                                       style: GoogleFonts.cairo(
-                                          color: AppColors.getAccent(context),
+                                          color: Theme.of(context).colorScheme.primary,
                                           fontSize: 13,
                                           fontWeight: FontWeight.bold)),
                                 ],
@@ -872,7 +873,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                           ? Icons.arrow_upward
                           : Icons.arrow_downward)
                       : Icons.unfold_more,
-                  color: isActive ? AppColors.getAccent(context) : Colors.grey[600],
+                  color: isActive ? Theme.of(context).colorScheme.primary : Colors.grey[600],
                   size: 16,
                 ),
               ],
@@ -931,7 +932,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
     if (value is int) {
       if (key == 'quantity') {
         displayValue = _formatNumber(value);
-        textColor = AppColors.getAccent(context);
+        textColor = Theme.of(context).colorScheme.primary;
         fontWeight = FontWeight.bold;
       } else if (key == 'cost') {
         displayValue = value > 0 ? _formatNumber(value) : '-';
@@ -996,7 +997,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
                 decoration: BoxDecoration(
                   color: isActive
-                      ? AppColors.getAccent(context).withValues(alpha: 0.15)
+                      ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.15)
                       : Colors.transparent,
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -1006,7 +1007,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                     Flexible(
                       child: Text(label,
                           style: GoogleFonts.cairo(
-                            color: isActive ? AppColors.getAccent(context) : Colors.white,
+                            color: isActive ? Theme.of(context).colorScheme.primary : Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 13,
                           ),
@@ -1020,7 +1021,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                               ? Icons.arrow_upward
                               : Icons.arrow_downward)
                           : Icons.sort,
-                      color: isActive ? AppColors.getAccent(context) : Colors.grey[600],
+                      color: isActive ? Theme.of(context).colorScheme.primary : Colors.grey[600],
                       size: 12,
                     ),
                   ],
@@ -1039,7 +1040,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                       borderRadius: BorderRadius.circular(6),
                       border: _columnFilters[key]?.isNotEmpty == true
                           ? Border.all(
-                              color: AppColors.getAccent(context).withValues(alpha: 0.5),
+                              color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.5),
                               width: 1)
                           : null,
                     ),
@@ -1111,7 +1112,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
     if (value is int) {
       if (key == 'quantity') {
         displayValue = '${_formatNumber(value)} لتر';
-        textColor = AppColors.getAccent(context);
+        textColor = Theme.of(context).colorScheme.primary;
         fontWeight = FontWeight.bold;
       } else if (key == 'cost') {
         displayValue = value > 0 ? '${_formatNumber(value)} د.ع' : '-';
@@ -1258,12 +1259,12 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                           margin: const EdgeInsets.only(bottom: 8),
                           decoration: BoxDecoration(
                             color: _selectedDate == date
-                                ? AppColors.getAccent(context).withValues(alpha: 0.2)
+                                ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.2)
                                 : const Color(0xFF252830),
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(
                                 color: _selectedDate == date
-                                    ? AppColors.getAccent(context)
+                                    ? Theme.of(context).colorScheme.primary
                                     : const Color(0xFF2D3748)),
                           ),
                           child: Row(
@@ -1272,13 +1273,13 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                               Text(date,
                                   style: GoogleFonts.cairo(
                                       color: _selectedDate == date
-                                          ? AppColors.getAccent(context)
+                                          ? Theme.of(context).colorScheme.primary
                                           : Colors.white,
                                       fontSize: 14,
                                       fontWeight: FontWeight.w600)),
                               if (_selectedDate == date)
                                 Icon(Icons.check_circle,
-                                    color: AppColors.getAccent(context), size: 20),
+                                    color: Theme.of(context).colorScheme.primary, size: 20),
                             ],
                           ),
                         ),
@@ -1368,7 +1369,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
     final sortedEntries = totals.entries.toList()
       ..sort((a, b) => b.value.compareTo(a.value));
     final colors = [
-      AppColors.getAccent(context),
+      Theme.of(context).colorScheme.primary,
       const Color(0xFFF59E0B),
       const Color(0xFF8B5CF6),
       const Color(0xFF3B82F6),
@@ -1644,7 +1645,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
           LineChartBarData(
             spots: quantitySpots,
             isCurved: true,
-            color: AppColors.getAccent(context),
+            color: Theme.of(context).colorScheme.primary,
             barWidth: 3,
             isStrokeCapRound: true,
             dotData: FlDotData(
@@ -1652,7 +1653,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
               getDotPainter: (spot, percent, barData, index) =>
                   FlDotCirclePainter(
                 radius: 5,
-                color: AppColors.getAccent(context),
+                color: Theme.of(context).colorScheme.primary,
                 strokeWidth: 2,
                 strokeColor: Colors.white,
               ),
@@ -1661,8 +1662,8 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
               show: true,
               gradient: LinearGradient(
                 colors: [
-                  AppColors.getAccent(context).withValues(alpha: 0.3),
-                  AppColors.getAccent(context).withValues(alpha: 0.0)
+                  Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
+                  Theme.of(context).colorScheme.primary.withValues(alpha: 0.0)
                 ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
@@ -1725,7 +1726,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
     }
 
     final colors = [
-      AppColors.getAccent(context),
+      Theme.of(context).colorScheme.primary,
       const Color(0xFFF59E0B),
       const Color(0xFF8B5CF6),
       const Color(0xFF3B82F6)
@@ -1843,7 +1844,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      AppColors.getAccent(context).withValues(alpha: 0.3),
+                      Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
                       const Color(0xFF1E2127)
                     ],
                     begin: Alignment.topLeft,
@@ -1857,11 +1858,11 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                     Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: AppColors.getAccent(context).withValues(alpha: 0.2),
+                        color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Icon(Icons.business,
-                          color: AppColors.getAccent(context), size: 28),
+                          color: Theme.of(context).colorScheme.primary, size: 28),
                     ),
                     const SizedBox(width: 16),
                     Expanded(
@@ -1899,7 +1900,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                 child: Row(
                   children: [
                     _buildStatCard('عدد الشحنات', '${supplierData.length}',
-                        Icons.local_shipping, AppColors.getAccent(context)),
+                        Icons.local_shipping, Theme.of(context).colorScheme.primary),
                     const SizedBox(width: 12),
                     _buildStatCard(
                         'إجمالي الكمية',
@@ -1967,7 +1968,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                                               horizontal: 16, vertical: 12),
                                           child: Text(h,
                                               style: GoogleFonts.cairo(
-                                                  color: AppColors.getAccent(context),
+                                                  color: Theme.of(context).colorScheme.primary,
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.bold),
                                               textAlign: TextAlign.center),
@@ -1997,7 +1998,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                                         child: Text(
                                             '${_formatNumber(d['quantity'])} لتر',
                                             style: GoogleFonts.cairo(
-                                                color: AppColors.getAccent(context),
+                                                color: Theme.of(context).colorScheme.primary,
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.bold),
                                             textAlign: TextAlign.center)),
@@ -2088,7 +2089,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
     final sortedSuppliers = counts.entries.toList()
       ..sort((a, b) => b.value.compareTo(a.value));
     final colors = [
-      AppColors.getAccent(context),
+      Theme.of(context).colorScheme.primary,
       const Color(0xFFF59E0B),
       const Color(0xFF8B5CF6),
       const Color(0xFF3B82F6)
@@ -2154,7 +2155,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
       counts[item['supplier'] as String] = (counts[item['supplier']] ?? 0) + 1;
     }
     final colors = [
-      AppColors.getAccent(context),
+      Theme.of(context).colorScheme.primary,
       const Color(0xFFF59E0B),
       const Color(0xFF8B5CF6),
       const Color(0xFF3B82F6)
@@ -2200,7 +2201,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
         ? const Color(0xFFF59E0B)
         : c == 'نفط ابيض'
             ? Colors.blueGrey
-            : AppColors.getInfo(context);
+            : Theme.of(context).extension<SaharaColors>()!.chartBlue;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
       decoration: BoxDecoration(
@@ -2615,11 +2616,11 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                   Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: AppColors.getAccent(context).withValues(alpha: 0.2),
+                      color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child:
-                        Icon(Icons.add_box, color: AppColors.getAccent(context), size: 24),
+                        Icon(Icons.add_box, color: Theme.of(context).colorScheme.primary, size: 24),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
@@ -2756,7 +2757,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold)),
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.getAccent(context),
+                                backgroundColor: Theme.of(context).colorScheme.primary,
                                 foregroundColor: Colors.white,
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 30, vertical: 15),
@@ -2783,7 +2784,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                               child: Row(
                                 children: [
                                   Icon(Icons.preview,
-                                      color: AppColors.getAccent(context), size: 20),
+                                      color: Theme.of(context).colorScheme.primary, size: 20),
                                   const SizedBox(width: 10),
                                   Text('معاينة البيانات المضافة',
                                       style: GoogleFonts.cairo(
@@ -2818,7 +2819,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
       decoration: InputDecoration(
         labelText: label,
         labelStyle: GoogleFonts.cairo(color: Colors.white70, fontSize: 13),
-        prefixIcon: Icon(icon, color: AppColors.getAccent(context), size: 20),
+        prefixIcon: Icon(icon, color: Theme.of(context).colorScheme.primary, size: 20),
         filled: true,
         fillColor: const Color(0xFF1E2127),
         contentPadding:
@@ -2833,7 +2834,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: AppColors.getAccent(context), width: 2),
+          borderSide: BorderSide(color: Theme.of(context).colorScheme.primary, width: 2),
         ),
       ),
     );
@@ -2861,7 +2862,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
         headingRowHeight: 55,
         dataRowHeight: 50,
         headingRowColor:
-            WidgetStateProperty.all(AppColors.getAccent(context).withValues(alpha: 0.15)),
+            WidgetStateProperty.all(Theme.of(context).colorScheme.primary.withValues(alpha: 0.15)),
         columns: columns.map((col) {
           return DataColumn(
             label: SizedBox(
@@ -2905,7 +2906,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                   child: Text(
                     displayValue,
                     style: GoogleFonts.cairo(
-                        color: AppColors.getTextPrimary(context), fontSize: 12),
+                        color: Theme.of(context).colorScheme.onSurface, fontSize: 12),
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,
                   ),

@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'dart:math';
 import '../constants/app_colors.dart';
+import '../core/theme/color_schemes.dart';
 import 'dart:ui' as ui;
 import '../utils/theme_colors.dart';
 

@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'dart:ui' as ui;
 import '../constants/app_colors.dart';
+import '../core/theme/color_schemes.dart';
 import '../providers/theme_provider.dart';
 
 /// صفحة سجل العمليات (Audit Trail)
@@ -79,13 +80,13 @@ class _AuditTrailPageState extends State<AuditTrailPage> {
                 style: GoogleFonts.cairo(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.getTextPrimary(context),
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
               Text(
                 'تتبع جميع العمليات والتغييرات في النظام',
                 style: GoogleFonts.cairo(
-                    fontSize: 14, color: AppColors.getSubtleText(context)),
+                    fontSize: 14, color: Theme.of(context).extension<SaharaColors>()!.subtleText),
               ),
               const SizedBox(height: 30),
 
@@ -96,15 +97,15 @@ class _AuditTrailPageState extends State<AuditTrailPage> {
                     flex: 2,
                     child: TextField(
                       style: GoogleFonts.cairo(
-                          color: AppColors.getTextPrimary(context)),
+                          color: Theme.of(context).colorScheme.onSurface),
                       decoration: InputDecoration(
                         hintText: 'بحث في السجلات...',
                         hintStyle: GoogleFonts.cairo(
-                            color: AppColors.getSubtleText(context)),
+                            color: Theme.of(context).extension<SaharaColors>()!.subtleText),
                         prefixIcon: Icon(Icons.search,
-                            color: AppColors.getSubtleText(context)),
+                            color: Theme.of(context).extension<SaharaColors>()!.subtleText),
                         filled: true,
-                        fillColor: AppColors.getCardBg(context),
+                        fillColor: Theme.of(context).extension<SaharaColors>()!.sidebar,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: BorderSide.none,
@@ -123,7 +124,7 @@ class _AuditTrailPageState extends State<AuditTrailPage> {
               // جدول السجلات
               Container(
                 decoration: BoxDecoration(
-                  color: AppColors.getCardBg(context),
+                  color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Column(
@@ -132,7 +133,7 @@ class _AuditTrailPageState extends State<AuditTrailPage> {
                     Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: AppColors.getPrimary(context),
+                        color: Theme.of(context).colorScheme.surface,
                         borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(16),
                           topRight: Radius.circular(16),
@@ -163,13 +164,13 @@ class _AuditTrailPageState extends State<AuditTrailPage> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
-        color: AppColors.getCardBg(context),
+        color: Theme.of(context).extension<SaharaColors>()!.sidebar,
         borderRadius: BorderRadius.circular(12),
       ),
       child: DropdownButton<String>(
         value: selectedFilter,
-        dropdownColor: AppColors.getCardBg(context),
-        style: GoogleFonts.cairo(color: AppColors.getTextPrimary(context)),
+        dropdownColor: Theme.of(context).extension<SaharaColors>()!.sidebar,
+        style: GoogleFonts.cairo(color: Theme.of(context).colorScheme.onSurface),
         underline: const SizedBox(),
         items: ['الكل', 'إضافة', 'تحويل', 'تعديل', 'حذف', 'تقارير']
             .map((e) => DropdownMenuItem(value: e, child: Text(e)))
@@ -197,8 +198,8 @@ class _AuditTrailPageState extends State<AuditTrailPage> {
       icon: const Icon(Icons.calendar_today, size: 18),
       label: Text('تحديد الفترة', style: GoogleFonts.cairo()),
       style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.getCardBg(context),
-        foregroundColor: AppColors.getTextPrimary(context),
+        backgroundColor: Theme.of(context).extension<SaharaColors>()!.sidebar,
+        foregroundColor: Theme.of(context).colorScheme.onSurface,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
@@ -211,7 +212,7 @@ class _AuditTrailPageState extends State<AuditTrailPage> {
       child: Text(
         text,
         style: GoogleFonts.cairo(
-          color: AppColors.getTextPrimary(context),
+          color: Theme.of(context).colorScheme.onSurface,
           fontWeight: FontWeight.bold,
           fontSize: 14,
         ),
@@ -247,7 +248,7 @@ class _AuditTrailPageState extends State<AuditTrailPage> {
                 Text(
                   log['action'],
                   style: GoogleFonts.cairo(
-                      color: AppColors.getTextPrimary(context), fontSize: 14),
+                      color: Theme.of(context).colorScheme.onSurface, fontSize: 14),
                 ),
               ],
             ),
@@ -257,7 +258,7 @@ class _AuditTrailPageState extends State<AuditTrailPage> {
             child: Text(
               log['user'],
               style: GoogleFonts.cairo(
-                  color: AppColors.getSubtleText(context), fontSize: 14),
+                  color: Theme.of(context).extension<SaharaColors>()!.subtleText, fontSize: 14),
             ),
           ),
           Expanded(
@@ -265,7 +266,7 @@ class _AuditTrailPageState extends State<AuditTrailPage> {
             child: Text(
               log['details'],
               style: GoogleFonts.cairo(
-                  color: AppColors.getSubtleText(context), fontSize: 13),
+                  color: Theme.of(context).extension<SaharaColors>()!.subtleText, fontSize: 13),
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -274,7 +275,7 @@ class _AuditTrailPageState extends State<AuditTrailPage> {
             child: Text(
               _formatTime(log['timestamp']),
               style: GoogleFonts.cairo(
-                  color: AppColors.getSubtleText(context), fontSize: 12),
+                  color: Theme.of(context).extension<SaharaColors>()!.subtleText, fontSize: 12),
             ),
           ),
         ],
@@ -295,13 +296,13 @@ class _AuditTrailPageState extends State<AuditTrailPage> {
   Color _getTypeColor(String type, BuildContext context) {
     switch (type) {
       case 'add':
-        return AppColors.getSuccess(context);
+        return Theme.of(context).extension<SaharaColors>()!.chartGreen;
       case 'edit':
-        return AppColors.getWarning(context);
+        return Theme.of(context).extension<SaharaColors>()!.chartOrange;
       case 'delete':
-        return AppColors.getError(context);
+        return Theme.of(context).colorScheme.error;
       case 'transfer':
-        return AppColors.getInfo(context);
+        return Theme.of(context).extension<SaharaColors>()!.chartBlue;
       default:
         return Colors.grey;
     }

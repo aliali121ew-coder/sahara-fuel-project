@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'dart:ui' as ui;
 import 'dart:math';
 import '../constants/app_colors.dart';
+import '../core/theme/color_schemes.dart';
 import '../providers/fuel_provider.dart';
 import '../providers/theme_provider.dart';
 import '../models/union_transaction.dart';
@@ -50,7 +51,7 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
                   end: Alignment.bottomRight,
                   colors: [
                 Color(0xFF0D1B2A),
-                AppColors.getDialogBg(context),
+                Theme.of(context).extension<SaharaColors>()!.sidebar,
                 Color(0xFF0F2847)
               ])),
           child: SingleChildScrollView(
@@ -97,11 +98,11 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
       Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         decoration: BoxDecoration(
-            color: AppColors.getSurfaceVariant(context),
+            color: Theme.of(context).colorScheme.surfaceContainerHighest,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.getCardOrange(context).withOpacity(0.2))),
+            border: Border.all(color: Theme.of(context).extension<SaharaColors>()!.cardOrange.withOpacity(0.2))),
         child: Row(children: [
-          Icon(Icons.calendar_today, color: AppColors.getCardOrange(context), size: 16),
+          Icon(Icons.calendar_today, color: Theme.of(context).extension<SaharaColors>()!.cardOrange, size: 16),
           const SizedBox(width: 8),
           Text(DateFormat('d MMMM yyyy', 'ar').format(DateTime.now()),
               style: GoogleFonts.cairo(fontSize: 13, color: Colors.white)),
@@ -122,7 +123,7 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
                 'الرصيد الحالي',
                 fmt.format(provider.unionBalance),
                 'لتر',
-                AppColors.getCardOrange(context),
+                Theme.of(context).extension<SaharaColors>()!.cardOrange,
                 Icons.account_balance_wallet,
                 '${provider.unionChangePercent >= 0 ? "+" : ""}${provider.unionChangePercent}%'),
             const SizedBox(width: 12),
@@ -145,7 +146,7 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
             'الرصيد الحالي',
             fmt.format(provider.unionBalance),
             'لتر',
-            AppColors.getCardOrange(context),
+            Theme.of(context).extension<SaharaColors>()!.cardOrange,
             Icons.account_balance_wallet,
             '${provider.unionChangePercent >= 0 ? "+" : ""}${provider.unionChangePercent}%'),
         const SizedBox(width: 16),
@@ -205,7 +206,7 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
         child: Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-          color: AppColors.getSurface(context),
+          color: Theme.of(context).extension<SaharaColors>()!.sidebar,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: color.withOpacity(0.15))),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -266,7 +267,7 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
       height: 380,
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-          color: AppColors.getSurface(context),
+          color: Theme.of(context).extension<SaharaColors>()!.sidebar,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: const Color(0xFF2D3748))),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -383,7 +384,7 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
     }
     final total = dist.values.fold<double>(0, (s, v) => s + v);
     final colors = [
-      AppColors.getAccent(context),
+      Theme.of(context).colorScheme.primary,
       const Color(0xFFF59E0B),
       const Color(0xFF8B5CF6),
       const Color(0xFF3B82F6),
@@ -447,7 +448,7 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
       List<UnionTransaction> filteredTx, NumberFormat fmt) {
     return Container(
       decoration: BoxDecoration(
-          color: AppColors.getSurface(context),
+          color: Theme.of(context).extension<SaharaColors>()!.sidebar,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: const Color(0xFF2D3748))),
       child: Column(children: [
@@ -469,18 +470,18 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
                             horizontal: 14, vertical: 5),
                         decoration: BoxDecoration(
                           color: _selectedFilter == f
-                              ? AppColors.getCardOrange(context).withOpacity(0.15)
+                              ? Theme.of(context).extension<SaharaColors>()!.cardOrange.withOpacity(0.15)
                               : Colors.transparent,
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(
                               color: _selectedFilter == f
-                                  ? AppColors.getCardOrange(context)
+                                  ? Theme.of(context).extension<SaharaColors>()!.cardOrange
                                   : Colors.grey[700]!),
                         ),
                         child: Text(f,
                             style: GoogleFonts.cairo(
                                 color: _selectedFilter == f
-                                    ? AppColors.getCardOrange(context)
+                                    ? Theme.of(context).extension<SaharaColors>()!.cardOrange
                                     : Colors.grey[500],
                                 fontSize: 12,
                                 fontWeight: _selectedFilter == f
@@ -519,7 +520,7 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
                   Text(
                       'المجموع: ${fmt.format(filteredTx.fold<double>(0, (s, t) => s + t.amount))} لتر',
                       style: GoogleFonts.cairo(
-                          color: AppColors.getCardOrange(context),
+                          color: Theme.of(context).extension<SaharaColors>()!.cardOrange,
                           fontSize: 13,
                           fontWeight: FontWeight.bold)),
                 ])),
@@ -531,7 +532,7 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
   Widget _periodSelector() => Container(
         padding: const EdgeInsets.all(4),
         decoration: BoxDecoration(
-            color: AppColors.getSurfaceVariant(context),
+            color: Theme.of(context).colorScheme.surfaceContainerHighest,
             borderRadius: BorderRadius.circular(10)),
         child: Row(
             children: ['أسبوع', 'شهر', 'سنة']
@@ -543,13 +544,13 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
                             horizontal: 14, vertical: 6),
                         decoration: BoxDecoration(
                             color: _selectedPeriod == p
-                                ? AppColors.getCardOrange(context).withOpacity(0.15)
+                                ? Theme.of(context).extension<SaharaColors>()!.cardOrange.withOpacity(0.15)
                                 : Colors.transparent,
                             borderRadius: BorderRadius.circular(8)),
                         child: Text(p,
                             style: GoogleFonts.cairo(
                                 color: _selectedPeriod == p
-                                    ? AppColors.getCardOrange(context)
+                                    ? Theme.of(context).extension<SaharaColors>()!.cardOrange
                                     : Colors.grey[500],
                                 fontSize: 11,
                                 fontWeight: _selectedPeriod == p
@@ -625,14 +626,14 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
               decoration: BoxDecoration(
                   color: (t.status == 'مكتمل'
-                          ? AppColors.getSuccess(context)
+                          ? Theme.of(context).extension<SaharaColors>()!.chartGreen
                           : const Color(0xFFF59E0B))
                       .withOpacity(0.12),
                   borderRadius: BorderRadius.circular(8)),
               child: Text(t.status,
                   style: GoogleFonts.cairo(
                       color: t.status == 'مكتمل'
-                          ? AppColors.getSuccess(context)
+                          ? Theme.of(context).extension<SaharaColors>()!.chartGreen
                           : const Color(0xFFF59E0B),
                       fontSize: 11)),
             ))),

@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'dart:ui' as ui;
 import 'dart:math';
 import '../constants/app_colors.dart';
+import '../core/theme/color_schemes.dart';
 import '../providers/fuel_provider.dart';
 import '../providers/theme_provider.dart';
 
@@ -57,7 +58,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                 gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
-                    colors: AppColors.getPageGradient(context))),
+                    colors: Theme.of(context).extension<SaharaColors>()!.pageGradient)),
             child: Column(children: [
               // ===== الهيدر + فلاتر التاريخ =====
               Padding(
@@ -71,10 +72,10 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                                 style: GoogleFonts.cairo(
                                     fontSize: 26,
                                     fontWeight: FontWeight.bold,
-                                    color: AppColors.getTextPrimary(context))),
+                                    color: Theme.of(context).colorScheme.onSurface)),
                             Text('تحليلات ومقارنات تفصيلية',
                                 style: GoogleFonts.cairo(
-                                    fontSize: 13, color: AppColors.getSubtleText(context))),
+                                    fontSize: 13, color: Theme.of(context).extension<SaharaColors>()!.subtleText)),
                           ]),
                       const Spacer(),
                       // فلتر التاريخ
@@ -92,7 +93,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                           'المخزون الكلي',
                           '${fmt.format(totalStock)} لتر',
                           Icons.inventory_2,
-                          AppColors.getAccent(context),
+                          Theme.of(context).colorScheme.primary,
                           '${fillPercent.toStringAsFixed(0)}%'),
                       const SizedBox(width: 12),
                       _miniStat(
@@ -127,7 +128,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                   child: Container(
                     height: 44,
                     decoration: BoxDecoration(
-                        color: AppColors.getSurface(context),
+                        color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                         borderRadius: BorderRadius.circular(14),
                         border: Border.all(color: const Color(0xFF2D3748))),
                     child: TabBar(
@@ -135,11 +136,11 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                         isScrollable: false,
                         dividerHeight: 0,
                         indicator: BoxDecoration(
-                            color: AppColors.getAccent(context).withOpacity(0.15),
+                            color: Theme.of(context).colorScheme.primary.withOpacity(0.15),
                             borderRadius: BorderRadius.circular(12),
                             border: Border.all(
-                                color: AppColors.getAccent(context).withOpacity(0.4))),
-                        labelColor: AppColors.getAccent(context),
+                                color: Theme.of(context).colorScheme.primary.withOpacity(0.4))),
+                        labelColor: Theme.of(context).colorScheme.primary,
                         unselectedLabelColor: Colors.grey[500],
                         labelStyle: GoogleFonts.cairo(
                             fontWeight: FontWeight.bold, fontSize: 11),
@@ -332,12 +333,12 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                             child: LinearProgressIndicator(
                                 value: e.value / 50,
                                 backgroundColor: Colors.grey[800],
-                                color: AppColors.getAccent(context),
+                                color: Theme.of(context).colorScheme.primary,
                                 minHeight: 8))),
                     const SizedBox(width: 8),
                     Text('${e.value}%',
                         style: GoogleFonts.cairo(
-                            color: AppColors.getAccent(context),
+                            color: Theme.of(context).colorScheme.primary,
                             fontSize: 11,
                             fontWeight: FontWeight.bold)),
                   ]),
@@ -418,7 +419,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
           // جدول تفاصيل الخزانات
           Container(
             decoration: BoxDecoration(
-                color: AppColors.getSurface(context),
+                color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: const Color(0xFF2D3748))),
             child: Column(children: [
@@ -429,11 +430,11 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                       borderRadius:
                           BorderRadius.vertical(top: Radius.circular(16))),
                   child: Row(children: [
-                    Icon(Icons.propane_tank, color: AppColors.getAccent(context), size: 20),
+                    Icon(Icons.propane_tank, color: Theme.of(context).colorScheme.primary, size: 20),
                     const SizedBox(width: 10),
                     Text('تفاصيل الخزانات',
                         style: GoogleFonts.cairo(
-                            color: AppColors.getAccent(context),
+                            color: Theme.of(context).colorScheme.primary,
                             fontWeight: FontWeight.bold,
                             fontSize: 14)),
                     const Spacer(),
@@ -594,7 +595,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
           // جدول أداء المحطات
           Container(
             decoration: BoxDecoration(
-                color: AppColors.getSurface(context),
+                color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: const Color(0xFF2D3748))),
             child: Column(children: [
@@ -617,7 +618,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                       Expanded(
                           child: Text(h,
                               style: GoogleFonts.cairo(
-                                  color: AppColors.getAccent(context),
+                                  color: Theme.of(context).colorScheme.primary,
                                   fontSize: 10,
                                   fontWeight: FontWeight.bold),
                               textAlign: TextAlign.center)),
@@ -828,13 +829,13 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
           Row(children: [
             Expanded(
                 child: _compareCard('الشهر الحالي',
-                    fmt.format(currentTotal.toInt()), 'لتر', AppColors.getAccent(context))),
+                    fmt.format(currentTotal.toInt()), 'لتر', Theme.of(context).colorScheme.primary)),
             const SizedBox(width: 12),
             Container(
                 width: 100,
                 height: 80,
                 decoration: BoxDecoration(
-                    color: AppColors.getSurface(context),
+                    color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(color: const Color(0xFF2D3748))),
                 child: Column(
@@ -896,12 +897,12 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                       spots: List.generate(
                           30, (i) => FlSpot(i.toDouble(), currentMonth[i])),
                       isCurved: true,
-                      color: AppColors.getAccent(context),
+                      color: Theme.of(context).colorScheme.primary,
                       barWidth: 2.5,
                       dotData: const FlDotData(show: false),
                       belowBarData: BarAreaData(
                           show: true,
-                          color: AppColors.getAccent(context).withOpacity(0.06))),
+                          color: Theme.of(context).colorScheme.primary.withOpacity(0.06))),
                   LineChartBarData(
                       spots: List.generate(
                           30, (i) => FlSpot(i.toDouble(), prevMonth[i])),
@@ -914,7 +915,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
               ))),
           const SizedBox(height: 12),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            _legendDot('الشهر الحالي', AppColors.getAccent(context)),
+            _legendDot('الشهر الحالي', Theme.of(context).colorScheme.primary),
             const SizedBox(width: 20),
             _legendDot('الشهر السابق', Colors.grey)
           ]),
@@ -929,7 +930,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
         child: Column(children: [
           Container(
             decoration: BoxDecoration(
-                color: AppColors.getSurface(context),
+                color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: const Color(0xFF2D3748))),
             child: Column(children: [
@@ -940,22 +941,22 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                       borderRadius:
                           BorderRadius.vertical(top: Radius.circular(16))),
                   child: Row(children: [
-                    Icon(Icons.table_chart, color: AppColors.getAccent(context), size: 20),
+                    Icon(Icons.table_chart, color: Theme.of(context).colorScheme.primary, size: 20),
                     const SizedBox(width: 10),
                     Text('سجل الوارد التفصيلي',
                         style: GoogleFonts.cairo(
-                            color: AppColors.getAccent(context),
+                            color: Theme.of(context).colorScheme.primary,
                             fontWeight: FontWeight.bold)),
                     const Spacer(),
                     Container(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 4),
                         decoration: BoxDecoration(
-                            color: AppColors.getAccent(context).withOpacity(0.1),
+                            color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                             borderRadius: BorderRadius.circular(8)),
                         child: Text('${prov.incomingRecords.length} سجل',
                             style: GoogleFonts.cairo(
-                                color: AppColors.getAccent(context),
+                                color: Theme.of(context).colorScheme.primary,
                                 fontSize: 11,
                                 fontWeight: FontWeight.bold))),
                   ])),
@@ -1051,18 +1052,18 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
             builder: (ctx, child) => Theme(
                 data: ThemeData.dark().copyWith(
                     colorScheme: ColorScheme.dark(
-                        primary: AppColors.getAccent(context), surface: AppColors.getSurface(context))),
+                        primary: Theme.of(context).colorScheme.primary, surface: Theme.of(context).extension<SaharaColors>()!.sidebar)),
                 child: child!));
         if (picked != null) setState(() => _dateRange = picked);
       },
       child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
           decoration: BoxDecoration(
-              color: AppColors.getSurface(context),
+              color: Theme.of(context).extension<SaharaColors>()!.sidebar,
               borderRadius: BorderRadius.circular(10),
               border: Border.all(color: const Color(0xFF2D3748))),
           child: Row(children: [
-            Icon(Icons.date_range, color: AppColors.getAccent(context), size: 16),
+            Icon(Icons.date_range, color: Theme.of(context).colorScheme.primary, size: 16),
             const SizedBox(width: 8),
             Text(
                 '${DateFormat('MM/dd').format(_dateRange.start)} - ${DateFormat('MM/dd').format(_dateRange.end)}',
@@ -1071,11 +1072,11 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
 
   Widget _compareModeButton() => PopupMenuButton<String>(
       onSelected: (v) => setState(() => _compareMode = v),
-      color: AppColors.getSurface(context),
+      color: Theme.of(context).extension<SaharaColors>()!.sidebar,
       child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           decoration: BoxDecoration(
-              color: AppColors.getSurface(context),
+              color: Theme.of(context).extension<SaharaColors>()!.sidebar,
               borderRadius: BorderRadius.circular(10),
               border: Border.all(color: const Color(0xFF2D3748))),
           child: Row(children: [
@@ -1094,11 +1095,11 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
 
   Widget _chartTypeButton() => PopupMenuButton<String>(
       onSelected: (v) => setState(() => _chartType = v),
-      color: AppColors.getSurface(context),
+      color: Theme.of(context).extension<SaharaColors>()!.sidebar,
       child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           decoration: BoxDecoration(
-              color: AppColors.getSurface(context),
+              color: Theme.of(context).extension<SaharaColors>()!.sidebar,
               borderRadius: BorderRadius.circular(10),
               border: Border.all(color: const Color(0xFF2D3748))),
           child: Row(children: [
@@ -1127,7 +1128,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
           child: Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                  color: AppColors.getSurface(context),
+                  color: Theme.of(context).extension<SaharaColors>()!.sidebar,
                   borderRadius: BorderRadius.circular(14),
                   border: Border.all(color: color.withOpacity(0.15))),
               child: Row(children: [
@@ -1165,7 +1166,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
   Widget _chartCard(String title, double height, Widget chart) => Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-          color: AppColors.getSurface(context),
+          color: Theme.of(context).extension<SaharaColors>()!.sidebar,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: const Color(0xFF2D3748))),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -1183,7 +1184,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
       Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-              color: AppColors.getSurface(context),
+              color: Theme.of(context).extension<SaharaColors>()!.sidebar,
               borderRadius: BorderRadius.circular(14),
               border: Border.all(color: color.withOpacity(0.15))),
           child:
