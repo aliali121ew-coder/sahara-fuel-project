@@ -209,19 +209,27 @@ class _LoginPageState extends State<LoginPage>
       if (res.success && res.data != null) {
         // نجاح API - مزامنة البيانات محلياً
         success = true;
-        // مزامنة مع AuthService المحلي
         authService.login(email, password);
         provider.login(email, password);
-        // تحميل البيانات من السيرفر
         await provider.syncWithApi();
         debugPrint('✅ تسجيل دخول ناجح عبر API + مزامنة');
+      } else if (res.code == 'NETWORK_ERROR' || res.code == 'UNKNOWN_ERROR' || res.code == 'FORMAT_ERROR') {
+        // السيرفر غير متاح - fallback للتسجيل المحلي
+        debugPrint('⚠️ السيرفر غير متاح (${res.code}), محاولة تسجيل الدخول محلياً...');
+        success = authService.login(email, password);
+        if (success) {
+          provider.login(email, password);
+          debugPrint('✅ تسجيل دخول ناجح محلياً (offline)');
+        } else {
+          errorMsg = 'البريد الإلكتروني أو كلمة المرور غير صحيحة';
+        }
       } else {
-        // API رد بخطأ (بيانات خاطئة)
+        // API رد بخطأ (بيانات خاطئة فعلاً)
         errorMsg = res.error ?? 'البريد الإلكتروني أو كلمة المرور غير صحيحة';
       }
     } catch (e) {
-      // السيرفر غير متاح - fallback للمحلي
-      debugPrint('⚠️ السيرفر غير متاح، محاولة تسجيل الدخول محلياً...');
+      // خطأ غير متوقع - fallback للمحلي
+      debugPrint('⚠️ خطأ غير متوقع: $e، محاولة تسجيل الدخول محلياً...');
       success = authService.login(email, password);
       if (success) {
         provider.login(email, password);
