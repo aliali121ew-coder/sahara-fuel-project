@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
 /// Custom theme extension for Sahara-specific colors not covered by ColorScheme.
+///
+/// Architecture (Material 3 compliant):
+///   Seed Color → ColorScheme.fromSeed() → Tonal Palette
+///   → SaharaColors.fromScheme() derives surface/semantic tokens from palette
+///   → Only brand-specific colors (charts, gradients, sidebar) are manual constants
 class SaharaColors extends ThemeExtension<SaharaColors> {
   final Color cardGreen;
   final Color cardOrange;
@@ -28,6 +33,10 @@ class SaharaColors extends ThemeExtension<SaharaColors> {
   final Color gradientMiddle;
   final Color gradientEnd;
   final List<Color> pageGradient;
+  final Color sidebarText;
+  final Color sidebarSubtle;
+  final Color sidebarIconBg;
+  final Color sidebarHoverBg;
 
   const SaharaColors({
     required this.cardGreen,
@@ -56,7 +65,70 @@ class SaharaColors extends ThemeExtension<SaharaColors> {
     required this.gradientMiddle,
     required this.gradientEnd,
     required this.pageGradient,
+    required this.sidebarText,
+    required this.sidebarSubtle,
+    required this.sidebarIconBg,
+    required this.sidebarHoverBg,
   });
+
+  // ═══════════════════════════════════════════════════════════════════
+  // Factory: derives colors from the M3 ColorScheme tonal palette.
+  // Surface/semantic colors come FROM the palette → guaranteed harmony.
+  // Only brand-specific colors (charts, sidebar, gradients) are manual.
+  // ═══════════════════════════════════════════════════════════════════
+  static SaharaColors fromScheme(ColorScheme cs, {required bool isDark}) {
+    return SaharaColors(
+      // ── Dashboard card accent colors (brand constants) ──
+      cardGreen:   isDark ? const Color(0xFF00D9A3) : const Color(0xFF0A8A6A),
+      cardOrange:  isDark ? const Color(0xFFFFA726) : const Color(0xFFD4772B),
+      cardPurple:  isDark ? const Color(0xFFAB47BC) : const Color(0xFF6B3FA0),
+
+      // ── Chart colors (brand constants) ──
+      chartBlue:   isDark ? const Color(0xFF42A5F5) : const Color(0xFF2B6CB0),
+      chartGreen:  isDark ? const Color(0xFF10B981) : const Color(0xFF0D9668),
+      chartOrange: isDark ? const Color(0xFFFFA726) : const Color(0xFFDD8B39),
+      chartRed:    isDark ? const Color(0xFFEF5350) : const Color(0xFFC53030),
+      chartPurple: isDark ? const Color(0xFF8B5CF6) : const Color(0xFF6B46C1),
+
+      // ── Sidebar (dark navy in both modes — pro ERP design) ──
+      sidebar:      isDark ? const Color(0xFF1A1F2E) : const Color(0xFF1B2A3D),
+      sidebarBorder: isDark ? cs.outlineVariant : const Color(0xFF2D4052),
+      sidebarText:   const Color(0xFFECEFF4),
+      sidebarSubtle: isDark ? const Color(0xFF9E9E9E) : const Color(0xFF8899AA),
+      sidebarIconBg: isDark ? const Color(0xFF252D3D) : const Color(0xFF243447),
+      sidebarHoverBg: const Color(0x1AFFFFFF),
+
+      // ── Surfaces → derived from M3 tonal palette ──
+      tableHeader:  cs.surfaceContainerHighest,
+      tableRowEven: cs.surfaceContainerLow,
+      tableRowOdd:  cs.surface,
+      dialogHeader: cs.surfaceContainerHigh,
+      inputBg:      cs.surfaceContainerLow,
+
+      // ── Text → derived from M3 semantic tokens ──
+      hintText:   cs.onSurfaceVariant,
+      subtleText: cs.outline,
+
+      // ── Badges & Stats → derived from M3 elevation surfaces ──
+      badgeBg:     cs.surfaceContainerLowest,
+      badgeBorder: cs.outlineVariant,
+      statBg:      cs.surfaceContainerLow,
+      statBorder:  cs.outlineVariant,
+
+      // ── Accent = primary from scheme ──
+      accent: cs.primary,
+
+      // ── Gradients (brand — sidebar-matching for headers) ──
+      gradientStart:  isDark ? const Color(0xFF1F4D6D) : const Color(0xFF1B2A3D),
+      gradientMiddle: isDark ? const Color(0xFF0D2847) : const Color(0xFF2A4A5E),
+      gradientEnd:    isDark ? const Color(0xFF1A3A52) : const Color(0xFF1D3A50),
+
+      // ── Page gradient → derived from M3 surface tones ──
+      pageGradient: isDark
+          ? [cs.surface, cs.surfaceContainerLow, cs.surfaceContainer]
+          : [cs.surfaceContainerLowest, cs.surfaceContainerLow, cs.surface],
+    );
+  }
 
   @override
   SaharaColors copyWith({
@@ -86,6 +158,10 @@ class SaharaColors extends ThemeExtension<SaharaColors> {
     Color? gradientMiddle,
     Color? gradientEnd,
     List<Color>? pageGradient,
+    Color? sidebarText,
+    Color? sidebarSubtle,
+    Color? sidebarIconBg,
+    Color? sidebarHoverBg,
   }) {
     return SaharaColors(
       cardGreen: cardGreen ?? this.cardGreen,
@@ -114,6 +190,10 @@ class SaharaColors extends ThemeExtension<SaharaColors> {
       gradientMiddle: gradientMiddle ?? this.gradientMiddle,
       gradientEnd: gradientEnd ?? this.gradientEnd,
       pageGradient: pageGradient ?? this.pageGradient,
+      sidebarText: sidebarText ?? this.sidebarText,
+      sidebarSubtle: sidebarSubtle ?? this.sidebarSubtle,
+      sidebarIconBg: sidebarIconBg ?? this.sidebarIconBg,
+      sidebarHoverBg: sidebarHoverBg ?? this.sidebarHoverBg,
     );
   }
 
@@ -151,68 +231,12 @@ class SaharaColors extends ThemeExtension<SaharaColors> {
         Color.lerp(pageGradient[1], other.pageGradient[1], t)!,
         Color.lerp(pageGradient[2], other.pageGradient[2], t)!,
       ],
+      sidebarText: Color.lerp(sidebarText, other.sidebarText, t)!,
+      sidebarSubtle: Color.lerp(sidebarSubtle, other.sidebarSubtle, t)!,
+      sidebarIconBg: Color.lerp(sidebarIconBg, other.sidebarIconBg, t)!,
+      sidebarHoverBg: Color.lerp(sidebarHoverBg, other.sidebarHoverBg, t)!,
     );
   }
-
-  // ===== Dark Theme Colors =====
-  static const dark = SaharaColors(
-    cardGreen: Color(0xFF00D9A3),
-    cardOrange: Color(0xFFFFA726),
-    cardPurple: Color(0xFFAB47BC),
-    chartBlue: Color(0xFF42A5F5),
-    chartGreen: Color(0xFF10B981),
-    chartOrange: Color(0xFFFFA726),
-    chartRed: Color(0xFFEF5350),
-    chartPurple: Color(0xFF8B5CF6),
-    sidebar: Color(0xFF1A1F2E),
-    sidebarBorder: Color(0xFF424242),
-    tableHeader: Color(0xFF0F2438),
-    tableRowEven: Color(0x4D1E2127),
-    tableRowOdd: Colors.transparent,
-    dialogHeader: Color(0xFF1E2127),
-    inputBg: Color(0xFF252D3D),
-    hintText: Color(0xFF757575),
-    subtleText: Color(0xFF9E9E9E),
-    badgeBg: Color(0xFF1A1F2E),
-    badgeBorder: Color(0x3300D9A3),
-    statBg: Color(0xFF1A1F2E),
-    statBorder: Color(0xFF2D3748),
-    accent: Color(0xFF00D9A3),
-    gradientStart: Color(0xFF1F4D6D),
-    gradientMiddle: Color(0xFF0D2847),
-    gradientEnd: Color(0xFF1A3A52),
-    pageGradient: [Color(0xFF0D1B2A), Color(0xFF0F2438), Color(0xFF0F2847)],
-  );
-
-  // ===== Light Theme Colors =====
-  static const light = SaharaColors(
-    cardGreen: Color(0xFF009D78),
-    cardOrange: Color(0xFFD87A2A),
-    cardPurple: Color(0xFF7C3B8F),
-    chartBlue: Color(0xFF1976D2),
-    chartGreen: Color(0xFF059669),
-    chartOrange: Color(0xFFD87A2A),
-    chartRed: Color(0xFFD32F2F),
-    chartPurple: Color(0xFF6A1B9A),
-    sidebar: Color(0xFFFFFFFF),
-    sidebarBorder: Color(0xFFE2E4E8),
-    tableHeader: Color(0xFFF2F4F8),
-    tableRowEven: Color(0xFFF5F7FA),
-    tableRowOdd: Color(0xFFFFFFFF),
-    dialogHeader: Color(0xFFEFF1F5),
-    inputBg: Color(0xFFF5F6F8),
-    hintText: Color(0xFF8A92A0),
-    subtleText: Color(0xFF9CA5B3),
-    badgeBg: Color(0xFFFFFFFF),
-    badgeBorder: Color(0xFFD0D5DD),
-    statBg: Color(0xFFF5F7FA),
-    statBorder: Color(0xFFD0D5DD),
-    accent: Color(0xFF009D78),
-    gradientStart: Color(0xFFB3D9F2),
-    gradientMiddle: Color(0xFF7CB8DD),
-    gradientEnd: Color(0xFFD4E7F7),
-    pageGradient: [Color(0xFFF5F7FA), Color(0xFFE8ECF1), Color(0xFFF0F2F5)],
-  );
 }
 
 /// Helper extension to easily access SaharaColors from BuildContext.

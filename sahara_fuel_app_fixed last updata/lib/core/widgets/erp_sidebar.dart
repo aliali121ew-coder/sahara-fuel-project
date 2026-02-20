@@ -180,7 +180,7 @@ class _ErpSidebarState extends State<ErpSidebar>
                     style: GoogleFonts.cairo(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: cs.onSurface,
+                      color: sahara.sidebarText,
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -188,7 +188,7 @@ class _ErpSidebarState extends State<ErpSidebar>
                     'نظام إدارة الوقود',
                     style: GoogleFonts.cairo(
                       fontSize: 10,
-                      color: sahara.subtleText,
+                      color: sahara.sidebarSubtle,
                     ),
                   ),
                 ],
@@ -204,7 +204,7 @@ class _ErpSidebarState extends State<ErpSidebar>
               width: 32,
               height: 32,
               decoration: BoxDecoration(
-                color: sahara.inputBg,
+                color: sahara.sidebarIconBg,
                 borderRadius: AppDimensions.borderRadiusSm,
               ),
               child: AnimatedRotation(
@@ -212,7 +212,7 @@ class _ErpSidebarState extends State<ErpSidebar>
                 duration: AppDimensions.sidebarAnimationDuration,
                 child: Icon(
                   Icons.chevron_right,
-                  color: sahara.hintText,
+                  color: sahara.sidebarSubtle,
                   size: 20,
                 ),
               ),
@@ -229,14 +229,14 @@ class _ErpSidebarState extends State<ErpSidebar>
       child: Container(
         padding: const EdgeInsets.all(AppDimensions.spacingSm + 2),
         decoration: BoxDecoration(
-          color: sahara.inputBg,
+          color: sahara.sidebarIconBg,
           borderRadius: AppDimensions.borderRadiusMd,
         ),
         child: Row(
           children: [
             CircleAvatar(
               radius: 16,
-              backgroundColor: (widget.roleColor ?? cs.primary).withOpacity(0.2),
+              backgroundColor: (widget.roleColor ?? cs.primary).withOpacity(0.25),
               child: Icon(
                 widget.roleIcon ?? Icons.person,
                 color: widget.roleColor ?? cs.primary,
@@ -253,7 +253,7 @@ class _ErpSidebarState extends State<ErpSidebar>
                     style: GoogleFonts.cairo(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
-                      color: cs.onSurface,
+                      color: sahara.sidebarText,
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -307,7 +307,7 @@ class _ErpSidebarState extends State<ErpSidebar>
               style: GoogleFonts.cairo(
                 fontSize: 10,
                 fontWeight: FontWeight.w600,
-                color: sahara.subtleText,
+                color: sahara.sidebarSubtle,
                 letterSpacing: 0.5,
               ),
             ),
@@ -372,9 +372,9 @@ class _ErpSidebarState extends State<ErpSidebar>
           duration: const Duration(milliseconds: 150),
           decoration: BoxDecoration(
             color: isSelected
-                ? activeColor.withOpacity(0.12)
+                ? activeColor.withOpacity(0.15)
                 : isHovered
-                    ? cs.onSurface.withOpacity(0.04)
+                    ? sahara.sidebarHoverBg
                     : Colors.transparent,
             borderRadius: AppDimensions.borderRadiusSm,
             border: isSelected
@@ -417,17 +417,17 @@ class _ErpSidebarState extends State<ErpSidebar>
             decoration: BoxDecoration(
               color: isSelected
                   ? activeColor.withOpacity(0.2)
-                  : sahara.inputBg,
+                  : sahara.sidebarIconBg,
               borderRadius: AppDimensions.borderRadiusSm,
             ),
             child: Center(
               child: Icon(
                 item.icon,
                 color: item.locked
-                    ? sahara.hintText
+                    ? sahara.sidebarSubtle.withOpacity(0.5)
                     : isSelected
                         ? activeColor
-                        : sahara.subtleText,
+                        : sahara.sidebarSubtle,
                 size: 18,
               ),
             ),
@@ -441,10 +441,10 @@ class _ErpSidebarState extends State<ErpSidebar>
                 fontSize: 13,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
                 color: item.locked
-                    ? sahara.hintText
+                    ? sahara.sidebarSubtle.withOpacity(0.5)
                     : isSelected
                         ? activeColor
-                        : cs.onSurface,
+                        : sahara.sidebarText,
               ),
               overflow: TextOverflow.ellipsis,
             ),
@@ -468,7 +468,7 @@ class _ErpSidebarState extends State<ErpSidebar>
             ),
           // Lock icon
           if (item.locked)
-            Icon(Icons.lock, size: 14, color: sahara.hintText),
+            Icon(Icons.lock, size: 14, color: sahara.sidebarSubtle.withOpacity(0.5)),
           // Active indicator
           if (isSelected)
             Container(
@@ -505,10 +505,10 @@ class _ErpSidebarState extends State<ErpSidebar>
               Icon(
                 item.icon,
                 color: item.locked
-                    ? sahara.hintText
+                    ? sahara.sidebarSubtle.withOpacity(0.5)
                     : isSelected
                         ? activeColor
-                        : sahara.subtleText,
+                        : sahara.sidebarSubtle,
                 size: 20,
               ),
               if (item.badge > 0)
@@ -538,7 +538,7 @@ class _ErpSidebarState extends State<ErpSidebar>
                 Positioned(
                   bottom: -2,
                   left: -2,
-                  child: Icon(Icons.lock, size: 8, color: sahara.hintText),
+                  child: Icon(Icons.lock, size: 8, color: sahara.sidebarSubtle.withOpacity(0.5)),
                 ),
             ],
           ),
@@ -622,7 +622,7 @@ class _ErpSidebarState extends State<ErpSidebar>
                       'الإصدار 2.0.0',
                       style: GoogleFonts.cairo(
                         fontSize: 10,
-                        color: sahara.subtleText,
+                        color: sahara.sidebarSubtle,
                       ),
                     ),
                   ],
