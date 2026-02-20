@@ -47,11 +47,26 @@ class AppTheme {
   }
 
   // ===== Light Theme =====
-  // Pure ColorScheme.fromSeed() — ZERO overrides. M3 generates everything.
+  // fromSeed generates primary/secondary/error from seed.
+  // Surface system overridden to NEUTRAL warm tones (no green tint from seed).
   static ThemeData lightTheme() {
     final colorScheme = ColorScheme.fromSeed(
       seedColor: _seedColor,
       brightness: Brightness.light,
+    ).copyWith(
+      // Neutral warm surface elevation system (no seed-tinted green)
+      surface:                    const Color(0xFFFAF9F6),
+      surfaceDim:                 const Color(0xFFDDD9D4),
+      surfaceBright:              const Color(0xFFFAF9F6),
+      surfaceContainerLowest:     const Color(0xFFFFFFFF),
+      surfaceContainerLow:        const Color(0xFFF5F3F0),
+      surfaceContainer:           const Color(0xFFEFECE8),
+      surfaceContainerHigh:       const Color(0xFFE9E6E1),
+      surfaceContainerHighest:    const Color(0xFFE3E0DA),
+      onSurface:                  const Color(0xFF1C1B18),
+      onSurfaceVariant:           const Color(0xFF49454E),
+      outline:                    const Color(0xFF7A7574),
+      outlineVariant:             const Color(0xFFCAC4BD),
     );
 
     return _buildTheme(
