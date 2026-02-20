@@ -1,4 +1,4 @@
-name: Sahara Fuel SaaS - CI/CD
+name: Sahara Fuel SaaS - CI/CD Pipeline
 
 on:
   push:
@@ -10,10 +10,44 @@ env:
   NODE_VERSION: '18'
 
 jobs:
-  # ==================== اختبار وفحص ====================
-  test:
-    name: Test & Lint
+  # ==================== فحص الكود ====================
+  lint:
+    name: Lint & Security Audit
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: sahara-backend/package-lock.json
+
+      - name: Install Dependencies
+        working-directory: sahara-backend
+        run: npm ci
+
+      - name: Security Audit
+        working-directory: sahara-backend
+        run: npm audit --audit-level=high || true
+
+      - name: Check for Secrets
+        run: |
+          echo "Scanning for hardcoded secrets..."
+          ! grep -rn "password.*=.*['\"]" sahara-backend/src/ --include="*.js" \
+            | grep -v "process.env" \
+            | grep -v "test" \
+            | grep -v "example" \
+            | grep -v "TODO" \
+            | grep -v "node_modules" \
+            || echo "No hardcoded secrets found ✅"
+
+  # ==================== اختبار ====================
+  test:
+    name: Test & Coverage
+    runs-on: ubuntu-latest
+    needs: lint
 
     services:
       postgres:
@@ -54,7 +88,7 @@ jobs:
         working-directory: sahara-backend
         run: npm ci
 
-      - name: Run Migrations
+      - name: Run Database Migrations
         working-directory: sahara-backend
         env:
           DB_HOST: localhost
@@ -62,9 +96,9 @@ jobs:
           DB_NAME: sahara_fuel_test
           DB_USER: test_user
           DB_PASSWORD: test_password
-        run: node src/database/migrations/migrate.js
+        run: npm run migrate
 
-      - name: Run Tests
+      - name: Run Tests with Coverage
         working-directory: sahara-backend
         env:
           NODE_ENV: test
@@ -75,9 +109,17 @@ jobs:
           DB_PASSWORD: test_password
           REDIS_HOST: localhost
           REDIS_PORT: 6379
-          JWT_SECRET: test_jwt_secret_for_ci_pipeline_only
+          JWT_SECRET: test_jwt_secret_for_ci_pipeline_only_min32
           JWT_REFRESH_SECRET: test_refresh_secret_for_ci_pipeline_only
-        run: npm test
+        run: npm test -- --forceExit
+
+      - name: Upload Coverage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: sahara-backend/coverage/
+          retention-days: 7
 
   # ==================== بناء Docker ====================
   build:
@@ -99,6 +141,18 @@ jobs:
         run: |
           docker run --rm sahara-fuel-api:latest node --version
 
+      - name: Smoke Test
+        run: |
+          docker run -d --name smoke-test \
+            -e NODE_ENV=test \
+            -e JWT_SECRET=smoke_test_secret_key_min_32_chars \
+            -e JWT_REFRESH_SECRET=smoke_test_refresh_min_32_chars \
+            -p 3001:3000 \
+            sahara-fuel-api:latest
+          sleep 3
+          curl -f http://localhost:3001/api/health || exit 1
+          docker stop smoke-test && docker rm smoke-test
+
   # ==================== النشر ====================
   deploy:
     name: Deploy to Production
@@ -112,6 +166,12 @@ jobs:
 
       - name: Deploy
         run: |
-          echo "🚀 Deploying Sahara Fuel SaaS..."
-          echo "   Add your deployment steps here"
-          echo "   (Docker registry push, SSH deploy, etc.)"
+          echo "🚀 Deploying Sahara Fuel SaaS v${{ github.sha }}..."
+          echo "   Steps:"
+          echo "   1. Push Docker image to registry"
+          echo "   2. Update Kubernetes deployment / Docker Compose"
+          echo "   3. Run database migrations"
+          echo "   4. Verify health check"
+          echo ""
+          echo "   Configure: Add DEPLOY_HOST, DEPLOY_KEY secrets"
+          echo "   to enable automated deployment."

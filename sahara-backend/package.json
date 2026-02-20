@@ -8,7 +8,24 @@
     "dev": "nodemon src/server.js",
     "migrate": "node src/database/migrations/001_initial.js",
     "seed": "node src/database/seeds/default.js",
-    "test": "jest --coverage"
+    "test": "jest --coverage --forceExit",
+    "test:unit": "jest __tests__/unit --coverage",
+    "test:integration": "jest __tests__/app.test.js --forceExit",
+    "test:watch": "jest --watch"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "setupFiles": ["./__tests__/setup.js"],
+    "coverageDirectory": "coverage",
+    "coverageReporters": ["text", "lcov", "clover"],
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/server.js",
+      "!src/database/migrations/**",
+      "!src/database/seeds/**"
+    ],
+    "testPathIgnorePatterns": ["/node_modules/", "/coverage/"],
+    "verbose": true
   },
   "dependencies": {
     "express": "^4.18.2",

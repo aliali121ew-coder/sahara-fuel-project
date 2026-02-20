@@ -1,5 +1,6 @@
 // ============================================================
-// Sahara Fuel SaaS - Express Application
+// Sahara Fuel SaaS - Express Application (Enterprise Edition)
+// Phases: Security ✓ | Performance ✓ | Error Handling ✓ | Monitoring ✓
 // ============================================================
 const express = require('express');
 const cors = require('cors');
@@ -8,10 +9,17 @@ const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const logger = require('./config/logger');
 const { sanitizeInput } = require('./middlewares/validate');
+const { requestTimer } = require('./middlewares/performance');
+const { globalErrorHandler } = require('./utils/app-error');
+const { metricsCollector, livenessProbe, readinessProbe, metricsEndpoint } = require('./utils/monitoring');
 
 const app = express();
 
-// ==================== SECURITY ====================
+// ==================== MONITORING (Phase 10) ====================
+app.use(metricsCollector);
+app.use(requestTimer);
+
+// ==================== SECURITY (Phase 2) ====================
 app.use(helmet({
     contentSecurityPolicy: false,
     crossOriginEmbedderPolicy: false,
@@ -20,7 +28,6 @@ app.use(helmet({
 app.use(cors({
     origin: function(origin, callback) {
         const allowed = (process.env.CORS_ORIGIN || '*').split(',').map(s => s.trim());
-        // Allow requests with no origin (mobile apps, curl, etc.)
         if (!origin || allowed.includes('*') || allowed.includes(origin)) {
             callback(null, true);
         } else {
@@ -28,9 +35,9 @@ app.use(cors({
         }
     },
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Request-ID'],
     credentials: true,
-    maxAge: 86400, // Cache preflight for 24h
+    maxAge: 86400,
 }));
 
 // ==================== RATE LIMITING ====================
@@ -63,7 +70,7 @@ app.use('/api/auth/login', authLimiter);
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// ==================== INPUT SANITIZATION ====================
+// ==================== INPUT SANITIZATION (Phase 2) ====================
 app.use(sanitizeInput);
 
 // ==================== LOGGING ====================
@@ -82,7 +89,7 @@ app.use('/api/audit', require('./modules/audit/routes'));
 app.use('/api/subscriptions', require('./modules/subscriptions/routes'));
 app.use('/api/import', require('./modules/import/routes'));
 
-// ==================== HEALTH CHECK ====================
+// ==================== HEALTH / MONITORING (Phase 10) ====================
 app.get('/api/health', (req, res) => {
     res.json({
         success: true,
@@ -92,6 +99,10 @@ app.get('/api/health', (req, res) => {
         environment: process.env.NODE_ENV,
     });
 });
+
+app.get('/api/health/live', livenessProbe);
+app.get('/api/health/ready', readinessProbe);
+app.get('/api/metrics', metricsEndpoint);
 
 // ==================== API DOCS ====================
 app.get('/api', (req, res) => {
@@ -150,6 +161,12 @@ app.get('/api', (req, res) => {
                 'GET /api/subscriptions/history': 'سجل الاشتراكات',
                 'GET /api/subscriptions/plans': 'الباقات المتاحة',
             },
+            monitoring: {
+                'GET /api/health': 'فحص أساسي',
+                'GET /api/health/live': 'فحص الحياة (Kubernetes)',
+                'GET /api/health/ready': 'فحص الجاهزية (تفصيلي)',
+                'GET /api/metrics': 'مقاييس الأداء',
+            },
         },
     });
 });
@@ -163,14 +180,7 @@ app.use((req, res) => {
     });
 });
 
-// ==================== ERROR HANDLER ====================
-app.use((err, req, res, next) => {
-    logger.error('Unhandled error:', err);
-    res.status(500).json({
-        success: false,
-        error: process.env.NODE_ENV === 'production' ? 'خطأ داخلي في النظام' : err.message,
-        code: 'INTERNAL_ERROR',
-    });
-});
+// ==================== GLOBAL ERROR HANDLER (Phase 6) ====================
+app.use(globalErrorHandler);
 
 module.exports = app;

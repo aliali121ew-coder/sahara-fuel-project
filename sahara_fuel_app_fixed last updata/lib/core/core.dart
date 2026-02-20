@@ -25,3 +25,4 @@ export 'widgets/paginated_list.dart';
 // Utils
 export 'utils/export_helper.dart';
 export 'utils/app_notifications.dart';
+export 'utils/error_reporter.dart';
