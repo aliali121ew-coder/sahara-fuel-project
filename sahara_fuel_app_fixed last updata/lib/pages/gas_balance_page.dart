@@ -333,16 +333,16 @@ class _GasBalancePageState extends State<GasBalancePage> {
                     Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                       Text(card.title,
                           style: GoogleFonts.cairo(
-                              fontSize: 12, color: Colors.white.withOpacity(0.9))),
-                      Icon(card.icon, color: Colors.white.withOpacity(0.7), size: 20),
+                              fontSize: 12, color: Theme.of(context).colorScheme.surface.withOpacity(0.9))),
+                      Icon(card.icon, color: Theme.of(context).colorScheme.surface.withOpacity(0.7), size: 20),
                     ]),
                     const SizedBox(height: 12),
                     Text(card.value,
                         style: GoogleFonts.cairo(
-                            fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white)),
+                            fontSize: 22, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.surface)),
                     Text(card.unit,
                         style: GoogleFonts.cairo(
-                            fontSize: 11, color: Colors.white.withOpacity(0.7))),
+                            fontSize: 11, color: Theme.of(context).colorScheme.surface.withOpacity(0.7))),
                     const SizedBox(height: 8),
                     SizedBox(
                       height: 30,
@@ -365,7 +365,9 @@ class _GasBalancePageState extends State<GasBalancePage> {
     if (maxVal == 0) return const SizedBox();
     return CustomPaint(
       size: const Size(double.infinity, 30),
-      painter: _SparklinePainter(data, maxVal),
+      painter: _SparklinePainter(data, maxVal,
+          lineColor: Theme.of(context).colorScheme.primary),
+
     );
   }
 
@@ -901,15 +903,16 @@ class _ColoredCardData {
 class _SparklinePainter extends CustomPainter {
   final List<double> data;
   final double maxVal;
+  final Color lineColor;
 
-  _SparklinePainter(this.data, this.maxVal);
+  _SparklinePainter(this.data, this.maxVal, {required this.lineColor});
 
   @override
   void paint(Canvas canvas, Size size) {
     if (data.isEmpty || maxVal == 0) return;
 
     final paint = Paint()
-      ..color = Colors.white.withOpacity(0.5)
+      ..color = lineColor.withValues(alpha: 0.5)
       ..strokeWidth = 1.5
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round;
@@ -918,7 +921,7 @@ class _SparklinePainter extends CustomPainter {
       ..shader = LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
-        colors: [Colors.white.withOpacity(0.2), Colors.transparent],
+        colors: [lineColor.withValues(alpha: 0.2), Colors.transparent],
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
 
     final path = Path();

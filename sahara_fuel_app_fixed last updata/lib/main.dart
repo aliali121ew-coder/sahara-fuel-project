@@ -273,6 +273,7 @@ class _LoginPageState extends State<LoginPage>
     final size = MediaQuery.of(context).size;
     final colorScheme = Theme.of(context).colorScheme;
     final sahara = Theme.of(context).extension<SaharaColors>()!;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       body: Stack(
         children: [
@@ -332,12 +333,12 @@ class _LoginPageState extends State<LoginPage>
                             RichText(
                               text: TextSpan(
                                 children: [
-                                  const TextSpan(
+                                  TextSpan(
                                     text: 'JOIN THE\nLARGEST ',
                                     style: TextStyle(
                                       fontSize: 40,
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.white,
+                                      color: colorScheme.onPrimaryContainer,
                                       height: 1.2,
                                     ),
                                   ),
@@ -346,7 +347,7 @@ class _LoginPageState extends State<LoginPage>
                                     style: TextStyle(
                                       fontSize: 40,
                                       fontWeight: FontWeight.bold,
-                                      color: colorScheme.primary,
+                                      color: isDark ? colorScheme.primary : colorScheme.onPrimary,
                                       height: 1.2,
                                     ),
                                   ),
@@ -360,7 +361,7 @@ class _LoginPageState extends State<LoginPage>
                                 'Explore fuel management and connect with teams.',
                                 style: TextStyle(
                                   fontSize: 14,
-                                  color: Colors.grey[300],
+                                  color: isDark ? Colors.grey[300] : colorScheme.onPrimaryContainer.withValues(alpha: 0.7),
                                   height: 1.5,
                                 ),
                               ),
@@ -370,10 +371,14 @@ class _LoginPageState extends State<LoginPage>
                             Container(
                               padding: const EdgeInsets.all(16),
                               decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.08),
+                                color: isDark
+                                    ? Colors.white.withOpacity(0.08)
+                                    : colorScheme.onPrimaryContainer.withValues(alpha: 0.06),
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
-                                    color: Colors.white.withOpacity(0.1)),
+                                    color: isDark
+                                        ? Colors.white.withOpacity(0.1)
+                                        : colorScheme.onPrimaryContainer.withValues(alpha: 0.12)),
                               ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -382,7 +387,7 @@ class _LoginPageState extends State<LoginPage>
                                     'حسابات تجريبية:',
                                     style: TextStyle(
                                       fontSize: 12,
-                                      color: Colors.grey[300],
+                                      color: isDark ? Colors.grey[300] : colorScheme.onPrimaryContainer.withValues(alpha: 0.7),
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
@@ -764,6 +769,7 @@ class _LoginPageState extends State<LoginPage>
 
   Widget _accountHint(String role, String email, String password) {
     final colorScheme = Theme.of(context).colorScheme;
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Padding(
       padding: const EdgeInsets.only(bottom: 4),
       child: GestureDetector(
@@ -780,7 +786,7 @@ class _LoginPageState extends State<LoginPage>
               width: 6,
               height: 6,
               decoration: BoxDecoration(
-                color: colorScheme.primary,
+                color: isDarkMode ? colorScheme.primary : colorScheme.onPrimaryContainer,
                 shape: BoxShape.circle,
               ),
             ),
@@ -789,7 +795,7 @@ class _LoginPageState extends State<LoginPage>
               '$role: $email / $password',
               style: TextStyle(
                 fontSize: 11,
-                color: Colors.grey[400],
+                color: isDarkMode ? Colors.grey[400] : colorScheme.onPrimaryContainer.withValues(alpha: 0.6),
               ),
             ),
           ],

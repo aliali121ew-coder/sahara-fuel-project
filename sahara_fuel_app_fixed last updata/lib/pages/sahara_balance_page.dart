@@ -79,7 +79,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
                                 Text('المواقع والمحطات',
                                     style: GoogleFonts.cairo(
                                         fontSize: 18,
-                                        color: Colors.white,
+                                        color: Theme.of(context).colorScheme.surface,
                                         fontWeight: FontWeight.bold)),
                               ],
                             ),
@@ -189,7 +189,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
                                     DateFormat('d MMMM yyyy', 'ar')
                                         .format(DateTime.now()),
                                     style: GoogleFonts.cairo(
-                                        fontSize: 13, color: Colors.white)),
+                                        fontSize: 13, color: Theme.of(context).colorScheme.surface)),
                               ]),
                             ),
                           ],
@@ -253,7 +253,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
         ),
         title: Text(station.name,
             style: GoogleFonts.cairo(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.surface,
                 fontSize: 13,
                 fontWeight: FontWeight.w600)),
         subtitle: Text(
@@ -400,7 +400,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
                 child: Text('تفاصيل $farmName',
                     style: GoogleFonts.cairo(
                         fontSize: 22,
-                        color: Colors.white,
+                        color: Theme.of(context).colorScheme.surface,
                         fontWeight: FontWeight.bold))),
           ]),
           const SizedBox(height: 24),
@@ -634,7 +634,7 @@ class _SaharaBalancePageState extends State<SaharaBalancePage> {
         const SizedBox(height: 8),
         Text(value,
             style: GoogleFonts.cairo(
-                fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold),
+                fontSize: 16, color: Theme.of(context).colorScheme.surface, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center),
         Text(label,
             style: GoogleFonts.cairo(color: context.sahara.hintText, fontSize: 11)),

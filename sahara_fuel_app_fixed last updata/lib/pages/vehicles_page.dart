@@ -888,7 +888,7 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
                           borderRadius: BorderRadius.circular(10))),
                   child: Text('تفويل',
                       style: GoogleFonts.cairo(
-                          color: Colors.white, fontWeight: FontWeight.bold)),
+                          color: Theme.of(context).colorScheme.surface, fontWeight: FontWeight.bold)),
                 ),
               ],
             )));
@@ -933,7 +933,7 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
                           borderRadius: BorderRadius.circular(10))),
                   child: Text('تفويل',
                       style: GoogleFonts.cairo(
-                          color: Colors.white, fontWeight: FontWeight.bold)),
+                          color: Theme.of(context).colorScheme.surface, fontWeight: FontWeight.bold)),
                 ),
               ],
             )));
@@ -1044,7 +1044,7 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
                               borderRadius: BorderRadius.circular(10))),
                       child: Text('إضافة',
                           style: GoogleFonts.cairo(
-                              color: Colors.white,
+                              color: Theme.of(context).colorScheme.surface,
                               fontWeight: FontWeight.bold)),
                     ),
                   ],
@@ -1090,7 +1090,7 @@ class _VehicleTabContentState extends State<_VehicleTabContent>
                           borderRadius: BorderRadius.circular(10))),
                   child: Text('حفظ',
                       style: GoogleFonts.cairo(
-                          color: Colors.white, fontWeight: FontWeight.bold)),
+                          color: Theme.of(context).colorScheme.surface, fontWeight: FontWeight.bold)),
                 ),
               ],
             )));

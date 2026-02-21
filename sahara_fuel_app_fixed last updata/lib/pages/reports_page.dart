@@ -365,7 +365,7 @@ class _ReportsPageState extends State<ReportsPage> {
         const SizedBox(height: 12),
         Text(value,
             style: GoogleFonts.cairo(
-                fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                fontSize: 18, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.surface),
             maxLines: 1,
             overflow: TextOverflow.ellipsis),
         Row(children: [
@@ -465,7 +465,7 @@ class _ReportsPageState extends State<ReportsPage> {
         Expanded(
             flex: 3,
             child: Text(s.name,
-                style: GoogleFonts.cairo(color: Colors.white, fontSize: 13),
+                style: GoogleFonts.cairo(color: Theme.of(context).colorScheme.surface, fontSize: 13),
                 textAlign: TextAlign.center)),
         Expanded(
             flex: 2,

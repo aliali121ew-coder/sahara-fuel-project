@@ -90,13 +90,15 @@ class SaharaColors extends ThemeExtension<SaharaColors> {
       chartRed:    isDark ? const Color(0xFFEF5350) : const Color(0xFFC53030),
       chartPurple: isDark ? const Color(0xFF8B5CF6) : const Color(0xFF6B46C1),
 
-      // ── Sidebar (dark navy in both modes — pro ERP design) ──
-      sidebar:      isDark ? const Color(0xFF1A1F2E) : const Color(0xFF1B2A3D),
-      sidebarBorder: isDark ? cs.outlineVariant : const Color(0xFF2D4052),
-      sidebarText:   const Color(0xFFECEFF4),
-      sidebarSubtle: isDark ? const Color(0xFF9E9E9E) : const Color(0xFF8899AA),
-      sidebarIconBg: isDark ? const Color(0xFF252D3D) : const Color(0xFF243447),
-      sidebarHoverBg: const Color(0x1AFFFFFF),
+      // ── Sidebar: follows mode (white in light, dark in dark) ──
+      sidebar:       isDark ? const Color(0xFF1A1F2E) : cs.surfaceContainerLowest,
+      sidebarBorder: cs.outlineVariant,
+      sidebarText:   isDark ? const Color(0xFFECEFF4) : cs.onSurface,
+      sidebarSubtle: isDark ? const Color(0xFF9E9E9E) : cs.onSurfaceVariant,
+      sidebarIconBg: isDark ? const Color(0xFF252D3D) : cs.surfaceContainerHigh,
+      sidebarHoverBg: isDark
+          ? const Color(0x1AFFFFFF)
+          : cs.primary.withValues(alpha: 0.08),
 
       // ── Surfaces → derived from M3 tonal palette ──
       tableHeader:  cs.surfaceContainerHighest,
@@ -118,10 +120,10 @@ class SaharaColors extends ThemeExtension<SaharaColors> {
       // ── Accent = primary from scheme ──
       accent: cs.primary,
 
-      // ── Gradients (brand — sidebar-matching for headers) ──
-      gradientStart:  isDark ? const Color(0xFF1F4D6D) : const Color(0xFF1B2A3D),
-      gradientMiddle: isDark ? const Color(0xFF0D2847) : const Color(0xFF2A4A5E),
-      gradientEnd:    isDark ? const Color(0xFF1A3A52) : const Color(0xFF1D3A50),
+      // ── Gradients: dark in dark mode, primary-tinted in light mode ──
+      gradientStart:  isDark ? const Color(0xFF1F4D6D) : cs.primaryContainer,
+      gradientMiddle: isDark ? const Color(0xFF0D2847) : cs.primary,
+      gradientEnd:    isDark ? const Color(0xFF1A3A52) : cs.primaryContainer,
 
       // ── Page gradient → derived from M3 surface tones ──
       pageGradient: isDark

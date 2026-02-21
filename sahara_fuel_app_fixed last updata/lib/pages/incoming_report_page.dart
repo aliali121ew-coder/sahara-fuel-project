@@ -279,8 +279,8 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                             ),
                             child: Row(
                               children: [
-                                const Icon(Icons.storage,
-                                    color: Colors.white, size: 18),
+                                Icon(Icons.storage,
+                                    color: Theme.of(context).colorScheme.surface, size: 18),
                                 SizedBox(width: 8),
                                 Text('قاعدة البيانات',
                                     style: GoogleFonts.cairo(
@@ -318,7 +318,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                                           value == 'PDF'
                                               ? Icons.picture_as_pdf
                                               : Icons.table_chart,
-                                          color: Colors.white,
+                                          color: Theme.of(context).colorScheme.surface,
                                           size: 20),
                                       const SizedBox(width: 10),
                                       Text('جاري التصدير كـ $value...',
@@ -350,7 +350,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                                     const SizedBox(width: 12),
                                     Text('ملف PDF',
                                         style: GoogleFonts.cairo(
-                                            fontSize: 14, color: Colors.white)),
+                                            fontSize: 14, color: Theme.of(context).colorScheme.surface)),
                                   ],
                                 ),
                               ),
@@ -372,7 +372,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                                     const SizedBox(width: 12),
                                     Text('ملف Excel',
                                         style: GoogleFonts.cairo(
-                                            fontSize: 14, color: Colors.white)),
+                                            fontSize: 14, color: Theme.of(context).colorScheme.surface)),
                                   ],
                                 ),
                               ),
@@ -680,8 +680,8 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                                 ),
                                 child: Row(
                                   children: [
-                                    const Icon(Icons.add,
-                                        color: Colors.white, size: 18),
+                                    Icon(Icons.add,
+                                        color: Theme.of(context).colorScheme.surface, size: 18),
                                     SizedBox(width: 6),
                                     Text('إضافة بيانات',
                                         style: GoogleFonts.cairo(
@@ -1655,7 +1655,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                 radius: 5,
                 color: Theme.of(context).colorScheme.primary,
                 strokeWidth: 2,
-                strokeColor: Colors.white,
+                strokeColor: Theme.of(context).colorScheme.surface,
               ),
             ),
             belowBarData: BarAreaData(
@@ -2053,7 +2053,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
             const SizedBox(height: 8),
             Text(value,
                 style: GoogleFonts.cairo(
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.surface,
                     fontSize: 16,
                     fontWeight: FontWeight.bold)),
             Text(label,
@@ -2119,7 +2119,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                   Flexible(
                     child: Text(name,
                         style: GoogleFonts.cairo(
-                            color: Colors.white,
+                            color: Theme.of(context).colorScheme.surface,
                             fontSize: 11,
                             fontWeight: FontWeight.w600),
                         textAlign: TextAlign.center,
@@ -2242,7 +2242,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
               const SizedBox(width: 12),
               Text('صلاحية الدخول',
                   style: GoogleFonts.cairo(
-                      color: Colors.white,
+                      color: Theme.of(context).colorScheme.surface,
                       fontSize: 20,
                       fontWeight: FontWeight.bold)),
             ],
@@ -2269,7 +2269,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide(
-                          color: Colors.white.withValues(alpha: 0.1)),
+                          color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.1)),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -2282,7 +2282,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                 TextField(
                   controller: passwordController,
                   obscureText: obscurePassword,
-                  style: GoogleFonts.cairo(color: Colors.white),
+                  style: GoogleFonts.cairo(color: Theme.of(context).colorScheme.surface),
                   decoration: InputDecoration(
                     labelText: 'كلمة المرور',
                     labelStyle: GoogleFonts.cairo(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7)),
@@ -2293,7 +2293,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                         obscurePassword
                             ? Icons.visibility_off
                             : Icons.visibility,
-                        color: Colors.white70,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
                       ),
                       onPressed: () {
                         setDialogState(() {
@@ -2310,7 +2310,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide(
-                          color: Colors.white.withValues(alpha: 0.1)),
+                          color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.1)),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -2347,7 +2347,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: context.sahara.chartPurple,
-                foregroundColor: Colors.white,
+                foregroundColor: Theme.of(context).colorScheme.surface,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                 shape: RoundedRectangleBorder(
@@ -2393,7 +2393,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                     Expanded(
                       child: Text('قاعدة البيانات الكاملة',
                           style: GoogleFonts.cairo(
-                              color: Colors.white,
+                              color: Theme.of(context).colorScheme.surface,
                               fontSize: 22,
                               fontWeight: FontWeight.bold)),
                     ),
@@ -2435,7 +2435,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
       decoration: BoxDecoration(
         color: context.sahara.inputBg,
         borderRadius: BorderRadius.circular(15),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+        border: Border.all(color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.1)),
       ),
       child: Column(
         children: [
@@ -2453,7 +2453,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                 const SizedBox(width: 8),
                 Text('الفلاتر',
                     style: GoogleFonts.cairo(
-                        color: Colors.white,
+                        color: Theme.of(context).colorScheme.surface,
                         fontSize: 14,
                         fontWeight: FontWeight.bold)),
                 const Spacer(),
@@ -2542,7 +2542,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                     return DataRow(
                       color: WidgetStateProperty.resolveWith<Color>((states) {
                         if (_databaseFilteredData.indexOf(item) % 2 == 0) {
-                          return Colors.white.withValues(alpha: 0.03);
+                          return Theme.of(context).colorScheme.surface.withValues(alpha: 0.03);
                         }
                         return Colors.transparent;
                       }),
@@ -2626,7 +2626,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                   Expanded(
                     child: Text('إضافة بيانات جديدة',
                         style: GoogleFonts.cairo(
-                            color: Colors.white,
+                            color: Theme.of(context).colorScheme.surface,
                             fontSize: 22,
                             fontWeight: FontWeight.bold)),
                   ),
@@ -2647,7 +2647,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                           color: context.sahara.inputBg,
                           borderRadius: BorderRadius.circular(15),
                           border: Border.all(
-                              color: Colors.white.withValues(alpha: 0.1)),
+                              color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.1)),
                         ),
                         child: Column(
                           children: [
@@ -2758,7 +2758,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                                       fontWeight: FontWeight.bold)),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Theme.of(context).colorScheme.primary,
-                                foregroundColor: Colors.white,
+                                foregroundColor: Theme.of(context).colorScheme.surface,
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 30, vertical: 15),
                                 shape: RoundedRectangleBorder(
@@ -2774,7 +2774,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                           color: context.sahara.inputBg,
                           borderRadius: BorderRadius.circular(15),
                           border: Border.all(
-                              color: Colors.white.withValues(alpha: 0.1)),
+                              color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.1)),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -2788,7 +2788,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
                                   const SizedBox(width: 10),
                                   Text('معاينة البيانات المضافة',
                                       style: GoogleFonts.cairo(
-                                          color: Colors.white,
+                                          color: Theme.of(context).colorScheme.surface,
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold)),
                                 ],
@@ -2830,7 +2830,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
+          borderSide: BorderSide(color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.1)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
@@ -2870,7 +2870,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
               child: Text(
                 col['label'] as String,
                 style: GoogleFonts.cairo(
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.surface,
                     fontSize: 13,
                     fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
@@ -2882,7 +2882,7 @@ class _IncomingReportPageState extends State<IncomingReportPage> {
           return DataRow(
             color: WidgetStateProperty.resolveWith<Color>((states) {
               if (_mainTableData.indexOf(item) % 2 == 0) {
-                return Colors.white.withValues(alpha: 0.03);
+                return Theme.of(context).colorScheme.surface.withValues(alpha: 0.03);
               }
               return Colors.transparent;
             }),

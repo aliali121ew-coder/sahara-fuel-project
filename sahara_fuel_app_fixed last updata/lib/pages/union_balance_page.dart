@@ -105,7 +105,7 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
           Icon(Icons.calendar_today, color: Theme.of(context).extension<SaharaColors>()!.cardOrange, size: 16),
           const SizedBox(width: 8),
           Text(DateFormat('d MMMM yyyy', 'ar').format(DateTime.now()),
-              style: GoogleFonts.cairo(fontSize: 13, color: Colors.white)),
+              style: GoogleFonts.cairo(fontSize: 13, color: Theme.of(context).colorScheme.surface)),
         ]),
       ),
     ]);
@@ -582,7 +582,7 @@ class _UnionBalancePageState extends State<UnionBalancePage> {
         Expanded(
             flex: 2,
             child: Text(t.date,
-                style: GoogleFonts.cairo(color: Colors.white, fontSize: 12),
+                style: GoogleFonts.cairo(color: Theme.of(context).colorScheme.surface, fontSize: 12),
                 textAlign: TextAlign.center)),
         Expanded(
             flex: 1,

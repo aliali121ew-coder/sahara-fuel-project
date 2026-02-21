@@ -183,8 +183,8 @@ class _SettingsPageState extends State<SettingsPage>
                               blurRadius: 8)
                         ]),
                     child: Row(children: [
-                      const Icon(Icons.person_add,
-                          color: Colors.white, size: 18),
+                      Icon(Icons.person_add,
+                          color: Theme.of(context).colorScheme.surface, size: 18),
                       const SizedBox(width: 8),
                       Text('إضافة مستخدم',
                           style: GoogleFonts.cairo(
@@ -698,7 +698,7 @@ class _SettingsPageState extends State<SettingsPage>
                           Text(
                               'حالة القاعدة: ${db.isInitialized ? "متصلة ✅" : "غير متصلة ❌"}',
                               style: GoogleFonts.cairo(
-                                  color: Colors.white,
+                                  color: Theme.of(context).colorScheme.surface,
                                   fontSize: 13,
                                   fontWeight: FontWeight.bold)),
                           Text('إجمالي السجلات: $totalRecords',
@@ -749,7 +749,7 @@ class _SettingsPageState extends State<SettingsPage>
                                   fontWeight: FontWeight.bold)),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Theme.of(context).colorScheme.primary,
-                              foregroundColor: Colors.white,
+                              foregroundColor: Theme.of(context).colorScheme.surface,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12)))))),
               const SizedBox(width: 12),
@@ -764,7 +764,7 @@ class _SettingsPageState extends State<SettingsPage>
                                   fontWeight: FontWeight.bold)),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Theme.of(context).colorScheme.error,
-                              foregroundColor: Colors.white,
+                              foregroundColor: Theme.of(context).colorScheme.surface,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12)))))),
             ]),
@@ -793,7 +793,7 @@ class _SettingsPageState extends State<SettingsPage>
                                   fontWeight: FontWeight.bold)),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Theme.of(context).colorScheme.primary,
-                              foregroundColor: Colors.white,
+                              foregroundColor: Theme.of(context).colorScheme.surface,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12))))),
                 ])),
@@ -892,7 +892,7 @@ class _SettingsPageState extends State<SettingsPage>
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8))),
                     child: Text('مسح الكل',
-                        style: GoogleFonts.cairo(color: Colors.white))),
+                        style: GoogleFonts.cairo(color: Theme.of(context).colorScheme.surface))),
               ],
             )));
   }
@@ -1089,7 +1089,7 @@ class _SettingsPageState extends State<SettingsPage>
                                               fontWeight: FontWeight.bold)),
                                       style: ElevatedButton.styleFrom(
                                           backgroundColor: statusColor,
-                                          foregroundColor: Colors.white,
+                                          foregroundColor: Theme.of(context).colorScheme.surface,
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(
@@ -1171,8 +1171,8 @@ class _SettingsPageState extends State<SettingsPage>
                           color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
                           blurRadius: 20)
                     ]),
-                child: const Icon(Icons.local_gas_station,
-                    color: Colors.white, size: 40)),
+                child: Icon(Icons.local_gas_station,
+                    color: Theme.of(context).colorScheme.surface, size: 40)),
             const SizedBox(height: 20),
             Text('وقود صحاري كربلاء',
                 style: GoogleFonts.cairo(
@@ -1454,7 +1454,7 @@ class _SettingsPageState extends State<SettingsPage>
                                           fontWeight: FontWeight.bold)),
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: Theme.of(context).colorScheme.primary,
-                                      foregroundColor: Colors.white,
+                                      foregroundColor: Theme.of(context).colorScheme.surface,
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 14),
                                       shape: RoundedRectangleBorder(
@@ -1541,7 +1541,7 @@ class _SettingsPageState extends State<SettingsPage>
                                     style: GoogleFonts.cairo(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold,
-                                        color: Colors.white))
+                                        color: Theme.of(context).colorScheme.surface))
                               ]),
                               const SizedBox(height: 24),
                               _df('الاسم الكامل', nc, Icons.person),
@@ -1781,7 +1781,7 @@ class _SettingsPageState extends State<SettingsPage>
                                         },
                                         style: ElevatedButton.styleFrom(
                                             backgroundColor: Theme.of(context).colorScheme.primary,
-                                            foregroundColor: Colors.white,
+                                            foregroundColor: Theme.of(context).colorScheme.surface,
                                             padding: const EdgeInsets.symmetric(
                                                 vertical: 14),
                                             shape: RoundedRectangleBorder(
@@ -2112,7 +2112,7 @@ class _SettingsPageState extends State<SettingsPage>
                                               fontWeight: FontWeight.bold)),
                                       style: ElevatedButton.styleFrom(
                                           backgroundColor: Theme.of(context).colorScheme.primary,
-                                          foregroundColor: Colors.white,
+                                          foregroundColor: Theme.of(context).colorScheme.surface,
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 14),
                                           shape: RoundedRectangleBorder(
@@ -2254,12 +2254,12 @@ class _SettingsPageState extends State<SettingsPage>
                   auth.role.color.withOpacity(0.6)
                 ]),
                 borderRadius: BorderRadius.circular(14)),
-            child: Icon(auth.role.icon, color: Colors.white, size: 28)),
+            child: Icon(auth.role.icon, color: Theme.of(context).colorScheme.surface, size: 28)),
         const SizedBox(width: 14),
         Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(auth.userName,
               style: GoogleFonts.cairo(
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.surface,
                   fontWeight: FontWeight.bold,
                   fontSize: 16)),
           Text(auth.userEmail,
@@ -2363,7 +2363,7 @@ class _SettingsPageState extends State<SettingsPage>
                             children: [
                           Text('التنبيهات الذكية',
                               style: GoogleFonts.cairo(
-                                  color: Colors.white,
+                                  color: Theme.of(context).colorScheme.surface,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 18)),
                           Text(

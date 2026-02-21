@@ -885,7 +885,7 @@ class _StationManagerPageState extends State<StationManagerPage>
             const SizedBox(height: 10),
             Text(value,
                 style: GoogleFonts.cairo(
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.surface,
                     fontWeight: FontWeight.bold,
                     fontSize: 16)),
             Text(title,
@@ -909,7 +909,7 @@ class _StationManagerPageState extends State<StationManagerPage>
             Icon(s.icon, color: s.color, size: 24),
             Text(s.name.replaceAll('محطة ', ''),
                 style: GoogleFonts.cairo(
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.surface,
                     fontWeight: FontWeight.bold,
                     fontSize: 13)),
             Text('${fmt.format(s.dailyConsumption)} لتر/يوم',

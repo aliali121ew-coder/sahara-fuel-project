@@ -276,7 +276,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                             color: context.sahara.chartGreen,
                             radius: 50,
                             titleStyle: GoogleFonts.cairo(
-                                color: Colors.white,
+                                color: Theme.of(context).colorScheme.surface,
                                 fontSize: 11,
                                 fontWeight: FontWeight.bold)),
                         PieChartSectionData(
@@ -285,7 +285,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                             color: context.sahara.chartBlue,
                             radius: 45,
                             titleStyle: GoogleFonts.cairo(
-                                color: Colors.white,
+                                color: Theme.of(context).colorScheme.surface,
                                 fontSize: 11,
                                 fontWeight: FontWeight.bold)),
                         PieChartSectionData(
@@ -294,7 +294,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                             color: context.sahara.chartOrange,
                             radius: 40,
                             titleStyle: GoogleFonts.cairo(
-                                color: Colors.white,
+                                color: Theme.of(context).colorScheme.surface,
                                 fontSize: 11,
                                 fontWeight: FontWeight.bold)),
                       ],
@@ -645,7 +645,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                       Expanded(
                           child: Text(s.name,
                               style: GoogleFonts.cairo(
-                                  color: Colors.white,
+                                  color: Theme.of(context).colorScheme.surface,
                                   fontSize: 11,
                                   fontWeight: FontWeight.w600),
                               textAlign: TextAlign.center)),
@@ -1068,7 +1068,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
             const SizedBox(width: 8),
             Text(
                 '${DateFormat('MM/dd').format(_dateRange.start)} - ${DateFormat('MM/dd').format(_dateRange.end)}',
-                style: GoogleFonts.cairo(color: Colors.white, fontSize: 11)),
+                style: GoogleFonts.cairo(color: Theme.of(context).colorScheme.surface, fontSize: 11)),
           ])));
 
   Widget _compareModeButton() => PopupMenuButton<String>(
@@ -1085,7 +1085,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                 color: context.sahara.chartPurple, size: 16),
             const SizedBox(width: 6),
             Text(_compareMode,
-                style: GoogleFonts.cairo(color: Colors.white, fontSize: 11))
+                style: GoogleFonts.cairo(color: Theme.of(context).colorScheme.surface, fontSize: 11))
           ])),
       itemBuilder: (_) => ['لا شيء', 'الشهر السابق', 'العام السابق']
           .map((e) => PopupMenuItem(
@@ -1114,7 +1114,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
                 size: 16),
             const SizedBox(width: 6),
             Text(_chartType,
-                style: GoogleFonts.cairo(color: Colors.white, fontSize: 11))
+                style: GoogleFonts.cairo(color: Theme.of(context).colorScheme.surface, fontSize: 11))
           ])),
       itemBuilder: (_) => ['خطي', 'أعمدة', 'دائري']
           .map((e) => PopupMenuItem(
@@ -1225,7 +1225,7 @@ class _AdvancedReportsPageState extends State<AdvancedReportsPage>
             Text(title, style: GoogleFonts.cairo(color: color, fontSize: 12)),
             Text(value,
                 style: GoogleFonts.cairo(
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.surface,
                     fontWeight: FontWeight.bold,
                     fontSize: 22)),
             Text(unit,
